@@ -7,6 +7,8 @@ import "./App.css";
 import Home from "./components/home-component/home-component";
 import Sidebar from "./components/sidebar-component/sidebar-component";
 import Admin from "./components/admin-component/admin-component";
+import Login from "./components/login-component/login-component";
+
 function App() {
     return (
         <Router>
@@ -16,6 +18,9 @@ function App() {
                     <Switch>
                         <Route path="/admin">
                             <Admin />
+                        </Route>
+                        <Route path="/login">
+                            <Login />
                         </Route>
                         <Route exact path="/">
                             <Home />
