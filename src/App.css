@@ -9,13 +9,8 @@ body,
     height: 100%;
 }
 
-.row-containers {
-    display: flex;
-    flex-direction: row;
-}
-
 .page-container {
     padding-left: 2em;
     width: 100%;
-    background-color: #3d9970;
+    /*background-color: #3d9970;*/
 }

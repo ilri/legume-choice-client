@@ -1,18 +1,44 @@
 .sidebar-container {
     background-color: black;
     text-align: right;
-    width: 15%;
+    width: 20%;
     min-width: 17em;
     height: 100%;
     color: white;
+    align-items: right;
+    padding: 0;
+
+    position: absolute;
 }
 
-h1 {
-    padding-right: 0.4em;
+.header-container {
+    padding-top: 1.5em;
+    display: flex;
+    flex-direction: row;
+}
+
+ul {
+    padding: 0;
+    padding-right: 1em;
+    margin-top: 1em;
 }
 
 li {
-    list-style-type: none;
+    width: 100%;
 
-    padding: 1em;
+    padding-right: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin: 0;
+    transition: background 0.2s ease-out;
+}
+
+.sidebar-nav-link {
+    text-decoration: none;
+    color: white;
+    font-size: x-large;
+}
+li:hover {
+    background-color: gray;
+    transition: background 0.2s ease-in;
 }
