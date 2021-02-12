@@ -12,14 +12,16 @@ class Login extends Component {
         super(props);
         console.log("Constructor");
         this.state = {
-            users: [],
+            usersLocal: [],
+            usersOnline: [],
+
             formEntry: {
                 username: "",
                 email: "",
             },
         };
         this.handleChange = this.handleChange.bind(this);
-        this.addUser = this.addUser.bind(this);
+        this.addUserlocal = this.addUserlocal.bind(this);
     }
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +36,10 @@ class Login extends Component {
             },
         })
             .then((response) => {
-                this.setState({ users: response.data });
+                this.setState({
+                    usersLocal: response.data,
+                    usersOnline: response.data,
+                });
             })
             .catch(function (error) {
                 console.log(error);
@@ -44,29 +49,31 @@ class Login extends Component {
     /////////////////////////////////////////////////////////////////////////////////
     // Function for adding user
     /////////////////////////////////////////////////////////////////////////////////
-    addUser = (event) => {
+    addUserlocal = (event) => {
         event.preventDefault();
         console.log("About to update state");
-        const prevUsers = this.state.users;
+        const prevUsers = this.state.usersLocal;
         const newUser = this.state.formEntry;
-        const usernameNew = this.state.formEntry.username;
-        const emailNew = this.state.formEntry.email;
 
         // Checking if the username exists already
-        if (prevUsers.some((user) => user.username === usernameNew)) {
+        if (newUser.username === "") {
+            alert("No username entered");
+            return;
+        }
+        if (prevUsers.some((user) => user.username === newUser.username)) {
             alert("Username already exists");
             return;
         }
 
         // Checking if the email exists already
-        if (prevUsers.some((user) => user.email === emailNew)) {
+        if (prevUsers.some((user) => user.email === newUser.email)) {
             alert("email already registered");
             return;
         }
 
         // Updating state
         this.setState({
-            users: [...prevUsers, newUser],
+            usersLocal: [...prevUsers, newUser],
             formEntry: {
                 username: "",
                 email: "",
@@ -74,7 +81,7 @@ class Login extends Component {
         });
 
         // Sending the update values to the database
-        axios({
+        /*axios({
             method: "post",
             url: "https://l-gorman.com/api/users",
             data: newUser,
@@ -88,7 +95,7 @@ class Login extends Component {
             })
             .catch(function (error) {
                 console.log(error);
-            });
+            });*/
     };
 
     handleChange = (event) => {
@@ -108,7 +115,7 @@ class Login extends Component {
     deleteUser = (event, params = {}) => {
         event.preventDefault();
 
-        const oldUsers = this.state.users;
+        const oldUsers = this.state.usersLocal;
         const newUser = oldUsers.filter(
             (user) =>
                 user.email !== params.email || user.username !== params.username
@@ -116,12 +123,9 @@ class Login extends Component {
         console.log(newUser);
 
         this.setState((prevState) => ({
-            users: newUser,
-            formEntry: {
-                ...prevState,
-            },
+            usersLocal: newUser,
         }));
-
+        // Deleting item from DB
         /*axios({
             method: "post",
             url: "https://l-gorman.com/api/users/delete/" + params.id,
@@ -139,6 +143,94 @@ class Login extends Component {
     };
 
     /////////////////////////////////////////////////////////////////////////////////
+    // Subset Arrays
+    /////////////////////////////////////////////////////////////////////////////////
+
+    subsetArrays = (array, variable) => {
+        return array.map((item) => {
+            return item[variable];
+        });
+    };
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // Making Changes to Db
+    /////////////////////////////////////////////////////////////////////////////////
+    saveChanges = (event) => {
+        //event.preventDefault();
+
+        const usersLocal = this.state.usersLocal;
+        const usersOnline = this.state.usersOnline;
+
+        //console.log(this.subsetArrays(usersOnline, "email"));
+        let usersToAdd = [];
+        let usersToDelete = [];
+
+        usersToAdd = usersLocal.filter(
+            (localusers) =>
+                !this.subsetArrays(usersOnline, "email").includes(
+                    localusers.email
+                ) &&
+                !this.subsetArrays(usersOnline, "username").includes(
+                    localusers.username
+                )
+        );
+
+        usersToDelete = usersOnline.filter(
+            (localusers) =>
+                !this.subsetArrays(usersLocal, "email").includes(
+                    localusers.email
+                ) &&
+                !this.subsetArrays(usersLocal, "username").includes(
+                    localusers.username
+                )
+        );
+
+        console.log(usersToDelete);
+
+        //console.log(usersToDelete);
+
+        if (usersToAdd.length > 0) {
+            axios({
+                method: "post",
+                url: "https://l-gorman.com/api/users/insertmany/",
+                data: { newUsers: usersToAdd },
+                headers: {
+                    accept: "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                },
+            })
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        if (usersToDelete.length > 0) {
+            axios({
+                method: "post",
+                url: "https://l-gorman.com/api/users/deletemany/",
+                data: { deleteUsers: usersToDelete },
+                headers: {
+                    accept: "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                },
+            })
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        this.setState(() => ({
+            usersOnline: usersLocal,
+        }));
+    };
+
+    /////////////////////////////////////////////////////////////////////////////////
     // Checking if the component has updated
     /////////////////////////////////////////////////////////////////////////////////
     componentDidUpdate() {
@@ -151,7 +243,7 @@ class Login extends Component {
                 <h1>Welcome to the login component</h1>
                 <div className="form-container">
                     <h2>New Users</h2>
-                    <Form onSubmit={this.addUser}>
+                    <Form onSubmit={this.addUserlocal}>
                         <Form.Group controlId="basicusername">
                             <Form.Label>Username</Form.Label>
                             <Form.Control
@@ -165,7 +257,7 @@ class Login extends Component {
                             <Form.Label>Email</Form.Label>
                             <Form.Control
                                 name="email"
-                                type="text"
+                                type="email"
                                 onChange={this.handleChange}
                             />
                         </Form.Group>
@@ -181,7 +273,7 @@ class Login extends Component {
                 </div>
                 <div className="form-container">
                     <h2>Users</h2>
-                    {this.state.users.map((user, index) => {
+                    {this.state.usersLocal.map((user, index) => {
                         return (
                             <div
                                 className="user-container"
@@ -205,7 +297,12 @@ class Login extends Component {
                         );
                     })}
                     <div className="user-container">
-                        <Button className="deleteButton">Submit</Button>
+                        <Button
+                            onClick={this.saveChanges}
+                            className="deleteButton"
+                        >
+                            Submit
+                        </Button>
                     </div>
                 </div>
             </div>
