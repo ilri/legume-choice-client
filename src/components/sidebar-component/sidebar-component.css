@@ -1,9 +1,9 @@
 .sidebar-container {
     background-color: black;
     width: 20vw;
-    min-width: 17em;
+    min-width: 22em;
     height: 100vh;
-    color: white;
+    color: white !important;
     position: absolute;
 
     left: -100%;
@@ -15,10 +15,8 @@
     transition: 0.35s;
 }
 
-.sidebar-container:inactive {
-}
-
-.header-container {
+.sidebar-header-container {
+    padding-left: 2em;
     padding-top: 1em;
     display: flex;
     flex-direction: row;
@@ -26,23 +24,40 @@
 
 ul {
     padding: 0;
-    margin-top: 0.5em;
+    text-decoration: none !important;
+
+    height: 100%;
 }
 
 li {
-    padding-left: 2em;
-    padding-top: 0.25em;
-    padding-bottom: 0.5em;
-    margin: 0;
     transition: background 0.2s ease-out;
 }
 
 .sidebar-nav-link {
-    text-decoration: none;
-    vertical-align: text-bottom;
-    color: white;
+    text-decoration: none !important;
+}
+
+.sidebar-list-item {
+    padding-bottom: 0.7em;
+    padding-top: 0.7em;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.side-bar-link-icon {
+    padding-left: 2em;
+}
+
+.side-bar-link-text {
+    vertical-align: text-top;
     font-size: x-large;
     padding-left: 0.5em;
+    text-decoration: none;
+}
+
+span {
+    color: white;
 }
 
 li:hover {
@@ -51,9 +66,11 @@ li:hover {
 }
 
 .menu-button {
+    margin: 2em;
+    color: black;
     position: absolute;
 }
 
-a {
-    color: inherit;
+.close-menu-icon {
+    margin-left: 2em;
 }

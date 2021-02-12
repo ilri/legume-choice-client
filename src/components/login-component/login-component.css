@@ -1,0 +1,19 @@
+.form-container {
+    width: 50%;
+    margin: auto;
+    margin-top: 6em;
+}
+
+.user-container {
+    margin-top: 2em;
+    margin-bottom: 1em;
+
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+}
+
+.deleteButton {
+    margin-left: auto;
+}

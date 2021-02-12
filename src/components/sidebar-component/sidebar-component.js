@@ -1,60 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
-import { AiOutlineMenu, AiFillHome } from "react-icons/ai";
-import { RiUserSettingsLine } from "react-icons/ri";
+import { AiOutlineMenu } from "react-icons/ai";
 import "./sidebar-component.css";
 import SidebarData from "./sidebar-data";
-
-/*function SidebarOpen(props) {
-    return (
-        <div
-            className={
-                props.status ? "sidebar-container active" : "sidebar-container"
-            }
-        >
-            <div className="header-container">
-                <h1>LegumeCHOICE</h1>
-                <a href="#">
-                    <IoIosArrowBack size={30} color="white" />
-                </a>
-            </div>
-
-            <div className="link-container">
-                <ul>
-                    {SidebarData.map((item, index) => {
-                        return (
-                            <Link className={item.cName} to={item.path}>
-                                <li key={index}>
-                                    {item.icon}
-                                    {item.title}
-                                </li>
-                            </Link>
-                        );
-                    })}
-                </ul>
-            </div>
-        </div>
-    );
-}*/
-
-/*function SidebarClosed(props) {
-    return (
-        <div className="menu-button">
-            <a href="#">
-                <AiOutlineMenu size={40} style={{ padding: "2em" }} />
-            </a>
-            <SidebarOpen status={false} />
-        </div>
-    );
-}*/
 
 class Sidebar extends React.Component {
     constructor(props) {
         super(props);
+
+        // Setting the initial state to closed
         this.state = { open: false };
     }
 
+    // When this function is trigered, state of the side-bar is change, which triggers a change in the css
     toggleSidebar = () => {
         this.setState({
             open: !this.state.open,
@@ -65,10 +24,11 @@ class Sidebar extends React.Component {
         return (
             <div className="container_row">
                 <div className="menu-button">
-                    <a onClick={this.toggleSidebar} href="#">
-                        <AiOutlineMenu size={40} style={{ padding: "2em" }} />
+                    <a onClick={this.toggleSidebar}>
+                        <AiOutlineMenu size={50} color="black" />
                     </a>
                 </div>
+
                 <div
                     className={
                         this.state.open
@@ -76,10 +36,16 @@ class Sidebar extends React.Component {
                             : "sidebar-container"
                     }
                 >
-                    <div className="header-container">
-                        <h1>LegumeCHOICE</h1>
-                        <a onClick={this.toggleSidebar} href="#">
-                            <IoIosArrowBack size={30} color="white" />
+                    <div
+                        key="sidebar-header "
+                        className="sidebar-header-container"
+                    >
+                        <h2>LegumeCHOICE</h2>
+
+                        <a onClick={this.toggleSidebar}>
+                            <div className="close-menu-icon">
+                                <IoIosArrowBack size={40} color="white" />
+                            </div>
                         </a>
                     </div>
 
@@ -87,11 +53,25 @@ class Sidebar extends React.Component {
                         <ul>
                             {SidebarData.map((item, index) => {
                                 return (
-                                    <Link className={item.cName} to={item.path}>
-                                        <li key={index}>
-                                            {item.icon}
-                                            {item.title}
-                                        </li>
+                                    <Link
+                                        key={index + "-link-item"}
+                                        className={item.cName}
+                                        to={item.path}
+                                        onClick={this.toggleSidebar}
+                                    >
+                                        <div className="sidebar-list-item">
+                                            <li
+                                                className="sidebar-list-item"
+                                                key={index + "-list-item"}
+                                            >
+                                                <span className="side-bar-link-icon">
+                                                    {item.icon}
+                                                </span>
+                                                <span className="side-bar-link-text">
+                                                    {item.title}
+                                                </span>
+                                            </li>
+                                        </div>
                                     </Link>
                                 );
                             })}

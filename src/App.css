@@ -1,12 +1,16 @@
-.full-height {
-    padding: 0;
-    margin: 0;
+.outer-page-container {
+    width: 100vw;
     height: 100vh;
+
+    /*for nice colour gradients see: https://uigradients.com/#RoyalBlue*/
+    /*background: linear-gradient(to right, #536976, #292e49);
+    color: whitesmoke;*/
 }
 
-.page-container {
-    padding: 1em;
-    width: 100vw;
+.inner-page-container {
+    padding: 8em;
+    padding-top: 3em;
+
     align-items: center;
-    /*background-color: #3d9970;*/
+    place-content: center;
 }
