@@ -17,6 +17,7 @@ const sidebarlinkcName = "sidebar-nav-link";
 const SidebarData = [
     {
         title: "Home",
+        routeKey: "home-route",
         component: <Home />,
         path: "/home",
         icon: <AiFillHome size={iconSize} />,
@@ -24,6 +25,7 @@ const SidebarData = [
     },
     {
         title: "Data Entry",
+        routeKey: "data-entry-route",
         component: <DataEntry />,
         path: "/data-entry",
         icon: <AiOutlineDatabase size={iconSize} />,
@@ -31,6 +33,7 @@ const SidebarData = [
     },
     {
         title: "Admin",
+        routeKey: "admin-route",
         component: <Admin />,
         path: "/admin",
         icon: <RiUserSettingsLine size={iconSize} />,
@@ -38,6 +41,7 @@ const SidebarData = [
     },
     {
         title: "Login",
+        routeKey: "login-route",
         component: <Login />,
         path: "/login",
         icon: <VscAccount size={iconSize} />,

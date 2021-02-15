@@ -27,7 +27,11 @@ function App() {
                                 // A function to return each of the components
                                 // Each component, and all of its
                                 return (
-                                    <Route exact path={item.path}>
+                                    <Route
+                                        exact
+                                        path={item.path}
+                                        key={item.routeKey}
+                                    >
                                         {item.component}
                                     </Route>
                                 );
