@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "./admin-component.css";
+import "./admin-data-entry-component.css";
 class Admin extends Component {
     render() {
         return (

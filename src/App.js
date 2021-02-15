@@ -7,10 +7,10 @@ import {
     Redirect,
 } from "react-router-dom";
 
-import Home from "./components/home-component/home-component";
 import Sidebar from "./components/sidebar-component/sidebar-component";
-import Admin from "./components/admin-component/admin-component";
-import Login from "./components/login-component/login-component";
+
+// In this location, we have all of the details of each of the individual components
+import SidebarData from "./components/sidebar-component/sidebar-data";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -18,21 +18,21 @@ import "./App.css";
 function App() {
     return (
         <Router basename="legume-choice-client">
-            <div className="full-height row-containers">
+            <div>
                 <Sidebar />
                 <div className="outer-page-container">
                     <div className="inner-page-container">
                         <Switch>
+                            {SidebarData.map((item) => {
+                                // A function to return each of the components
+                                // Each component, and all of its
+                                return (
+                                    <Route exact path={item.path}>
+                                        {item.component}
+                                    </Route>
+                                );
+                            })}
                             <Redirect exact from="/" to="/home" />
-                            <Route exact path="/home">
-                                <Home />
-                            </Route>
-                            <Route exact path="/admin">
-                                <Admin />
-                            </Route>
-                            <Route exact path="/login">
-                                <Login />
-                            </Route>
                         </Switch>
                     </div>
                 </div>

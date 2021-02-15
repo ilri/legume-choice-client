@@ -79,23 +79,6 @@ class Login extends Component {
                 email: "",
             },
         });
-
-        // Sending the update values to the database
-        /*axios({
-            method: "post",
-            url: "https://l-gorman.com/api/users",
-            data: newUser,
-            headers: {
-                accept: "application/json",
-                "Access-Control-Allow-Origin": "*",
-            },
-        })
-            .then((response) => {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });*/
     };
 
     handleChange = (event) => {
@@ -125,21 +108,6 @@ class Login extends Component {
         this.setState((prevState) => ({
             usersLocal: newUser,
         }));
-        // Deleting item from DB
-        /*axios({
-            method: "post",
-            url: "https://l-gorman.com/api/users/delete/" + params.id,
-            headers: {
-                accept: "application/json",
-                "Access-Control-Allow-Origin": "*",
-            },
-        })
-            .then((response) => {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });*/
     };
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -240,7 +208,7 @@ class Login extends Component {
     render() {
         return (
             <div>
-                <h1>Welcome to the login component</h1>
+                <h1>Login component</h1>
                 <div className="form-container">
                     <h2>New Users</h2>
                     <Form onSubmit={this.addUserlocal}>
