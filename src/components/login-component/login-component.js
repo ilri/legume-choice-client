@@ -10,7 +10,7 @@ class Login extends Component {
     /////////////////////////////////////////////////////////////////////////////////
     constructor(props) {
         super(props);
-        console.log("Constructor");
+        //console.log("Constructor");
         this.state = {
             usersLocal: [],
             usersOnline: [],
@@ -51,7 +51,7 @@ class Login extends Component {
     /////////////////////////////////////////////////////////////////////////////////
     addUserlocal = (event) => {
         event.preventDefault();
-        console.log("About to update state");
+        //console.log("About to update state");
         const prevUsers = this.state.usersLocal;
         const newUser = this.state.formEntry;
 
@@ -103,7 +103,7 @@ class Login extends Component {
             (user) =>
                 user.email !== params.email || user.username !== params.username
         );
-        console.log(newUser);
+        //console.log(newUser);
 
         this.setState((prevState) => ({
             usersLocal: newUser,
@@ -153,7 +153,7 @@ class Login extends Component {
                 )
         );
 
-        console.log(usersToDelete);
+        //console.log(usersToDelete);
 
         //console.log(usersToDelete);
 

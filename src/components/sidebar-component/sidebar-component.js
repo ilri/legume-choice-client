@@ -78,8 +78,6 @@ class Sidebar extends React.Component {
                         </ul>
                     </div>
                 </div>
-
-                {console.log(this.state.open)}
             </div>
         );
     }
