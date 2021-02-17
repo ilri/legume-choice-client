@@ -34,7 +34,7 @@ class PairwiseRanking extends Component {
             selectedValue = props.funct2;
         }
 
-        let selectionArr = this.state.pairwiseSelection;
+        let selectionArr = this.state[props.gender].pairwiseSelection;
         selectionArr.forEach((selectionItem, selectionIndex) => {
             if (
                 selectionItem.funct1 === props.funct1 &&
@@ -45,29 +45,37 @@ class PairwiseRanking extends Component {
             }
         });
 
-        this.setState({
-            pairwiseSelection: selectionArr,
-        });
+        const gender = props.gender;
+        this.setState((prevState) => ({
+            [gender]: {
+                ...prevState[gender],
+                pairfemalewiseSelection: selectionArr,
+            },
+        }));
 
-        this.upDateTotalScore();
+        this.upDateTotalScore(gender);
     };
 
-    upDateTotalScore = () => {
-        const totalsArray = this.state.totals;
+    upDateTotalScore = (gender) => {
+        const totalsArray = this.state[gender].totals;
         totalsArray.forEach((totalsItem, totalsIndex) => {
             totalsArray[totalsIndex].value = 0;
-            this.state.pairwiseSelection.forEach((selectionItem) => {
+            this.state[gender].pairwiseSelection.forEach((selectionItem) => {
                 if (selectionItem.value === totalsItem.attribute) {
                     totalsArray[totalsIndex].value++;
                 }
             });
         });
-        this.setState({
-            totals: totalsArray,
-        });
+        this.setState((prevState) => ({
+            [gender]: {
+                ...prevState[gender],
+                totals: totalsArray,
+            },
+        }));
     };
 
-    pairWiseTable = () => {
+    pairWiseTable = (props) => {
+        const tableGender = props.gender;
         return (
             <Table className="table-style" striped bordered hover>
                 <thead>
@@ -77,7 +85,7 @@ class PairwiseRanking extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.pairwiseSelection.map((item) => {
+                    {this.state[props.gender].pairwiseSelection.map((item) => {
                         return (
                             <tr>
                                 <td>
@@ -90,9 +98,11 @@ class PairwiseRanking extends Component {
                                         as="select"
                                         onChange={(
                                             event,
+
                                             props = {
                                                 funct1: item.funct1,
                                                 funct2: item.funct2,
+                                                gender: tableGender,
                                             }
                                         ) =>
                                             this.updateSelections(event, props)
@@ -111,7 +121,7 @@ class PairwiseRanking extends Component {
         );
     };
 
-    pairWiseResultsTable = () => {
+    pairWiseResultsTable = (props) => {
         return (
             <Table striped bordered hover className="table-style">
                 <thead>
@@ -121,7 +131,7 @@ class PairwiseRanking extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.totals.map((item) => {
+                    {this.state[props.gender].totals.map((item) => {
                         return (
                             <tr>
                                 <td>{item.attribute.name}</td>
@@ -142,9 +152,21 @@ class PairwiseRanking extends Component {
                     Select the most important attribute out of the following
                     pairs
                 </p>
+                <h2>Female</h2>
                 <div className="table-container">
-                    <this.pairWiseTable key="pairwise-table" />
-                    <this.pairWiseResultsTable key="pairwise-results-table" />
+                    <this.pairWiseTable key="pairwise-table" gender="female" />
+                    <this.pairWiseResultsTable
+                        key="pairwise-results-table"
+                        gender="female"
+                    />
+                </div>
+                <div className="table-container">
+                    <h2>Male</h2>
+                    <this.pairWiseTable key="pairwise-table" gender="male" />
+                    <this.pairWiseResultsTable
+                        key="pairwise-results-table"
+                        gender="male"
+                    />
                 </div>
             </div>
         );

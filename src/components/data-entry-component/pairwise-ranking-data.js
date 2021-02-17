@@ -2,6 +2,14 @@ import legfunc from "./legumefunctions";
 
 let PairwiseRankingData = {
     legumeFunctions: legfunc,
+    male: {
+        pairwiseSelection: [],
+        totals: [],
+    },
+    female: {
+        pairwiseSelection: [],
+        totals: [],
+    },
     pairwiseSelection: [],
     totals: [],
 };
@@ -15,6 +23,16 @@ for (
 ) {
     let function1 = PairwiseRankingData.legumeFunctions[outerArrayIndex];
     PairwiseRankingData.totals.push({
+        attribute: function1,
+        value: 0,
+    });
+
+    PairwiseRankingData.male.totals.push({
+        attribute: function1,
+        value: 0,
+    });
+
+    PairwiseRankingData.female.totals.push({
         attribute: function1,
         value: 0,
     });
@@ -33,6 +51,20 @@ for (
 
             if (!previousidentifiers.includes(identifier)) {
                 PairwiseRankingData.pairwiseSelection.push({
+                    funct1: function1,
+                    funct2: function2,
+                    identifier: identifier,
+                    value: "",
+                });
+
+                PairwiseRankingData.male.pairwiseSelection.push({
+                    funct1: function1,
+                    funct2: function2,
+                    identifier: identifier,
+                    value: "",
+                });
+
+                PairwiseRankingData.female.pairwiseSelection.push({
                     funct1: function1,
                     funct2: function2,
                     identifier: identifier,
