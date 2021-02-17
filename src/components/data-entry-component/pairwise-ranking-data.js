@@ -2,10 +2,7 @@ import legfunc from "./legumefunctions";
 
 let PairwiseRankingData = {
     legumeFunctions: legfunc,
-    gender: ["Male", "Female"],
-    pairwiseScores: {
-        individual: [],
-    },
+    pairwiseSelection: [],
     totals: [],
 };
 
@@ -35,7 +32,7 @@ for (
             let identifier = intermediateidentifier.join("_");
 
             if (!previousidentifiers.includes(identifier)) {
-                PairwiseRankingData.pairwiseScores.individual.push({
+                PairwiseRankingData.pairwiseSelection.push({
                     funct1: function1,
                     funct2: function2,
                     identifier: identifier,
@@ -46,6 +43,7 @@ for (
         }
     }
 }
+console.log(PairwiseRankingData);
 export default PairwiseRankingData;
 
 // Returning all of the potential combinations using a nested map function. Remember that flatmap returns an unnested list
