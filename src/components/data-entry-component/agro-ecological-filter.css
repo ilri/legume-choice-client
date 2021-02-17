@@ -1,0 +1,10 @@
+.table-container {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+}
+
+.agro-eco-table-style {
+    width: 50% !important;
+    margin-left: 2em;
+}
