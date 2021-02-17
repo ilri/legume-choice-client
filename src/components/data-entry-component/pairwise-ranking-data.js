@@ -5,8 +5,8 @@ let PairwiseRankingData = {
     gender: ["Male", "Female"],
     pairwiseScores: {
         individual: [],
-        count: [],
     },
+    totals: [],
 };
 
 // Creating all of the potential pairwise functions for each of the entries
@@ -17,7 +17,10 @@ for (
     outerArrayIndex++
 ) {
     let function1 = PairwiseRankingData.legumeFunctions[outerArrayIndex];
-
+    PairwiseRankingData.totals.push({
+        attribute: function1,
+        value: 0,
+    });
     for (
         let innerArrayIndex = 0;
         innerArrayIndex < PairwiseRankingData.legumeFunctions.length;
@@ -34,7 +37,7 @@ for (
             if (!previousidentifiers.includes(identifier)) {
                 PairwiseRankingData.pairwiseScores.individual.push({
                     funct1: function1,
-                    func2: function2,
+                    funct2: function2,
                     identifier: identifier,
                     value: "",
                 });

@@ -1,0 +1,10 @@
+.table-style {
+    width: 40% !important;
+    margin-left: 2em;
+}
+
+.table-container {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+}

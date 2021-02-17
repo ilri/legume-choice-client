@@ -12,11 +12,11 @@ class ContextScore extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state);
+        //console.log(this.state);
     }
 
     componentDidUpdate() {
-        console.log(this.state);
+        //console.log(this.state);
     }
 
     handleChange = (event, props) => {
