@@ -4,7 +4,7 @@ class ParticipatoryMatrix extends Component {
     render() {
         return (
             <div>
-                <h1>Participatory Matrix Scoring</h1>
+                <h2>Participatory Matrix Scoring</h2>
             </div>
         );
     }

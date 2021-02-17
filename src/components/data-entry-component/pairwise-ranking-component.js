@@ -15,7 +15,7 @@ class PairwiseRanking extends Component {
     render() {
         return (
             <div>
-                <h1>Pairwise Component Ranking</h1>
+                <h2>Pairwise Component Ranking</h2>
             </div>
         );
     }

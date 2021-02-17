@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import ContextScores from "./context-scores-data";
-import { Table } from "react-bootstrap";
+import { Table, Form, Button } from "react-bootstrap";
+
+import "./context-scores-component.css";
+
 class ContextScore extends Component {
     constructor(props) {
         super(props);
@@ -12,31 +15,165 @@ class ContextScore extends Component {
         console.log(this.state);
     }
 
+    componentDidUpdate() {
+        console.log(this.state);
+    }
+
+    handleChange = (event, props) => {
+        props.value = parseInt(event.target.value); // Ensuring that the entered value is an integer
+        const scoresArray = this.state.scores;
+
+        this.changeIndividualScores(scoresArray, props);
+        this.changeAverages(scoresArray, props);
+
+        this.setState({
+            scores: scoresArray,
+        });
+    };
+
+    // Change individual scores in an array through filtering
+    changeIndividualScores = (arr, query) => {
+        arr.forEach((element, index) => {
+            if (
+                element.participant === query.participant &&
+                element.attribute === query.attribute &&
+                element.typology === query.typology
+            ) {
+                arr[index].value = query.value;
+            }
+        });
+    };
+
+    changeAverages = (arr) => {
+        arr.forEach((element, index) => {
+            if (element.scoreType === "average") {
+                let average = this.averageAttribute(arr, element.attribute);
+                arr[index].value = average;
+            }
+        });
+    };
+
+    // Update Averages after we see a score change
+    averageAttribute = (arr, attributetoAverage) => {
+        //axisToAverage.forEach((element, index) => {});
+        const scores = [];
+        arr.forEach((element, index) => {
+            if (
+                element.attribute === attributetoAverage &&
+                element.scoreType === "individual"
+            ) {
+                scores.push(arr[index].value);
+            }
+        });
+
+        const total = scores.reduce(
+            (accumulator, currentValue) => accumulator + currentValue,
+            0
+        );
+        const average = total / scores.length;
+        return average;
+    };
+
+    renderRowAverage = (props) => {
+        return (
+            <td>
+                {this.averageAttribute(
+                    this.state.scores,
+                    props.attribute
+                ).toFixed(2)}
+            </td>
+        );
+    };
+
+    // A function for generating a row in the input table
     contextRow = (props) => {
         return (
-            <tr>
-                <td>{props.attribute}</td>
+            <tr key={"row-" + props.attribute.name}>
+                <td key={"row-name-" + props.attribute.name}>
+                    {props.attribute.name}
+                </td>
                 {this.state.typologies.map((typology) => {
                     return this.state.participants.map((participant) => {
-                        return <td>{typology.name + participant.name}</td>;
+                        //return <td>{typology.name + participant.name}</td>;
+                        return (
+                            <td
+                                key={
+                                    "table-entry-" +
+                                    typology.name +
+                                    "-" +
+                                    participant.name +
+                                    "-" +
+                                    props.attribute.name
+                                }
+                            >
+                                <Form.Control
+                                    as="select"
+                                    onChange={(event) =>
+                                        this.handleChange(
+                                            event,
+                                            (props = {
+                                                typology: typology,
+                                                participant: participant,
+                                                attribute: props.attribute,
+                                            })
+                                        )
+                                    }
+                                    key={
+                                        "form-control-" +
+                                        typology.name +
+                                        "-" +
+                                        participant.name +
+                                        "-" +
+                                        props.attribute.name
+                                    }
+                                >
+                                    {[0, 1, 2, 3, 4].map((score) => {
+                                        return (
+                                            <option
+                                                key={
+                                                    "form-option-" +
+                                                    typology.name +
+                                                    "-" +
+                                                    participant.name +
+                                                    "-" +
+                                                    props.attribute.name +
+                                                    "-" +
+                                                    score
+                                                }
+                                            >
+                                                {score}
+                                            </option>
+                                        );
+                                    })}
+                                </Form.Control>
+                            </td>
+                        );
                     });
                 })}
+                <this.renderRowAverage attribute={props.attribute} />
             </tr>
         );
     };
 
+    // Using the contextRow and map functions to generate all of the rows in the table
     allRows = () => {
         return this.state.attributes.map((attribute) => {
-            return <this.contextRow attribute={attribute.name} />;
+            return (
+                <this.contextRow
+                    attribute={attribute}
+                    key={"context-row-" + attribute.name}
+                />
+            );
         });
     };
 
+    // Creating the header for the table. This is a split header which accounts for typologies and participants
     tableHeader = () => {
         return (
-            <thead>
+            <thead key="table-header">
                 {/* Adding The typology Headers */}
-                <tr key="typology-header">
-                    <th rowSpan="2">#</th>
+                <tr key="typology-header-row">
+                    <th key="blank-column-head" rowSpan="2"></th>
                     {this.state.typologies.map((typology) => {
                         return (
                             <th
@@ -47,9 +184,14 @@ class ContextScore extends Component {
                             </th>
                         );
                     })}
+                    {/* Adding The Average Score Headers */}
+
+                    <th key="average-header" rowSpan="2">
+                        Mean Score (0-4)
+                    </th>
                 </tr>
                 {/* Adding The Participant Headers */}
-                <tr>
+                <tr key="participant-header-row">
                     {this.state.typologies.map((typology) => {
                         return this.state.participants.map((participant) => {
                             return (
@@ -70,12 +212,12 @@ class ContextScore extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Context Scoring</h1>
-                <Table striped bordered hover>
-                    <this.tableHeader />
-                    <tbody>
-                        <this.allRows />
+            <div key="context-score-div">
+                <h2>Context Scoring</h2>
+                <Table striped bordered hover key="table">
+                    <this.tableHeader key="all-table-headers" />
+                    <tbody key="table-body">
+                        <this.allRows key="all-rows" />
                     </tbody>
                 </Table>
             </div>

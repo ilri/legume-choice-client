@@ -4,7 +4,7 @@ class AgroEco extends Component {
     render() {
         return (
             <div>
-                <h1>Agroecological Filter</h1>
+                <h2>Agroecological Filter</h2>
             </div>
         );
     }
