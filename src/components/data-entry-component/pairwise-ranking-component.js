@@ -13,10 +13,10 @@ class PairwiseRanking extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state);
+        //console.log(this.state);
     }
     componentDidUpdate() {
-        console.log(this.state);
+        //console.log(this.state);
     }
 
     updateSelections = (event, props) => {
@@ -109,7 +109,9 @@ class PairwiseRanking extends Component {
                                             this.updateSelections(event, props)
                                         }
                                     >
-                                        <option></option>
+                                        <option value="" selected disabled>
+                                            Please select
+                                        </option>
                                         <option>{item.funct1.name}</option>
                                         <option>{item.funct2.name}</option>
                                     </Form.Control>
@@ -129,7 +131,9 @@ class PairwiseRanking extends Component {
                                             this.updateSelections(event, props)
                                         }
                                     >
-                                        <option></option>
+                                        <option value="" selected disabled>
+                                            Please select
+                                        </option>{" "}
                                         <option>{item.funct1.name}</option>
                                         <option>{item.funct2.name}</option>
                                     </Form.Control>
