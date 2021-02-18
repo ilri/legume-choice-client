@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+import "./participatory-matrix-scoring.css";
+import { Table } from "react-bootstrap";
+
 class ParticipatoryMatrix extends Component {
     render() {
         return (

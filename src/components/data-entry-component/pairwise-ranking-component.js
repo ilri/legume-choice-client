@@ -81,7 +81,8 @@ class PairwiseRanking extends Component {
                 <thead>
                     <tr>
                         <th>Pair</th>
-                        <th>Selection</th>
+                        <th>Selection Female</th>
+                        <th>Selection Male</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,7 +103,27 @@ class PairwiseRanking extends Component {
                                             props = {
                                                 funct1: item.funct1,
                                                 funct2: item.funct2,
-                                                gender: tableGender,
+                                                gender: "female",
+                                            }
+                                        ) =>
+                                            this.updateSelections(event, props)
+                                        }
+                                    >
+                                        <option></option>
+                                        <option>{item.funct1.name}</option>
+                                        <option>{item.funct2.name}</option>
+                                    </Form.Control>
+                                </td>
+                                <td>
+                                    <Form.Control
+                                        as="select"
+                                        onChange={(
+                                            event,
+
+                                            props = {
+                                                funct1: item.funct1,
+                                                funct2: item.funct2,
+                                                gender: "male",
                                             }
                                         ) =>
                                             this.updateSelections(event, props)
@@ -127,18 +148,28 @@ class PairwiseRanking extends Component {
                 <thead>
                     <tr>
                         <th>Attribute</th>
-                        <th>Count</th>
+                        <th>Count Female</th>
+                        <th>Count Male</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state[props.gender].totals.map((item) => {
+                    {this.state.legumeFunctions.map((item, index) => {
+                        return (
+                            <tr>
+                                <td>{item.name}</td>
+                                <td>{this.state.female.totals[index].value}</td>
+                                <td>{this.state.male.totals[index].value}</td>
+                            </tr>
+                        );
+                    })}
+                    {/*this.state[props.gender].totals.map((item) => {
                         return (
                             <tr>
                                 <td>{item.attribute.name}</td>
                                 <td>{item.value}</td>
                             </tr>
                         );
-                    })}
+                    })*/}
                 </tbody>
             </Table>
         );
@@ -152,22 +183,16 @@ class PairwiseRanking extends Component {
                     Select the most important attribute out of the following
                     pairs
                 </p>
-                <h2>Female</h2>
                 <div className="table-container">
                     <this.pairWiseTable key="pairwise-table" gender="female" />
                     <this.pairWiseResultsTable
                         key="pairwise-results-table"
                         gender="female"
+                        className="results-table-pairwise"
                     />
                 </div>
-                <div className="table-container">
-                    <h2>Male</h2>
-                    <this.pairWiseTable key="pairwise-table" gender="male" />
-                    <this.pairWiseResultsTable
-                        key="pairwise-results-table"
-                        gender="male"
-                    />
-                </div>
+
+                <div className="table-container"></div>
             </div>
         );
     }

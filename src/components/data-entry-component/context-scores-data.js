@@ -100,3 +100,4 @@ for (
     }
 }
 export default ContextScores;
+export { typologies };

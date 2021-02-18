@@ -4,7 +4,7 @@
     min-width: 22em;
     height: 100vh;
     color: white !important;
-    position: absolute;
+    position: fixed;
 
     left: -100%;
     transition: 0.8s;
@@ -68,7 +68,7 @@ li:hover {
 .menu-button {
     margin: 2em;
     color: black;
-    position: absolute;
+    position: fixed;
 }
 
 .close-menu-icon {

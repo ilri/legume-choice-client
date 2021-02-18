@@ -8,3 +8,7 @@
     flex-wrap: wrap !important;
     justify-content: center !important;
 }
+
+.results-table-pairwise {
+    width: 30em;
+}
