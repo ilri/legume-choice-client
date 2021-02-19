@@ -201,5 +201,4 @@ class PairwiseRanking extends Component {
         );
     }
 }
-
 export default PairwiseRanking;
