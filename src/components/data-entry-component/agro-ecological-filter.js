@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Table, Form } from "react-bootstrap";
 
+import agroEcoData from "./agro-ecological-data";
+
 import "./agro-ecological-filter.css";
 
 class AgroEco extends Component {
