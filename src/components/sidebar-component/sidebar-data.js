@@ -27,7 +27,7 @@ const SidebarData = [
         title: "Data Entry",
         routeKey: "data-entry-route",
         component: <DataEntry />,
-        path: "/data-entry",
+        path: "/dataentry",
 
         icon: <AiOutlineDatabase size={iconSize} />,
         cName: sidebarlinkcName,
