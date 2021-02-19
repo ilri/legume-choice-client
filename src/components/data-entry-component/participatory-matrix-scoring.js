@@ -168,20 +168,40 @@ class ParticipatoryMatrix extends Component {
 
     tableHeader = () => {
         return (
-            <thead>
-                <tr>
-                    <th rowSpan="2">Farmer Number</th>
-                    <th rowSpan="2">Farmer Name</th>
-                    <th rowSpan="2">Gender</th>
-                    <th rowSpan="2">Typology</th>
-                    <th rowSpan="1" colSpan="6">
+            <thead key="participatory-matrix-table-head">
+                <tr key="participatory-matrix-table-head-row">
+                    <th key="participatory-matrix-head-number" rowSpan="2">
+                        Farmer Number
+                    </th>
+                    <th key="participatory-matrix-head-farmer-name" rowSpan="2">
+                        Farmer Name
+                    </th>
+                    <th key="participatory-matrix-head-gender" rowSpan="2">
+                        Gender
+                    </th>
+                    <th key="participatory-matrix-head-typology" rowSpan="2">
+                        Typology
+                    </th>
+                    <th
+                        key="participatory-matrix-head-functions"
+                        rowSpan="1"
+                        colSpan="6"
+                    >
                         Functions
                     </th>
-                    <th rowSpan="2">Total</th>
+                    <th rowSpan="2" key="participatory-matrix-head-total">
+                        Total
+                    </th>
                 </tr>
                 <tr>
                     {this.state.legumeFunctions.map((funct) => {
-                        return <th>{funct.name}</th>;
+                        return (
+                            <th
+                                key={"participatory-matrix-head-" + funct.label}
+                            >
+                                {funct.name}
+                            </th>
+                        );
                     })}
                 </tr>
             </thead>
@@ -191,12 +211,17 @@ class ParticipatoryMatrix extends Component {
     tableRows = () => {
         return this.state.farmers.map((farmer) => {
             return (
-                <tr>
+                <tr key={"participatory-matrix-body-" + farmer.number}>
                     {this.state.farmerAttributes.map((attribute) => {
                         if (attribute.label === "selections") {
                             return farmer.selections.map((selection) => {
                                 return (
                                     <this.farmEntryFields
+                                        key={
+                                            "participatory-matrix-body-" +
+                                            farmer.number +
+                                            selection.label
+                                        }
                                         attribute={attribute}
                                         legumeFunctions={selection}
                                         farmer={farmer}
@@ -233,13 +258,17 @@ class ParticipatoryMatrix extends Component {
                     averaged and automatically transcribed into Legume Option
                     Scores.
                 </p>
-                <Table striped bordered hover>
+                <Table key="participatory-matrix-table" striped bordered hover>
                     <this.tableHeader />
-                    <tbody>
+                    <tbody key="participatory-matrix-table-body">
                         <this.tableRows />
                     </tbody>
                 </Table>
-                <Button className="float-right" onClick={this.addFarmer}>
+                <Button
+                    key="participatory-matrix-add-farmer-button"
+                    className="float-right"
+                    onClick={this.addFarmer}
+                >
                     Add Farmer
                 </Button>
             </div>

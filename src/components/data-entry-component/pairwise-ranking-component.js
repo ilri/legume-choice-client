@@ -77,25 +77,63 @@ class PairwiseRanking extends Component {
     pairWiseTable = (props) => {
         const tableGender = props.gender;
         return (
-            <Table className="table-style" striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>Pair</th>
-                        <th>Selection Female</th>
-                        <th>Selection Male</th>
+            <Table
+                key="pairwise-ranking-table"
+                className="table-style"
+                striped
+                bordered
+                hover
+            >
+                <thead key="pairwise-ranking-table-header">
+                    <tr key="pairwise-rankning-table-header-row">
+                        <th key="pairwise-ranking-table-header-pair">Pair</th>
+                        <th key="pairwise-ranking-table-header-female">
+                            Selection Female
+                        </th>
+                        <th key="pairwise-ranking-table-header-male">
+                            Selection Male
+                        </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody key="pairwise-ranking-table-body">
                     {this.state[props.gender].pairwiseSelection.map((item) => {
                         return (
-                            <tr>
-                                <td>
+                            <tr
+                                key={
+                                    "pairwise-ranking-table-row" +
+                                    item.funct1.name +
+                                    item.funct2.name
+                                }
+                            >
+                                <td
+                                    key={
+                                        "pairwise-ranking-table-item-name" +
+                                        item.funct1.name +
+                                        "-" +
+                                        item.funct2.name
+                                    }
+                                >
                                     {item.funct1.name +
                                         " vs " +
                                         item.funct2.name}
                                 </td>
-                                <td>
+                                <td
+                                    key={
+                                        "pairwise-ranking-table-item-form" +
+                                        item.funct1.name +
+                                        "-" +
+                                        item.funct2.name +
+                                        "-female"
+                                    }
+                                >
                                     <Form.Control
+                                        key={
+                                            "pairwise-ranking-table-form" +
+                                            item.funct1.name +
+                                            "-" +
+                                            item.funct2.name +
+                                            "-female"
+                                        }
                                         as="select"
                                         onChange={(
                                             event,
@@ -109,16 +147,28 @@ class PairwiseRanking extends Component {
                                             this.updateSelections(event, props)
                                         }
                                     >
-                                        <option value="" selected disabled>
-                                            Please select
-                                        </option>
                                         <option>{item.funct1.name}</option>
                                         <option>{item.funct2.name}</option>
                                     </Form.Control>
                                 </td>
-                                <td>
+                                <td
+                                    key={
+                                        "pairwise-ranking-table-item-form" +
+                                        item.funct1.name +
+                                        "-" +
+                                        item.funct2.name +
+                                        "-male"
+                                    }
+                                >
                                     <Form.Control
                                         as="select"
+                                        key={
+                                            "pairwise-ranking-table-form" +
+                                            item.funct1.name +
+                                            "-" +
+                                            item.funct2.name +
+                                            "-male"
+                                        }
                                         onChange={(
                                             event,
 
@@ -131,9 +181,6 @@ class PairwiseRanking extends Component {
                                             this.updateSelections(event, props)
                                         }
                                     >
-                                        <option value="" selected disabled>
-                                            Please select
-                                        </option>{" "}
                                         <option>{item.funct1.name}</option>
                                         <option>{item.funct2.name}</option>
                                     </Form.Control>
@@ -148,21 +195,54 @@ class PairwiseRanking extends Component {
 
     pairWiseResultsTable = (props) => {
         return (
-            <Table striped bordered hover className="table-style">
-                <thead>
-                    <tr>
-                        <th>Attribute</th>
-                        <th>Count Female</th>
-                        <th>Count Male</th>
+            <Table
+                key="pairwise-results-table"
+                striped
+                bordered
+                hover
+                className="table-style"
+            >
+                <thead key="pairwise-results-table-header">
+                    <tr key="pairwise-results-table-header-row">
+                        <th key="pairwise-results-table-header-attribute">
+                            Attribute
+                        </th>
+                        <th key="pairwise-results-table-header-female">
+                            Count Female
+                        </th>
+                        <th key="pairwise-results-table-header-male">
+                            Count Male
+                        </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody key="pairwise-results-table-body">
                     {this.state.legumeFunctions.map((item, index) => {
                         return (
-                            <tr>
-                                <td>{item.name}</td>
-                                <td>{this.state.female.totals[index].value}</td>
-                                <td>{this.state.male.totals[index].value}</td>
+                            <tr key={"pairwise-results-table-row-" + item.name}>
+                                <td
+                                    key={
+                                        "pairwise-results-table-row-item-" +
+                                        item.name
+                                    }
+                                >
+                                    {item.name}
+                                </td>
+                                <td
+                                    key={
+                                        "pairwise-results-table-row-item-female-" +
+                                        item.name
+                                    }
+                                >
+                                    {this.state.female.totals[index].value}
+                                </td>
+                                <td
+                                    key={
+                                        "pairwise-results-table-row-item-male-" +
+                                        item.name
+                                    }
+                                >
+                                    {this.state.male.totals[index].value}
+                                </td>
                             </tr>
                         );
                     })}

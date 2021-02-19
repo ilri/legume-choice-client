@@ -35,7 +35,7 @@ class AgroEco extends Component {
             <tbody>
                 {this.state.biofilters.map((biofilter) => {
                     return (
-                        <tr>
+                        <tr key={"agro-eco-table" + biofilter.label}>
                             <td>{biofilter.name}</td>
                             <td>
                                 <Form.Control
