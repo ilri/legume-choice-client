@@ -27,7 +27,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <Router basename="legume-choice-client">
+            <Router basename="/legume-choice-client/">
                 <div>
                     <Sidebar props={this.state} />
                     <div className="outer-page-container">
