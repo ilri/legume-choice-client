@@ -3,12 +3,12 @@ import React, { Component } from "react";
 import { AiOutlineDatabase, AiFillHome } from "react-icons/ai";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { VscAccount } from "react-icons/vsc";
-
+import { GoGraph } from "react-icons/go";
 import Home from "../home-component/home-component";
 import Admin from "../admin-data-entry-component/admin-data-entry-component";
 import Login from "../login-component/login-component";
 import DataEntry from "../data-entry-component/data-entry-component";
-
+import Results from "../results-component/results-component";
 // Set the icon size for the imported icons
 const iconSize = 30;
 
@@ -28,7 +28,17 @@ const SidebarData = [
         routeKey: "data-entry-route",
         component: <DataEntry />,
         path: "/data-entry",
+
         icon: <AiOutlineDatabase size={iconSize} />,
+        cName: sidebarlinkcName,
+    },
+    {
+        title: "Results",
+        routeKey: "results-route",
+        component: <Results />,
+        path: "/results",
+
+        icon: <GoGraph size={iconSize} />,
         cName: sidebarlinkcName,
     },
     {
