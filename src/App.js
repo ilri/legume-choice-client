@@ -27,7 +27,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <Router basename="legume-choice-client">
+            <Router basename={process.env.PUBLIC_URL}>
                 <div>
                     <Sidebar props={this.state} />
                     <div className="outer-page-container">
