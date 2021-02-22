@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ContextScores from "./context-scores-data";
-import { Table, Form, Button } from "react-bootstrap";
+import { Table, Form } from "react-bootstrap";
 
 import "./context-scores-component.css";
 

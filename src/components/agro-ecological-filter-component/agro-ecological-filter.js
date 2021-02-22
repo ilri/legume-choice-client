@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import { Table, Form } from "react-bootstrap";
 
 import agroEcoData from "./agro-ecological-data";
@@ -21,14 +21,12 @@ class AgroEco extends Component {
             const newState = this.context.agroEcoData;
             this.setState(newState);
         }
-
-        console.log(this.state);
     }
 
     componentDidUpdate() {
         const newContext = this.state;
-
         this.context.agroEcoData = newContext;
+
         console.log(this.context);
     }
     tableHeader = () => {
