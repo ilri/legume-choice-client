@@ -1,4 +1,4 @@
-import legfunc from "./legumefunctions";
+import legfunc from "../data-entry-component/legumefunctions";
 
 let PairwiseRankingData = {
     legumeFunctions: legfunc,

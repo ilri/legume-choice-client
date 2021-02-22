@@ -2,10 +2,10 @@ import React from "react";
 
 import "./data-entry-component.css";
 
-import AgroEco from "./agro-ecological-filter";
-import ContextScore from "./context-scores-component";
-import ParticipatoryMatrix from "./participatory-matrix-scoring";
-import PairwiseRanking from "./pairwise-ranking-component";
+import AgroEco from "../agro-ecological-filter-component/agro-ecological-filter";
+import ContextScore from "../context-scores-component/context-scores-component";
+import ParticipatoryMatrix from "../participatory-matrix-scoring-component/participatory-matrix-scoring";
+import PairwiseRanking from "../pairwise-ranking-component/pairwise-ranking-component";
 
 class DataEntry extends React.Component {
     render() {

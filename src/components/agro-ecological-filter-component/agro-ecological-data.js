@@ -1,5 +1,3 @@
-import { FormLabel } from "react-bootstrap";
-
 const agroEcoData = {
     biofilters: [
         {
