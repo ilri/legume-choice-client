@@ -24,7 +24,7 @@ for (
     ContextScores.scores.push({
         scoreType: "average",
         attribute: attributes[attributesIndex],
-        value: 0,
+        score: 0,
     });
 
     for (
@@ -43,7 +43,7 @@ for (
                 attribute: attributes[attributesIndex],
                 participant: participants[participantIndex],
                 typology: typologies[typologyIndex],
-                value: 0,
+                score: 0,
             });
         }
     }

@@ -5,7 +5,10 @@ import { Table, Button, Form } from "react-bootstrap";
 
 import matrixdata from "./participatory-matrix-data";
 
+import AppContext from "../../AppContext";
+
 class ParticipatoryMatrix extends Component {
+    static contextType = AppContext;
     constructor(props) {
         super(props);
 
@@ -13,12 +16,21 @@ class ParticipatoryMatrix extends Component {
     }
 
     componentDidMount() {
+        if (this.context.participatoryMatrixScores !== undefined) {
+            const newState = this.context.participatoryMatrixScores;
+            this.setState(newState);
+        } else {
+            const newContext = this.state;
+            this.context.participatoryMatrixScores = newContext;
+        }
         console.log(this.state);
         //this.addFarmer();
     }
 
     componentDidUpdate() {
-        console.log(this.state.farmers);
+        const newContext = this.state;
+        this.context.participatoryMatrixScores = newContext;
+        console.log(this.state);
     }
 
     addFarmer = () => {
@@ -57,11 +69,10 @@ class ParticipatoryMatrix extends Component {
     };
 
     farmerNameInput = (props) => {
-        //console.log("name input props-------------------");
-
         return (
             <td>
                 <Form.Control
+                    value={props.farmer.name}
                     type="text"
                     onChange={(event) => this.updateFarmerName(event, props)}
                 />
@@ -70,8 +81,6 @@ class ParticipatoryMatrix extends Component {
     };
 
     scoringInput = (props) => {
-        console.log(props);
-
         return (
             <td key={props.attribute.name + props.farmer.number}>
                 <Form.Control

@@ -7,7 +7,7 @@ import React, { createContext } from "react";
     contextScores: {},
     pairWiseScores: {},
     participatoryMatrixScores: {},
-    resultes: {},
+    results: {},
 */
 
 // Creating the app context to be used with the react contextapi

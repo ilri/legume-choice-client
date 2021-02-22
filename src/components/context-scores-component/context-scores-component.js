@@ -4,7 +4,11 @@ import { Table, Form } from "react-bootstrap";
 
 import "./context-scores-component.css";
 
+import AppContext from "../../AppContext";
+
 class ContextScore extends Component {
+    static contextType = AppContext;
+
     constructor(props) {
         super(props);
 
@@ -13,14 +17,26 @@ class ContextScore extends Component {
 
     componentDidMount() {
         //console.log(this.state);
+        if (this.context.contextScores !== undefined) {
+            const newState = this.context.contextScores;
+            this.setState(newState);
+        } else {
+            const newContext = this.state;
+            this.context.contextScores = newContext;
+        }
     }
 
     componentDidUpdate() {
+        const newContext = this.state;
+        this.context.contextScores = newContext;
+
+        console.log(this.context);
+
         //console.log(this.state);
     }
 
     handleChange = (event, props) => {
-        props.value = parseInt(event.target.value); // Ensuring that the entered value is an integer
+        props.score = parseInt(event.target.value); // Ensuring that the entered value is an integer
         const scoresArray = this.state.scores;
 
         this.changeIndividualScores(scoresArray, props);
@@ -39,7 +55,7 @@ class ContextScore extends Component {
                 element.attribute === query.attribute &&
                 element.typology === query.typology
             ) {
-                arr[index].value = query.value;
+                arr[index].score = query.score;
             }
         });
     };
@@ -48,7 +64,7 @@ class ContextScore extends Component {
         arr.forEach((element, index) => {
             if (element.scoreType === "average") {
                 let average = this.averageAttribute(arr, element.attribute);
-                arr[index].value = average;
+                arr[index].score = average;
             }
         });
     };
@@ -62,7 +78,7 @@ class ContextScore extends Component {
                 element.attribute === attributetoAverage &&
                 element.scoreType === "individual"
             ) {
-                scores.push(arr[index].value);
+                scores.push(arr[index].score);
             }
         });
 
@@ -85,6 +101,23 @@ class ContextScore extends Component {
         );
     };
 
+    renderDefaultValue = (props) => {
+        {
+            const valueToReturn = this.state.scores.filter((element, index) => {
+                if (
+                    element.scoreType === "individual" &&
+                    element.attribute === props.attribute &&
+                    element.participant === props.participant &&
+                    element.typology === props.typology
+                ) {
+                    return true;
+                }
+            });
+
+            return valueToReturn[0].score;
+        }
+    };
+
     // A function for generating a row in the input table
     contextRow = (props) => {
         return (
@@ -94,7 +127,6 @@ class ContextScore extends Component {
                 </td>
                 {this.state.typologies.map((typology) => {
                     return this.state.participants.map((participant) => {
-                        //return <td>{typology.name + participant.name}</td>;
                         return (
                             <td
                                 key={
@@ -108,6 +140,11 @@ class ContextScore extends Component {
                             >
                                 <Form.Control
                                     as="select"
+                                    defaultValue={this.renderDefaultValue({
+                                        typology: typology,
+                                        participant: participant,
+                                        attribute: props.attribute,
+                                    })}
                                     onChange={(event) =>
                                         this.handleChange(
                                             event,

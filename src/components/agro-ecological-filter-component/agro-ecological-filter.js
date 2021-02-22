@@ -20,14 +20,15 @@ class AgroEco extends Component {
         if (this.context.agroEcoData !== undefined) {
             const newState = this.context.agroEcoData;
             this.setState(newState);
+        } else {
+            const newContext = this.state;
+            this.context.agroEcoData = newContext;
         }
     }
 
     componentDidUpdate() {
         const newContext = this.state;
         this.context.agroEcoData = newContext;
-
-        console.log(this.context);
     }
     tableHeader = () => {
         return (

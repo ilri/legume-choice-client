@@ -24,7 +24,6 @@ class Login extends React.Component {
         if (this.context.user !== undefined) {
             const newState = this.context.user;
             this.setState(newState);
-            console.log("using old state");
         }
     }
     componentDidUpdate() {

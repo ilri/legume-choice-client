@@ -1,6 +1,6 @@
 import legfunc, { typologies } from "../data-entry-component/data-entry-data";
 
-const newSelections = legfunc;
+const newSelections = JSON.parse(JSON.stringify(legfunc));
 
 newSelections.forEach((func, index) => {
     if ([0, 1].includes(index)) {
@@ -13,7 +13,7 @@ newSelections.forEach((func, index) => {
 const newFarmer = {
     // Setting initial values
     number: 0,
-    name: "John Doe",
+    name: "Jane Bloggs",
     gender: "Female",
     typology: "Medium",
     selections: newSelections,

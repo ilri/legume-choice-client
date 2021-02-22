@@ -5,7 +5,10 @@ import "./pairwise-ranking-component.css";
 
 import { Table, Form } from "react-bootstrap";
 
+import AppContext from "../../AppContext";
+
 class PairwiseRanking extends Component {
+    static contextType = AppContext;
     constructor(props) {
         super(props);
 
@@ -14,10 +17,20 @@ class PairwiseRanking extends Component {
 
     componentDidMount() {
         //console.log(this.state);
+
+        if (this.context.pairWiseScores !== undefined) {
+            const newState = this.context.pairWiseScores;
+            this.setState(newState);
+        } else {
+            const newContext = this.state;
+            this.context.pairWiseScores = newContext;
+        }
         this.upDateTotalScore("male");
         this.upDateTotalScore("female");
     }
     componentDidUpdate() {
+        const newContext = this.state;
+        this.context.pairWiseScores = newContext;
         //console.log(this.state);
     }
 
