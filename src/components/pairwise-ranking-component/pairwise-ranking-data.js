@@ -10,8 +10,6 @@ let PairwiseRankingData = {
         pairwiseSelection: [],
         totals: [],
     },
-    pairwiseSelection: [],
-    totals: [],
 };
 
 // Creating all of the potential pairwise functions for each of the entries
@@ -22,10 +20,6 @@ for (
     outerArrayIndex++
 ) {
     let function1 = PairwiseRankingData.legumeFunctions[outerArrayIndex];
-    PairwiseRankingData.totals.push({
-        attribute: function1,
-        value: 0,
-    });
 
     PairwiseRankingData.male.totals.push({
         attribute: function1,
@@ -50,25 +44,18 @@ for (
             let identifier = intermediateidentifier.join("_");
 
             if (!previousidentifiers.includes(identifier)) {
-                PairwiseRankingData.pairwiseSelection.push({
-                    funct1: function1,
-                    funct2: function2,
-                    identifier: identifier,
-                    value: "",
-                });
-
                 PairwiseRankingData.male.pairwiseSelection.push({
                     funct1: function1,
                     funct2: function2,
                     identifier: identifier,
-                    value: "",
+                    value: function1,
                 });
 
                 PairwiseRankingData.female.pairwiseSelection.push({
                     funct1: function1,
                     funct2: function2,
                     identifier: identifier,
-                    value: "",
+                    value: function1,
                 });
                 previousidentifiers.push(identifier);
             }

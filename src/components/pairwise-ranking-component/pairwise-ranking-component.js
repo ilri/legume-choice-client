@@ -14,6 +14,8 @@ class PairwiseRanking extends Component {
 
     componentDidMount() {
         //console.log(this.state);
+        this.upDateTotalScore("male");
+        this.upDateTotalScore("female");
     }
     componentDidUpdate() {
         //console.log(this.state);
@@ -127,6 +129,10 @@ class PairwiseRanking extends Component {
                                     }
                                 >
                                     <Form.Control
+                                        defaultValue={
+                                            this.state["female"]
+                                                .pairwiseSelection.value
+                                        }
                                         key={
                                             "pairwise-ranking-table-form" +
                                             item.funct1.name +
@@ -162,6 +168,10 @@ class PairwiseRanking extends Component {
                                 >
                                     <Form.Control
                                         as="select"
+                                        defaultValue={
+                                            this.state["male"].pairwiseSelection
+                                                .value
+                                        }
                                         key={
                                             "pairwise-ranking-table-form" +
                                             item.funct1.name +

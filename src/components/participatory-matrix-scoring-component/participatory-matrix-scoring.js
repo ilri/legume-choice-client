@@ -32,9 +32,14 @@ class ParticipatoryMatrix extends Component {
 
         farmersArray.push(newfarmertoAdd);
 
-        this.setState({
-            farmers: farmersArray,
-        });
+        this.setState(
+            {
+                farmers: farmersArray,
+            },
+            () => {
+                this.updateTotal();
+            }
+        );
     };
 
     farmEntryFields = (props) => {
@@ -65,9 +70,12 @@ class ParticipatoryMatrix extends Component {
     };
 
     scoringInput = (props) => {
+        console.log(props);
+
         return (
-            <td key={props.attribute.name}>
+            <td key={props.attribute.name + props.farmer.number}>
                 <Form.Control
+                    defaultValue={props.legumeFunctions.score}
                     type="number"
                     onChange={(event) => this.updateFarmerScore(event, props)}
                 />
@@ -80,14 +88,11 @@ class ParticipatoryMatrix extends Component {
             <td>
                 <Form.Control
                     as="select"
+                    defaultValue={props.farmer[props.attribute.label]}
                     onChange={(event) =>
                         this.updateFarmerDetailesSelect(event, props)
                     }
                 >
-                    <option value="" selected disabled>
-                        Please select
-                    </option>
-
                     {this.state[props.attribute.label].map((attribute) => {
                         return <option>{attribute.name}</option>;
                     })}
@@ -156,7 +161,7 @@ class ParticipatoryMatrix extends Component {
     };
 
     updateFarmerDetailesSelect = (event, props) => {
-        let farmersArray = [...this.state.farmers];
+        let farmersArray = [...this.state.farmers]; // making a shallow copy
         farmersArray.forEach((farmer, farmerIndex) => {
             if (farmer.number === props.farmer.number) {
                 farmersArray[farmerIndex][props.attribute.label] =

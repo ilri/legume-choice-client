@@ -1,14 +1,21 @@
 import legfunc, { typologies } from "../data-entry-component/data-entry-data";
 
 const newSelections = legfunc;
-newSelections.map((func) => {
-    func.score = 0;
+
+newSelections.forEach((func, index) => {
+    if ([0, 1].includes(index)) {
+        func.score = 4;
+    }
+    if ([2, 3, 4, 5].includes(index)) {
+        func.score = 3;
+    }
 });
 const newFarmer = {
+    // Setting initial values
     number: 0,
-    name: "",
-    gender: "",
-    typology: "",
+    name: "John Doe",
+    gender: "Female",
+    typology: "Medium",
     selections: newSelections,
     total: 0,
 };
