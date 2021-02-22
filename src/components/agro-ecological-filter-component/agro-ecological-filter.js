@@ -1,11 +1,15 @@
-import React, { Component } from "react";
+import React, { useState, Component } from "react";
 import { Table, Form } from "react-bootstrap";
 
 import agroEcoData from "./agro-ecological-data";
 
 import "./agro-ecological-filter.css";
 
+import AppContext from "../../AppContext";
+
 class AgroEco extends Component {
+    static contextType = AppContext;
+
     constructor(props) {
         super(props);
 
@@ -13,11 +17,19 @@ class AgroEco extends Component {
     }
 
     componentDidMount() {
+        if (this.context.agroEcoData !== undefined) {
+            const newState = this.context.agroEcoData;
+            this.setState(newState);
+        }
+
         console.log(this.state);
     }
 
     componentDidUpdate() {
-        console.log(this.state);
+        const newContext = this.state;
+
+        this.context.agroEcoData = newContext;
+        console.log(this.context);
     }
     tableHeader = () => {
         return (

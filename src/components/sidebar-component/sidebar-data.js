@@ -10,7 +10,7 @@ import Home from "../home-component/home-component";
 import Admin from "../admin-data-entry-component/admin-data-entry-component";
 import Login from "../login-component/login-component";
 import DataEntry from "../data-entry-component/data-entry-component";
-import Results from "../results-component/results-component";
+//import Results from "../results-component/results-component";
 import Legumes from "../legumes-component/legumes-component";
 
 // Set the icon size for the imported icons
@@ -36,7 +36,7 @@ const SidebarData = [
         icon: <AiOutlineDatabase size={iconSize} />,
         cName: sidebarlinkcName,
     },
-    {
+    /*{
         title: "Results",
         routeKey: "results-route",
         component: <Results />,
@@ -44,7 +44,7 @@ const SidebarData = [
 
         icon: <GoGraph size={iconSize} />,
         cName: sidebarlinkcName,
-    },
+    },*/
     {
         title: "Legumes",
         routeKey: "legumes-route",

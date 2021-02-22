@@ -66,7 +66,7 @@ class ParticipatoryMatrix extends Component {
 
     scoringInput = (props) => {
         return (
-            <td>
+            <td key={props.attribute.name}>
                 <Form.Control
                     type="number"
                     onChange={(event) => this.updateFarmerScore(event, props)}

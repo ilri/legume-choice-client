@@ -2,62 +2,11 @@
  Could be done in a better way with a series of map functions, or some sort of recursive for loop
 This is the quickest/best way I could come up with*/
 
-const typologies = [
-    {
-        name: "Low",
-        label: "low",
-    },
-    {
-        name: "Medium",
-        label: "med",
-    },
-    {
-        name: "High",
-        label: "high",
-    },
-];
-
-const participants = [
-    {
-        name: "Farmer",
-        label: "farmer",
-    },
-    {
-        name: "Expert",
-        label: "expert",
-    },
-];
-
-const attributes = [
-    {
-        name: "Land",
-        label: "land",
-    },
-    {
-        name: "Labour",
-        label: "labour",
-    },
-    {
-        name: "Seed",
-        label: "seed",
-    },
-    {
-        name: "Inputs and services",
-        label: "inp-serv",
-    },
-    {
-        name: "Knowledge and skills",
-        label: "knowl-skill",
-    },
-    {
-        name: "Water",
-        label: "water",
-    },
-    {
-        name: "Markets",
-        label: "markets",
-    },
-];
+import {
+    typologies,
+    participants,
+    attributes,
+} from "../data-entry-component/data-entry-data";
 
 let ContextScores = {
     attributes: attributes,

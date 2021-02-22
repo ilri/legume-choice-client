@@ -1,5 +1,4 @@
-import legfunc from "../data-entry-component/legumefunctions";
-import { typologies } from "../context-scores-component/context-scores-data";
+import legfunc, { typologies } from "../data-entry-component/data-entry-data";
 
 const newSelections = legfunc;
 newSelections.map((func) => {

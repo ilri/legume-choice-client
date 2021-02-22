@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, createContext } from "react";
 
 import {
     BrowserRouter as Router,
@@ -15,12 +15,11 @@ import SidebarData from "./components/sidebar-component/sidebar-data";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import appData from "./App-data";
+import AppContext from "./AppContext";
+
 class App extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = appData;
     }
 
     changeState = () => {};
@@ -29,24 +28,26 @@ class App extends React.Component {
         return (
             <Router basename={process.env.PUBLIC_URL}>
                 <div>
-                    <Sidebar props={this.state} />
+                    <Sidebar />
                     <div className="outer-page-container">
                         <div className="inner-page-container">
                             <Switch>
-                                {SidebarData.map((item) => {
-                                    // A function to return each of the components
-                                    // Each component, and all of its
-                                    return (
-                                        <Route
-                                            exact
-                                            path={item.path}
-                                            key={item.routeKey}
-                                        >
-                                            {item.component}
-                                        </Route>
-                                    );
-                                })}
-                                <Redirect exact from="/" to="/home" />
+                                <AppContext.Provider value={{}}>
+                                    {SidebarData.map((item) => {
+                                        // A function to return each of the components
+                                        // Each component, and all of its
+                                        return (
+                                            <Route
+                                                exact
+                                                path={item.path}
+                                                key={item.routeKey}
+                                            >
+                                                {item.component}
+                                            </Route>
+                                        );
+                                    })}
+                                    <Redirect exact from="/" to="/home" />
+                                </AppContext.Provider>
                             </Switch>
                         </div>
                     </div>
