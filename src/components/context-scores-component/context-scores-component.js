@@ -30,7 +30,7 @@ class ContextScore extends Component {
         const newContext = this.state;
         this.context.contextScores = newContext;
 
-        console.log(this.context);
+        //console.log(this.context);
 
         //console.log(this.state);
     }
@@ -121,10 +121,8 @@ class ContextScore extends Component {
     // A function for generating a row in the input table
     contextRow = (props) => {
         return (
-            <tr key={"row-" + props.attribute.name}>
-                <td key={"row-name-" + props.attribute.name}>
-                    {props.attribute.name}
-                </td>
+            <tr>
+                <td>{props.attribute.name}</td>
                 {this.state.typologies.map((typology) => {
                     return this.state.participants.map((participant) => {
                         return (
@@ -207,10 +205,10 @@ class ContextScore extends Component {
     // Creating the header for the table. This is a split header which accounts for typologies and participants
     tableHeader = () => {
         return (
-            <thead key="table-header">
+            <thead>
                 {/* Adding The typology Headers */}
-                <tr key="typology-header-row">
-                    <th key="blank-column-head" rowSpan="2"></th>
+                <tr>
+                    <th rowSpan="2"></th>
                     {this.state.typologies.map((typology) => {
                         return (
                             <th
@@ -249,12 +247,12 @@ class ContextScore extends Component {
 
     render() {
         return (
-            <div key="context-score-div">
+            <div>
                 <h2>Context Scoring</h2>
-                <Table striped bordered hover key="table">
-                    <this.tableHeader key="all-table-headers" />
-                    <tbody key="table-body">
-                        <this.allRows key="all-rows" />
+                <Table striped bordered hover>
+                    <this.tableHeader />
+                    <tbody>
+                        <this.allRows />
                     </tbody>
                 </Table>
             </div>

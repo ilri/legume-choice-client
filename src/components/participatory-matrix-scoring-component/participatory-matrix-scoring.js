@@ -23,14 +23,14 @@ class ParticipatoryMatrix extends Component {
             const newContext = this.state;
             this.context.participatoryMatrixScores = newContext;
         }
-        console.log(this.state);
+        //console.log(this.state);
         //this.addFarmer();
     }
 
     componentDidUpdate() {
         const newContext = this.state;
         this.context.participatoryMatrixScores = newContext;
-        console.log(this.state);
+        // console.log(this.state);
     }
 
     addFarmer = () => {
@@ -82,7 +82,7 @@ class ParticipatoryMatrix extends Component {
 
     scoringInput = (props) => {
         return (
-            <td key={props.attribute.name + props.farmer.number}>
+            <td>
                 <Form.Control
                     defaultValue={props.legumeFunctions.score}
                     type="number"
@@ -103,7 +103,20 @@ class ParticipatoryMatrix extends Component {
                     }
                 >
                     {this.state[props.attribute.label].map((attribute) => {
-                        return <option>{attribute.name}</option>;
+                        return (
+                            <option
+                                key={
+                                    "form-option-" +
+                                    props.attribute.label +
+                                    "-" +
+                                    props.farmer.number +
+                                    "-" +
+                                    attribute.label
+                                }
+                            >
+                                {attribute.name}
+                            </option>
+                        );
                     })}
                 </Form.Control>
             </td>
@@ -182,30 +195,16 @@ class ParticipatoryMatrix extends Component {
 
     tableHeader = () => {
         return (
-            <thead key="participatory-matrix-table-head">
-                <tr key="participatory-matrix-table-head-row">
-                    <th key="participatory-matrix-head-number" rowSpan="2">
-                        Farmer Number
-                    </th>
-                    <th key="participatory-matrix-head-farmer-name" rowSpan="2">
-                        Farmer Name
-                    </th>
-                    <th key="participatory-matrix-head-gender" rowSpan="2">
-                        Gender
-                    </th>
-                    <th key="participatory-matrix-head-typology" rowSpan="2">
-                        Typology
-                    </th>
-                    <th
-                        key="participatory-matrix-head-functions"
-                        rowSpan="1"
-                        colSpan="6"
-                    >
+            <thead>
+                <tr>
+                    <th rowSpan="2">Farmer Number</th>
+                    <th rowSpan="2">Farmer Name</th>
+                    <th rowSpan="2">Gender</th>
+                    <th rowSpan="2">Typology</th>
+                    <th rowSpan="1" colSpan="6">
                         Functions
                     </th>
-                    <th rowSpan="2" key="participatory-matrix-head-total">
-                        Total
-                    </th>
+                    <th rowSpan="2">Total</th>
                 </tr>
                 <tr>
                     {this.state.legumeFunctions.map((funct) => {
@@ -243,12 +242,40 @@ class ParticipatoryMatrix extends Component {
                                 );
                             });
                         } else if (attribute.label === "number") {
-                            return <td>{farmer.number}</td>;
+                            return (
+                                <td
+                                    key={
+                                        "select-input" +
+                                        farmer.number +
+                                        "-" +
+                                        attribute.label
+                                    }
+                                >
+                                    {farmer.number}
+                                </td>
+                            );
                         } else if (attribute.label === "total") {
-                            return <td>{farmer.total}</td>;
+                            return (
+                                <td
+                                    key={
+                                        "select-input" +
+                                        farmer.number +
+                                        "-" +
+                                        attribute.label
+                                    }
+                                >
+                                    {farmer.total}
+                                </td>
+                            );
                         } else {
                             return (
                                 <this.farmEntryFields
+                                    key={
+                                        "farmEntry-field-" +
+                                        attribute.label +
+                                        "-" +
+                                        farmer.number
+                                    }
                                     attribute={attribute}
                                     farmer={farmer}
                                 />
@@ -272,17 +299,13 @@ class ParticipatoryMatrix extends Component {
                     averaged and automatically transcribed into Legume Option
                     Scores.
                 </p>
-                <Table key="participatory-matrix-table" striped bordered hover>
+                <Table>
                     <this.tableHeader />
-                    <tbody key="participatory-matrix-table-body">
+                    <tbody>
                         <this.tableRows />
                     </tbody>
                 </Table>
-                <Button
-                    key="participatory-matrix-add-farmer-button"
-                    className="float-right"
-                    onClick={this.addFarmer}
-                >
+                <Button className="float-right" onClick={this.addFarmer}>
                     Add Farmer
                 </Button>
             </div>

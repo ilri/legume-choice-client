@@ -92,25 +92,15 @@ class PairwiseRanking extends Component {
     pairWiseTable = (props) => {
         const tableGender = props.gender;
         return (
-            <Table
-                key="pairwise-ranking-table"
-                className="table-style"
-                striped
-                bordered
-                hover
-            >
-                <thead key="pairwise-ranking-table-header">
-                    <tr key="pairwise-rankning-table-header-row">
-                        <th key="pairwise-ranking-table-header-pair">Pair</th>
-                        <th key="pairwise-ranking-table-header-female">
-                            Selection Female
-                        </th>
-                        <th key="pairwise-ranking-table-header-male">
-                            Selection Male
-                        </th>
+            <Table className="table-style" striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Pair</th>
+                        <th>Selection Female</th>
+                        <th>Selection Male</th>
                     </tr>
                 </thead>
-                <tbody key="pairwise-ranking-table-body">
+                <tbody>
                     {this.state[props.gender].pairwiseSelection.map((item) => {
                         return (
                             <tr
@@ -218,27 +208,15 @@ class PairwiseRanking extends Component {
 
     pairWiseResultsTable = (props) => {
         return (
-            <Table
-                key="pairwise-results-table"
-                striped
-                bordered
-                hover
-                className="table-style"
-            >
-                <thead key="pairwise-results-table-header">
-                    <tr key="pairwise-results-table-header-row">
-                        <th key="pairwise-results-table-header-attribute">
-                            Attribute
-                        </th>
-                        <th key="pairwise-results-table-header-female">
-                            Count Female
-                        </th>
-                        <th key="pairwise-results-table-header-male">
-                            Count Male
-                        </th>
+            <Table striped bordered hover className="table-style">
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Count Female</th>
+                        <th>Count Male</th>
                     </tr>
                 </thead>
-                <tbody key="pairwise-results-table-body">
+                <tbody>
                     {this.state.legumeFunctions.map((item, index) => {
                         return (
                             <tr key={"pairwise-results-table-row-" + item.name}>
@@ -291,9 +269,8 @@ class PairwiseRanking extends Component {
                     pairs
                 </p>
                 <div className="table-container">
-                    <this.pairWiseTable key="pairwise-table" gender="female" />
+                    <this.pairWiseTable gender="female" />
                     <this.pairWiseResultsTable
-                        key="pairwise-results-table"
                         gender="female"
                         className="results-table-pairwise"
                     />
