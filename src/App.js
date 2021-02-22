@@ -1,7 +1,8 @@
 import React, { useState, createContext } from "react";
 
 import {
-    BrowserRouter as Router,
+    //BrowserRouter as Router,
+    HashRouter as Router,
     Switch,
     Route,
     Redirect,
