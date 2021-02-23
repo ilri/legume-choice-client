@@ -16,6 +16,16 @@ class ContextScore extends React.Component {
         super(props);
 
         this.state = ContextScoreData;
+
+        this.handleChange = this.handleChange.bind(this);
+        this.changeIndividualScores = this.changeIndividualScores.bind(this);
+        this.changeAverages = this.changeAverages.bind(this);
+        this.averageAttribute = this.averageAttribute.bind(this);
+        this.renderRowAverage = this.renderRowAverage.bind(this);
+        this.renderDefaultValue = this.renderDefaultValue.bind(this);
+        this.contextRow = this.contextRow.bind(this);
+        this.allRows = this.allRows.bind(this);
+        this.tableHeader = this.tableHeader.bind(this);
     }
 
     componentDidMount() {

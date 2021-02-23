@@ -16,6 +16,22 @@ class ParticipatoryMatrix extends React.Component {
         super(props);
 
         this.state = MatrixData;
+
+        this.addFarmer = this.addFarmer.bind(this);
+        this.farmEntryFields = this.farmEntryFields.bind(this);
+        this.farmerNameInput = this.farmerNameInput.bind(this);
+        this.scoringInput = this.scoringInput.bind(this);
+        this.farmerDetailsSelectInput = this.farmerDetailsSelectInput.bind(
+            this
+        );
+        this.updateFarmerScore = this.updateFarmerScore.bind(this);
+        this.updateTotal = this.updateTotal.bind(this);
+        this.updateFarmerName = this.updateFarmerName.bind(this);
+        this.updateFarmerDetailesSelect = this.updateFarmerDetailesSelect.bind(
+            this
+        );
+        this.tableHeader = this.tableHeader.bind(this);
+        this.tableRows = this.tableRows.bind(this);
     }
 
     componentDidMount() {

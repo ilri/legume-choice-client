@@ -30,11 +30,7 @@ class DataEntry extends React.Component {
                 <h1>Data Entry</h1>
                 <div className="data-entry-container">
                     {this.state.components.map((component) => {
-                        if (component !== undefined) {
-                            return component;
-                        } else {
-                            return <h1>Component undefined</h1>;
-                        }
+                        return component;
                     })}
                     ;
                 </div>
