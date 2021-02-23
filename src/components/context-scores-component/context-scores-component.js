@@ -1,5 +1,5 @@
 import React from "react";
-import ContextScores from "./context-scores-data";
+import { ContextScores } from "../data-entry-component/data-entry-data";
 
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";

@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 
-import matrixdata from "./participatory-matrix-data";
+import { matrixdata } from "../data-entry-component/data-entry-data";
 
 import AppContext from "../../AppContext";
 
