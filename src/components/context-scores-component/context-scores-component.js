@@ -41,12 +41,16 @@ class ContextScore extends React.Component {
     }
 
     componentDidMount() {
+        console.log("Component did mount!");
+
         if (this.context.contextScores !== undefined) {
             const newState = this.context.contextScores;
             this.setState(newState);
+            console.log("Set state with old context");
         } else {
             const newContext = this.state;
             this.context.contextScores = newContext;
+            console.log("Set context with new state");
         }
     }
 
@@ -224,6 +228,7 @@ class ContextScore extends React.Component {
     // Using the contextRow and map functions to generate all of the rows in the table
     allRows = () => {
         if (this.state !== null) {
+            console.log("rendering all articles");
             return this.state.attributes.map((attribute) => {
                 return (
                     <this.contextRow
@@ -240,6 +245,7 @@ class ContextScore extends React.Component {
     // Creating the header for the table. This is a split header which accounts for typologies and participants
     tableHeader = () => {
         if (this.state !== null) {
+            console.log("Header rendering");
             return (
                 <thead>
                     {/* Adding The typology Headers */}
