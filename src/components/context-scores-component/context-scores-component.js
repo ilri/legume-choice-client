@@ -16,10 +16,16 @@ class ContextScore extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("----------------------------");
-
+        console.log("ContextScoreData");
         console.log(ContextScoreData);
-        console.log("----------------------------");
+        console.log("Table");
+        console.log(Table);
+        console.log("Form");
+        console.log(Form);
+        console.log("FormControl");
+        console.log(FormControl);
+        console.log("AppContext");
+        console.log(AppContext);
 
         this.state = _.cloneDeep(ContextScoreData);
 

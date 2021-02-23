@@ -16,7 +16,7 @@ class DataEntry extends React.Component {
             components: [
                 <ContextScore key="contextScore" />,
                 <PairwiseRanking key="pairwise" />,
-                <ParticipatoryMatrix key="matrix" />,
+                // <ParticipatoryMatrix key="matrix" />,
                 <AgroEco key="agroeco" />,
                 <Results key="results" />,
             ],
