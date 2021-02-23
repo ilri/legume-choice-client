@@ -1,5 +1,3 @@
-# Change Made 14.31
-
 # LegumeCHOICE
 
 LegumeCHOICE offers a systematic framework for categorizing legume species, defining how they
