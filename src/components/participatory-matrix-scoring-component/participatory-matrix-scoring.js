@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 
 import "./participatory-matrix-scoring.css";
-import { Table, Button, Form } from "react-bootstrap";
+import Table from "react-bootstrap/Table";
+import Form from "react-bootstrap/Form";
+import FormControl from "react-bootstrap/FormControl";
+import Button from "react-bootstrap/Button";
 
 import matrixdata from "./participatory-matrix-data";
 
@@ -71,7 +74,7 @@ class ParticipatoryMatrix extends Component {
     farmerNameInput = (props) => {
         return (
             <td>
-                <Form.Control
+                <FormControl
                     value={props.farmer.name}
                     type="text"
                     onChange={(event) => this.updateFarmerName(event, props)}
@@ -83,7 +86,7 @@ class ParticipatoryMatrix extends Component {
     scoringInput = (props) => {
         return (
             <td>
-                <Form.Control
+                <FormControl
                     defaultValue={props.legumeFunctions.score}
                     type="number"
                     onChange={(event) => this.updateFarmerScore(event, props)}
@@ -95,7 +98,7 @@ class ParticipatoryMatrix extends Component {
     farmerDetailsSelectInput = (props) => {
         return (
             <td>
-                <Form.Control
+                <FormControl
                     as="select"
                     defaultValue={props.farmer[props.attribute.label]}
                     onChange={(event) =>
@@ -118,7 +121,7 @@ class ParticipatoryMatrix extends Component {
                             </option>
                         );
                     })}
-                </Form.Control>
+                </FormControl>
             </td>
         );
     };
@@ -299,15 +302,17 @@ class ParticipatoryMatrix extends Component {
                     averaged and automatically transcribed into Legume Option
                     Scores.
                 </p>
-                <Table>
-                    <this.tableHeader />
-                    <tbody>
-                        <this.tableRows />
-                    </tbody>
-                </Table>
-                <Button className="float-right" onClick={this.addFarmer}>
-                    Add Farmer
-                </Button>
+                <Form>
+                    <Table striped bordered hover>
+                        <this.tableHeader />
+                        <tbody>
+                            <this.tableRows />
+                        </tbody>
+                    </Table>
+                    <Button className="float-right" onClick={this.addFarmer}>
+                        Add Farmer
+                    </Button>
+                </Form>
             </div>
         );
     }

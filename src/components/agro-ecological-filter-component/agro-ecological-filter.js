@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Table, Form } from "react-bootstrap";
+import Table from "react-bootstrap/Table";
+import Form from "react-bootstrap/Form";
+import FormControl from "react-bootstrap/FormControl";
 
 import agroEcoData from "./agro-ecological-data";
 
@@ -49,7 +51,7 @@ class AgroEco extends Component {
                         <tr key={"agro-eco-table" + biofilter.label}>
                             <td>{biofilter.name}</td>
                             <td>
-                                <Form.Control
+                                <FormControl
                                     type="number"
                                     defaultValue={biofilter.value}
                                     onClick={(event) => {
@@ -94,16 +96,13 @@ class AgroEco extends Component {
                 <h2>Agroecological Filter</h2>
 
                 <div className="table-container">
-                    <Table
-                        striped
-                        bordered
-                        hover
-                        className="agro-eco-table-style"
-                    >
-                        <this.tableHeader />
+                    <Form>
+                        <Table striped bordered hover>
+                            <this.tableHeader />
 
-                        <this.tableBody />
-                    </Table>
+                            <this.tableBody />
+                        </Table>
+                    </Form>
                 </div>
             </div>
         );

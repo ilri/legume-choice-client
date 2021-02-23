@@ -1,4 +1,4 @@
-const legfunc = [
+export const legfunc = [
     {
         name: "Food",
         label: "food",
@@ -25,7 +25,7 @@ const legfunc = [
     },
 ];
 
-const typologies = [
+export const typologies = [
     {
         name: "Low",
         label: "low",
@@ -40,7 +40,7 @@ const typologies = [
     },
 ];
 
-const participants = [
+export const participants = [
     {
         name: "Farmer",
         label: "farmer",
@@ -51,7 +51,7 @@ const participants = [
     },
 ];
 
-const attributes = [
+export const attributes = [
     {
         name: "Land",
         label: "land",
@@ -81,6 +81,3 @@ const attributes = [
         label: "markets",
     },
 ];
-
-export default legfunc;
-export { attributes, participants, typologies };

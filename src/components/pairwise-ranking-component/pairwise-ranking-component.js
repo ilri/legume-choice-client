@@ -3,7 +3,9 @@ import PairwiseRankingData from "./pairwise-ranking-data";
 
 import "./pairwise-ranking-component.css";
 
-import { Table, Form } from "react-bootstrap";
+import Table from "react-bootstrap/Table";
+import Form from "react-bootstrap/Form";
+import FormControl from "react-bootstrap/FormControl";
 
 import AppContext from "../../AppContext";
 
@@ -92,7 +94,7 @@ class PairwiseRanking extends Component {
     pairWiseTable = (props) => {
         const tableGender = props.gender;
         return (
-            <Table className="table-style" striped bordered hover>
+            <Table striped bordered hover>
                 <thead>
                     <tr>
                         <th>Pair</th>
@@ -131,7 +133,7 @@ class PairwiseRanking extends Component {
                                         "-female"
                                     }
                                 >
-                                    <Form.Control
+                                    <FormControl
                                         defaultValue={
                                             this.state["female"]
                                                 .pairwiseSelection.value
@@ -158,7 +160,7 @@ class PairwiseRanking extends Component {
                                     >
                                         <option>{item.funct1.name}</option>
                                         <option>{item.funct2.name}</option>
-                                    </Form.Control>
+                                    </FormControl>
                                 </td>
                                 <td
                                     key={
@@ -169,7 +171,7 @@ class PairwiseRanking extends Component {
                                         "-male"
                                     }
                                 >
-                                    <Form.Control
+                                    <FormControl
                                         as="select"
                                         defaultValue={
                                             this.state["male"].pairwiseSelection
@@ -196,7 +198,7 @@ class PairwiseRanking extends Component {
                                     >
                                         <option>{item.funct1.name}</option>
                                         <option>{item.funct2.name}</option>
-                                    </Form.Control>
+                                    </FormControl>
                                 </td>
                             </tr>
                         );
@@ -269,7 +271,9 @@ class PairwiseRanking extends Component {
                     pairs
                 </p>
                 <div className="table-container">
-                    <this.pairWiseTable gender="female" />
+                    <Form className="table-container">
+                        <this.pairWiseTable gender="female" />
+                    </Form>
                     <this.pairWiseResultsTable
                         gender="female"
                         className="results-table-pairwise"

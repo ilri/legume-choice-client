@@ -1,4 +1,4 @@
-import legfunc, { typologies } from "../data-entry-component/data-entry-data";
+import { typologies, legfunc } from "../data-entry-component/data-entry-data";
 
 const newSelections = JSON.parse(JSON.stringify(legfunc));
 

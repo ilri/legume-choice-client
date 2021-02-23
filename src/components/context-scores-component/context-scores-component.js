@@ -1,12 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import ContextScores from "./context-scores-data";
-import { Table, Form } from "react-bootstrap";
+
+import Table from "react-bootstrap/Table";
+import Form from "react-bootstrap/Form";
+import FormControl from "react-bootstrap/FormControl";
 
 import "./context-scores-component.css";
 
 import AppContext from "../../AppContext";
 
-class ContextScore extends Component {
+class ContextScore extends React.Component {
     static contextType = AppContext;
 
     constructor(props) {
@@ -136,7 +139,7 @@ class ContextScore extends Component {
                                     props.attribute.name
                                 }
                             >
-                                <Form.Control
+                                <FormControl
                                     as="select"
                                     defaultValue={this.renderDefaultValue({
                                         typology: typology,
@@ -180,7 +183,7 @@ class ContextScore extends Component {
                                             </option>
                                         );
                                     })}
-                                </Form.Control>
+                                </FormControl>
                             </td>
                         );
                     });
@@ -249,12 +252,14 @@ class ContextScore extends Component {
         return (
             <div>
                 <h2>Context Scoring</h2>
-                <Table striped bordered hover>
-                    <this.tableHeader />
-                    <tbody>
-                        <this.allRows />
-                    </tbody>
-                </Table>
+                <Form>
+                    <Table striped bordered hover>
+                        <this.tableHeader />
+                        <tbody>
+                            <this.allRows />
+                        </tbody>
+                    </Table>
+                </Form>
             </div>
         );
     }
