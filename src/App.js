@@ -27,7 +27,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <Router basename={process.env.PUBLIC_URL}>
+            <Router basename={process.env.PUBLIC_URL + "/"}>
                 <div>
                     <Sidebar />
                     <div className="outer-page-container">
