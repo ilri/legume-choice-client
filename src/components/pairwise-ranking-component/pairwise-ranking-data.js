@@ -62,22 +62,4 @@ for (
         }
     }
 }
-console.log(PairwiseRankingData);
 export default PairwiseRankingData;
-
-// Returning all of the potential combinations using a nested map function. Remember that flatmap returns an unnested list
-/*PairwiseRankingData.pairwiseScores.individual.push(
-    legumeFunctions.flatMap((item, i, arr) => {
-        return arr.flatMap((subitem) => {
-            if (item != subitem) {
-                return {
-                    item1: item,
-                    item2: subitem,
-                    value: {},
-                };
-            } else {
-                return [];
-            }
-        });
-    })
-);*/

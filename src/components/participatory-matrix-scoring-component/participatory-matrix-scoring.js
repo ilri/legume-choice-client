@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 import "./participatory-matrix-scoring.css";
 import Table from "react-bootstrap/Table";
@@ -10,7 +10,7 @@ import matrixdata from "./participatory-matrix-data";
 
 import AppContext from "../../AppContext";
 
-class ParticipatoryMatrix extends Component {
+class ParticipatoryMatrix extends React.Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);

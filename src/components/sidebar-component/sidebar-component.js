@@ -13,10 +13,7 @@ class Sidebar extends React.Component {
 
         this.state = {
             sideBarOpen: false,
-            legumeCHOICEState: props.props,
         };
-
-        console.log(this.state.legumeCHOICEState);
     }
 
     // When this function is trigered, state of the side-bar is change, which triggers a change in the css

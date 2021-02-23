@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
@@ -9,7 +9,7 @@ import "./agro-ecological-filter.css";
 
 import AppContext from "../../AppContext";
 
-class AgroEco extends Component {
+class AgroEco extends React.Component {
     static contextType = AppContext;
 
     constructor(props) {
