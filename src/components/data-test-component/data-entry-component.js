@@ -17,7 +17,7 @@ class DataTest extends React.Component {
                 <div className="data-entry-container">
                     {/* <ContextScore /> */}
                     <PairwiseRanking />
-                    {/* <ParticipatoryMatrix /> */}
+                    <ParticipatoryMatrix />
                     <AgroEco />
                     <Results />
                 </div>
