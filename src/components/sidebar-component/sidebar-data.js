@@ -10,6 +10,8 @@ import Home from "../home-component/home-component";
 import Admin from "../admin-data-entry-component/admin-data-entry-component";
 import Login from "../login-component/login-component";
 import DataEntry from "../data-entry-component/data-entry-component";
+import DataTest from "../data-test-component/data-entry-component";
+
 //import Results from "../results-component/results-component";
 import Legumes from "../legumes-component/legumes-component";
 
@@ -32,6 +34,15 @@ const SidebarData = [
         routeKey: "data-entry-route",
         component: <DataEntry />,
         path: "/data-entry",
+
+        icon: <AiOutlineDatabase size={iconSize} />,
+        cName: sidebarlinkcName,
+    },
+    {
+        title: "Data",
+        routeKey: "dataroute",
+        component: <DataTest />,
+        path: "/data",
 
         icon: <AiOutlineDatabase size={iconSize} />,
         cName: sidebarlinkcName,
