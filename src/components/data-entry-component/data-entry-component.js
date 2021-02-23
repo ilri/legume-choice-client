@@ -10,16 +10,33 @@ import PairwiseRanking from "../pairwise-ranking-component/pairwise-ranking-comp
 import Results from "../results-component/results-component";
 
 class DataEntry extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            components: [
+                <ContextScore key="contextScore" />,
+                <PairwiseRanking key="pairwise" />,
+                <ParticipatoryMatrix key="matrix" />,
+                <AgroEco key="agroeco" />,
+                <Results key="results" />,
+            ],
+        };
+    }
+
+    renderComponents = () => {};
     render() {
         return (
             <div>
                 <h1>Data Entry</h1>
                 <div className="data-entry-container">
-                    <ContextScore />
-                    <PairwiseRanking />
-                    <ParticipatoryMatrix />
-                    <AgroEco />
-                    <Results />
+                    {this.state.components.map((component) => {
+                        if (component !== undefined) {
+                            return component;
+                        } else {
+                            return <h1>Component undefined</h1>;
+                        }
+                    })}
+                    ;
                 </div>
             </div>
         );

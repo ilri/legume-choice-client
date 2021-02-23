@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { AiOutlineDatabase, AiFillHome } from "react-icons/ai";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { VscAccount } from "react-icons/vsc";
-import { GoGraph } from "react-icons/go";
 import { FaLeaf } from "react-icons/fa";
 
 import Home from "../home-component/home-component";
