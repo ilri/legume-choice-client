@@ -205,10 +205,9 @@ class Admin extends Component {
         console.log(this.state);
     }
 
-    render() {
+    userForm = () => {
         return (
-            <div>
-                <h1>Login component</h1>
+            <>
                 <div className="form-container">
                     <h2>New Users</h2>
                     <Form onSubmit={this.addUserlocal}>
@@ -273,6 +272,15 @@ class Admin extends Component {
                         </Button>
                     </div>
                 </div>
+            </>
+        );
+    };
+
+    render() {
+        return (
+            <div>
+                <h1>Admin component</h1>
+                <this.userForm />
             </div>
         );
     }
