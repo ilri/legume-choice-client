@@ -1,7 +1,6 @@
 import { typologies, legfunc } from "../data-entry-component/data-entry-data";
 
 const newSelections = JSON.parse(JSON.stringify(legfunc));
-
 newSelections.forEach((func, index) => {
     if ([0, 1].includes(index)) {
         func.score = 4;
@@ -20,7 +19,7 @@ const newFarmer = {
     total: 0,
 };
 
-const matrixdata = {
+const MatrixData = {
     farmerAttributes: [
         {
             name: "Number",
@@ -63,4 +62,4 @@ const matrixdata = {
     ],
 };
 
-export default matrixdata;
+export { MatrixData };

@@ -1,4 +1,4 @@
-const agroEcoData = {
+const AgroEcoData = {
     biofilters: [
         {
             name: "Rainfall (mm/year)",
@@ -33,4 +33,4 @@ const agroEcoData = {
     ],
 };
 
-export default agroEcoData;
+export default AgroEcoData;

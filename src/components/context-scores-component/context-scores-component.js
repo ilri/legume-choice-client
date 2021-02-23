@@ -1,5 +1,5 @@
 import React from "react";
-import { ContextScores } from "../data-entry-component/data-entry-data";
+import { ContextScoreData } from "./context-scores-data";
 
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
@@ -15,7 +15,7 @@ class ContextScore extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = ContextScores;
+        this.state = ContextScoreData;
     }
 
     componentDidMount() {

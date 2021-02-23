@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 
-import { matrixdata } from "../data-entry-component/data-entry-data";
+import { MatrixData } from "./participatory-matrix-data";
 
 import AppContext from "../../AppContext";
 
@@ -15,7 +15,7 @@ class ParticipatoryMatrix extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = matrixdata;
+        this.state = MatrixData;
     }
 
     componentDidMount() {

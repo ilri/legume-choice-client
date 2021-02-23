@@ -3,7 +3,7 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 
-import agroEcoData from "./agro-ecological-data";
+import AgroEcoData from "./agro-ecological-data";
 
 import "./agro-ecological-filter.css";
 
@@ -15,7 +15,7 @@ class AgroEco extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = agroEcoData;
+        this.state = AgroEcoData;
     }
 
     componentDidMount() {
