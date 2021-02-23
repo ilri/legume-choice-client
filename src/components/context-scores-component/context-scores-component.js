@@ -15,6 +15,8 @@ class ContextScore extends React.Component {
     constructor(props) {
         super(props);
 
+        //console.log(ContextScoreData);
+        //console.log(JSON.parse(JSON.stringify(ContextScoreData)));
         this.state = ContextScoreData;
 
         this.handleChange = this.handleChange.bind(this);
@@ -29,7 +31,7 @@ class ContextScore extends React.Component {
     }
 
     componentDidMount() {
-        //console.log(this.state);
+        console.log(this.state);
         if (this.context.contextScores !== undefined) {
             const newState = this.context.contextScores;
             this.setState(newState);
@@ -205,57 +207,68 @@ class ContextScore extends React.Component {
 
     // Using the contextRow and map functions to generate all of the rows in the table
     allRows = () => {
-        return this.state.attributes.map((attribute) => {
-            return (
-                <this.contextRow
-                    attribute={attribute}
-                    key={"context-row-" + attribute.name}
-                />
-            );
-        });
+        if (this.state !== null) {
+            return this.state.attributes.map((attribute) => {
+                return (
+                    <this.contextRow
+                        attribute={attribute}
+                        key={"context-row-" + attribute.name}
+                    />
+                );
+            });
+        } else {
+            return <h1>Null State</h1>;
+        }
     };
 
     // Creating the header for the table. This is a split header which accounts for typologies and participants
     tableHeader = () => {
-        return (
-            <thead>
-                {/* Adding The typology Headers */}
-                <tr>
-                    <th rowSpan="2"></th>
-                    {this.state.typologies.map((typology) => {
-                        return (
-                            <th
-                                key={"typology-header" + typology.name}
-                                colSpan="2"
-                            >
-                                Typology - {typology.name}
-                            </th>
-                        );
-                    })}
-                    {/* Adding The Average Score Headers */}
-
-                    <th key="average-header" rowSpan="2">
-                        Mean Score (0-4)
-                    </th>
-                </tr>
-                {/* Adding The Participant Headers */}
-                <tr key="participant-header-row">
-                    {this.state.typologies.map((typology) => {
-                        return this.state.participants.map((participant) => {
+        if (this.state !== null) {
+            return (
+                <thead>
+                    {/* Adding The typology Headers */}
+                    <tr>
+                        <th rowSpan="2"></th>
+                        {this.state.typologies.map((typology) => {
                             return (
                                 <th
-                                    key={
-                                        "participant-header" + participant.name
-                                    }
+                                    key={"typology-header" + typology.name}
+                                    colSpan="2"
                                 >
-                                    {participant.name}
+                                    Typology - {typology.name}
                                 </th>
                             );
-                        });
-                    })}
-                </tr>
-            </thead>
-        );
+                        })}
+                        {/* Adding The Average Score Headers */}
+
+                        <th key="average-header" rowSpan="2">
+                            Mean Score (0-4)
+                        </th>
+                    </tr>
+                    {/* Adding The Participant Headers */}
+                    <tr key="participant-header-row">
+                        {this.state.typologies.map((typology) => {
+                            return this.state.participants.map(
+                                (participant) => {
+                                    return (
+                                        <th
+                                            key={
+                                                "participant-header" +
+                                                participant.name
+                                            }
+                                        >
+                                            {participant.name}
+                                        </th>
+                                    );
+                                }
+                            );
+                        })}
+                    </tr>
+                </thead>
+            );
+        } else {
+            return <h1>Null State</h1>;
+        }
     };
 
     render() {

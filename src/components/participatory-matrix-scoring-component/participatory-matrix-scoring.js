@@ -15,7 +15,7 @@ class ParticipatoryMatrix extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = MatrixData;
+        //this.state = MatrixData;
 
         this.addFarmer = this.addFarmer.bind(this);
         this.farmEntryFields = this.farmEntryFields.bind(this);
@@ -213,97 +213,108 @@ class ParticipatoryMatrix extends React.Component {
     };
 
     tableHeader = () => {
-        return (
-            <thead>
-                <tr>
-                    <th rowSpan="2">Farmer Number</th>
-                    <th rowSpan="2">Farmer Name</th>
-                    <th rowSpan="2">Gender</th>
-                    <th rowSpan="2">Typology</th>
-                    <th rowSpan="1" colSpan="6">
-                        Functions
-                    </th>
-                    <th rowSpan="2">Total</th>
-                </tr>
-                <tr>
-                    {this.state.legumeFunctions.map((funct) => {
-                        return (
-                            <th
-                                key={"participatory-matrix-head-" + funct.label}
-                            >
-                                {funct.name}
-                            </th>
-                        );
-                    })}
-                </tr>
-            </thead>
-        );
+        if (this.state !== null) {
+            return (
+                <thead>
+                    <tr>
+                        <th rowSpan="2">Farmer Number</th>
+                        <th rowSpan="2">Farmer Name</th>
+                        <th rowSpan="2">Gender</th>
+                        <th rowSpan="2">Typology</th>
+                        <th rowSpan="1" colSpan="6">
+                            Functions
+                        </th>
+                        <th rowSpan="2">Total</th>
+                    </tr>
+                    <tr>
+                        {this.state.legumeFunctions.map((funct) => {
+                            return (
+                                <th
+                                    key={
+                                        "participatory-matrix-head-" +
+                                        funct.label
+                                    }
+                                >
+                                    {funct.name}
+                                </th>
+                            );
+                        })}
+                    </tr>
+                </thead>
+            );
+        } else {
+            return <h1>Null State</h1>;
+        }
     };
 
     tableRows = () => {
-        return this.state.farmers.map((farmer) => {
-            return (
-                <tr key={"participatory-matrix-body-" + farmer.number}>
-                    {this.state.farmerAttributes.map((attribute) => {
-                        if (attribute.label === "selections") {
-                            return farmer.selections.map((selection) => {
+        if (this.state !== null) {
+            return this.state.farmers.map((farmer) => {
+                return (
+                    <tr key={"participatory-matrix-body-" + farmer.number}>
+                        {this.state.farmerAttributes.map((attribute) => {
+                            if (attribute.label === "selections") {
+                                return farmer.selections.map((selection) => {
+                                    return (
+                                        <this.farmEntryFields
+                                            key={
+                                                "participatory-matrix-body-" +
+                                                farmer.number +
+                                                selection.label
+                                            }
+                                            attribute={attribute}
+                                            legumeFunctions={selection}
+                                            farmer={farmer}
+                                        />
+                                    );
+                                });
+                            } else if (attribute.label === "number") {
+                                return (
+                                    <td
+                                        key={
+                                            "select-input" +
+                                            farmer.number +
+                                            "-" +
+                                            attribute.label
+                                        }
+                                    >
+                                        {farmer.number}
+                                    </td>
+                                );
+                            } else if (attribute.label === "total") {
+                                return (
+                                    <td
+                                        key={
+                                            "select-input" +
+                                            farmer.number +
+                                            "-" +
+                                            attribute.label
+                                        }
+                                    >
+                                        {farmer.total}
+                                    </td>
+                                );
+                            } else {
                                 return (
                                     <this.farmEntryFields
                                         key={
-                                            "participatory-matrix-body-" +
-                                            farmer.number +
-                                            selection.label
+                                            "farmEntry-field-" +
+                                            attribute.label +
+                                            "-" +
+                                            farmer.number
                                         }
                                         attribute={attribute}
-                                        legumeFunctions={selection}
                                         farmer={farmer}
                                     />
                                 );
-                            });
-                        } else if (attribute.label === "number") {
-                            return (
-                                <td
-                                    key={
-                                        "select-input" +
-                                        farmer.number +
-                                        "-" +
-                                        attribute.label
-                                    }
-                                >
-                                    {farmer.number}
-                                </td>
-                            );
-                        } else if (attribute.label === "total") {
-                            return (
-                                <td
-                                    key={
-                                        "select-input" +
-                                        farmer.number +
-                                        "-" +
-                                        attribute.label
-                                    }
-                                >
-                                    {farmer.total}
-                                </td>
-                            );
-                        } else {
-                            return (
-                                <this.farmEntryFields
-                                    key={
-                                        "farmEntry-field-" +
-                                        attribute.label +
-                                        "-" +
-                                        farmer.number
-                                    }
-                                    attribute={attribute}
-                                    farmer={farmer}
-                                />
-                            );
-                        }
-                    })}
-                </tr>
-            );
-        });
+                            }
+                        })}
+                    </tr>
+                );
+            });
+        } else {
+            return <h1>Null State</h1>;
+        }
     };
 
     render() {
