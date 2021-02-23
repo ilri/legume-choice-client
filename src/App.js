@@ -23,8 +23,6 @@ class App extends React.Component {
         super(props);
     }
 
-    changeState = () => {};
-
     render() {
         return (
             <Router basename={process.env.PUBLIC_URL + "/"}>
@@ -33,10 +31,10 @@ class App extends React.Component {
                     <div className="outer-page-container">
                         <div className="inner-page-container">
                             <Switch>
+                                {/* Context provider specifies which components should have access to the context */}
                                 <AppContext.Provider value={{}}>
                                     {SidebarData.map((item) => {
-                                        // A function to return each of the components
-                                        // Each component, and all of its
+                                        // Return Each of the components and their specified routes
                                         return (
                                             <Route
                                                 exact

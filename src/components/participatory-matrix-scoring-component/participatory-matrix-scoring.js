@@ -1,4 +1,5 @@
 import React from "react";
+import _ from "lodash";
 
 import "./participatory-matrix-scoring.css";
 import Table from "react-bootstrap/Table";
@@ -14,7 +15,8 @@ class ParticipatoryMatrix extends React.Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
-        this.state = MatrixData;
+        this.state = _.cloneDeep(MatrixData);
+
         this.addFarmer = this.addFarmer.bind(this);
         this.farmEntryFields = this.farmEntryFields.bind(this);
         this.farmerNameInput = this.farmerNameInput.bind(this);
@@ -54,10 +56,10 @@ class ParticipatoryMatrix extends React.Component {
     addFarmer = () => {
         //This is so important to make sure that we are creating a clean copy
         //Deep cloning
-        let farmersArray = JSON.parse(JSON.stringify(this.state.farmers));
+        let farmersArray = _.cloneDeep(this.state.farmers);
         let number = farmersArray.length + 1;
 
-        let newfarmertoAdd = JSON.parse(JSON.stringify(this.state.blankFarmer));
+        let newfarmertoAdd = _.cloneDeep(this.state.blankFarmer);
         newfarmertoAdd.number = number;
 
         farmersArray.push(newfarmertoAdd);

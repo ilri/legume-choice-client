@@ -1,3 +1,6 @@
+// Component to render the "agro-ecological-filter" for data entry
+// This component allows users to specify the context for their study
+
 import React from "react";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";

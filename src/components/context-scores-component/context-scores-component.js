@@ -5,6 +5,8 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 
+import _ from "lodash";
+
 import "./context-scores-component.css";
 
 import AppContext from "../../AppContext";
@@ -14,10 +16,12 @@ class ContextScore extends React.Component {
 
     constructor(props) {
         super(props);
+        console.log("----------------------------");
 
-        //console.log(ContextScoreData);
-        //console.log(JSON.parse(JSON.stringify(ContextScoreData)));
-        this.state = ContextScoreData;
+        console.log(ContextScoreData);
+        console.log("----------------------------");
+
+        this.state = _.cloneDeep(ContextScoreData);
 
         this.handleChange = this.handleChange.bind(this);
         this.changeIndividualScores = this.changeIndividualScores.bind(this);
@@ -31,7 +35,6 @@ class ContextScore extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.state);
         if (this.context.contextScores !== undefined) {
             const newState = this.context.contextScores;
             this.setState(newState);
@@ -116,6 +119,7 @@ class ContextScore extends React.Component {
         );
     };
 
+    // Ensuring that the correct values are preselected in the table
     renderDefaultValue = (props) => {
         {
             const valueToReturn = this.state.scores.filter((element, index) => {
@@ -135,46 +139,52 @@ class ContextScore extends React.Component {
 
     // A function for generating a row in the input table
     contextRow = (props) => {
+        const rowAttribute = props.attribute;
+
         return (
             <tr>
-                <td>{props.attribute.name}</td>
-                {this.state.typologies.map((typology) => {
-                    return this.state.participants.map((participant) => {
+                {/* Mapping across the different attributes to return a form to enter score (0-4).
+                e.g 
+                - Typology-low-> Farmer -> Land score
+                - Typology-high -> Expert -> Seed score*/}
+                <td>{rowAttribute.name}</td>
+                {this.state.typologies.map((rowTypology) => {
+                    return this.state.participants.map((rowParticipant) => {
                         return (
                             <td
                                 key={
                                     "table-entry-" +
-                                    typology.name +
+                                    rowTypology.name +
                                     "-" +
-                                    participant.name +
+                                    rowParticipant.name +
                                     "-" +
-                                    props.attribute.name
+                                    rowAttribute.name
                                 }
                             >
                                 <FormControl
                                     as="select"
                                     defaultValue={this.renderDefaultValue({
-                                        typology: typology,
-                                        participant: participant,
-                                        attribute: props.attribute,
+                                        typology: rowTypology,
+                                        participant: rowParticipant,
+                                        attribute: rowAttribute,
                                     })}
                                     onChange={(event) =>
                                         this.handleChange(
                                             event,
                                             (props = {
-                                                typology: typology,
-                                                participant: participant,
-                                                attribute: props.attribute,
+                                                typology: rowTypology,
+                                                participant: rowParticipant,
+                                                attribute: rowAttribute,
                                             })
                                         )
                                     }
                                     key={
                                         "form-control-" +
-                                        typology.name +
+                                        rowTypology.name +
                                         "-" +
-                                        participant.name +
+                                        rowParticipant.name +
                                         "-" +
-                                        props.attribute.name
+                                        rowAttribute.name
                                     }
                                 >
                                     {[0, 1, 2, 3, 4].map((score) => {
@@ -182,11 +192,11 @@ class ContextScore extends React.Component {
                                             <option
                                                 key={
                                                     "form-option-" +
-                                                    typology.name +
+                                                    rowTypology.name +
                                                     "-" +
-                                                    participant.name +
+                                                    rowParticipant.name +
                                                     "-" +
-                                                    props.attribute.name +
+                                                    rowAttribute.name +
                                                     "-" +
                                                     score
                                                 }
@@ -200,7 +210,7 @@ class ContextScore extends React.Component {
                         );
                     });
                 })}
-                <this.renderRowAverage attribute={props.attribute} />
+                <this.renderRowAverage attribute={rowAttribute} />
             </tr>
         );
     };
