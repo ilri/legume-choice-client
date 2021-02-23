@@ -183,6 +183,7 @@ class ContextScore extends React.Component {
                             >
                                 <FormControl
                                     as="select"
+                                    key={props.key}
                                     defaultValue={this.renderDefaultValue({
                                         typology: rowTypology,
                                         participant: rowParticipant,
@@ -230,7 +231,7 @@ class ContextScore extends React.Component {
                         );
                     });
                 })}
-                <this.renderRowAverage attribute={rowAttribute} />
+                {this.renderRowAverage({ attribute: rowAttribute })}
             </tr>
         );
     };
@@ -240,12 +241,10 @@ class ContextScore extends React.Component {
         if (this.state !== null) {
             console.log("rendering all rows");
             return this.state.attributes.map((attribute) => {
-                return (
-                    <this.contextRow
-                        attribute={attribute}
-                        key={"context-row-" + attribute.name}
-                    />
-                );
+                return this.contextRow({
+                    attribute: attribute,
+                    key: "context-row-" + attribute.name,
+                });
             });
         } else {
             return <h1>Null State</h1>;
@@ -309,10 +308,8 @@ class ContextScore extends React.Component {
                 <h2>Context Scoring</h2>
                 <Form>
                     <Table striped bordered hover>
-                        <this.tableHeader />
-                        <tbody>
-                            <this.allRows />
-                        </tbody>
+                        {this.tableHeader()}
+                        <tbody>{this.allRows()}</tbody>
                     </Table>
                 </Form>
             </div>
