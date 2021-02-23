@@ -14,9 +14,7 @@ class ParticipatoryMatrix extends React.Component {
     static contextType = AppContext;
     constructor(props) {
         super(props);
-
-        //this.state = MatrixData;
-
+        this.state = MatrixData;
         this.addFarmer = this.addFarmer.bind(this);
         this.farmEntryFields = this.farmEntryFields.bind(this);
         this.farmerNameInput = this.farmerNameInput.bind(this);
@@ -35,6 +33,7 @@ class ParticipatoryMatrix extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.state);
         if (this.context.participatoryMatrixScores !== undefined) {
             const newState = this.context.participatoryMatrixScores;
             this.setState(newState);
