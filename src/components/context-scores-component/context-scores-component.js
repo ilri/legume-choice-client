@@ -150,6 +150,7 @@ class ContextScore extends React.Component {
     // A function for generating a row in the input table
     contextRow = (props) => {
         const rowAttribute = props.attribute;
+        console.log("---------------Row--------------------");
 
         return (
             <tr>
@@ -160,6 +161,15 @@ class ContextScore extends React.Component {
                 <td>{rowAttribute.name}</td>
                 {this.state.typologies.map((rowTypology) => {
                     return this.state.participants.map((rowParticipant) => {
+                        console.log(
+                            "||" +
+                                rowTypology.name +
+                                "||" +
+                                rowParticipant.name +
+                                "||" +
+                                rowAttribute.name
+                        );
+
                         return (
                             <td
                                 key={
@@ -228,7 +238,7 @@ class ContextScore extends React.Component {
     // Using the contextRow and map functions to generate all of the rows in the table
     allRows = () => {
         if (this.state !== null) {
-            console.log("rendering all articles");
+            console.log("rendering all rows");
             return this.state.attributes.map((attribute) => {
                 return (
                     <this.contextRow
