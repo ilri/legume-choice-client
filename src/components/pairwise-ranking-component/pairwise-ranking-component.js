@@ -272,12 +272,12 @@ class PairwiseRanking extends Component {
                 </p>
                 <div className="table-container">
                     <Form className="table-container">
-                        <this.pairWiseTable gender="female" />
+                        {this.pairWiseTable({ gender: "female" })}
                     </Form>
-                    <this.pairWiseResultsTable
-                        gender="female"
-                        className="results-table-pairwise"
-                    />
+                    {this.pairWiseResultsTable({
+                        gender: "female",
+                        className: "results-table-pairwise",
+                    })}
                 </div>
 
                 <div className="table-container"></div>

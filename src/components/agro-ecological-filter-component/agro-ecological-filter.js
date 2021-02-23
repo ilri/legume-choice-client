@@ -101,9 +101,9 @@ class AgroEco extends React.Component {
                 <div className="table-container">
                     <Form>
                         <Table striped bordered hover>
-                            <this.tableHeader />
+                            {this.tableHeader()}
 
-                            <this.tableBody />
+                            {this.tableBody()}
                         </Table>
                     </Form>
                 </div>

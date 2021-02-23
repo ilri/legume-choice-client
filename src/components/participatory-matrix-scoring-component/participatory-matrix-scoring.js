@@ -254,21 +254,22 @@ class ParticipatoryMatrix extends React.Component {
                 return (
                     <tr key={"participatory-matrix-body-" + farmer.number}>
                         {this.state.farmerAttributes.map((attribute) => {
+                            // Returning a value for each of the potential selections
                             if (attribute.label === "selections") {
                                 return farmer.selections.map((selection) => {
-                                    return (
-                                        <this.farmEntryFields
-                                            key={
-                                                "participatory-matrix-body-" +
-                                                farmer.number +
-                                                selection.label
-                                            }
-                                            attribute={attribute}
-                                            legumeFunctions={selection}
-                                            farmer={farmer}
-                                        />
-                                    );
+                                    return this.farmEntryFields({
+                                        key:
+                                            "participatory-matrix-body-" +
+                                            farmer.number +
+                                            selection.label,
+                                        attribute: attribute,
+                                        farmer: farmer,
+                                        legumeFunctions: selection,
+                                        farmer: farmer,
+                                    });
                                 });
+
+                                // Return the farmers number for the row number
                             } else if (attribute.label === "number") {
                                 return (
                                     <td
@@ -282,6 +283,7 @@ class ParticipatoryMatrix extends React.Component {
                                         {farmer.number}
                                     </td>
                                 );
+                                // Return the total score for that particular farmer
                             } else if (attribute.label === "total") {
                                 return (
                                     <td
@@ -296,18 +298,15 @@ class ParticipatoryMatrix extends React.Component {
                                     </td>
                                 );
                             } else {
-                                return (
-                                    <this.farmEntryFields
-                                        key={
-                                            "farmEntry-field-" +
-                                            attribute.label +
-                                            "-" +
-                                            farmer.number
-                                        }
-                                        attribute={attribute}
-                                        farmer={farmer}
-                                    />
-                                );
+                                return this.farmEntryFields({
+                                    key:
+                                        "farmEntry-field-" +
+                                        attribute.label +
+                                        "-" +
+                                        farmer.number,
+                                    attribute: attribute,
+                                    farmer: farmer,
+                                });
                             }
                         })}
                     </tr>
@@ -332,10 +331,8 @@ class ParticipatoryMatrix extends React.Component {
                 </p>
                 <Form>
                     <Table striped bordered hover>
-                        <this.tableHeader />
-                        <tbody>
-                            <this.tableRows />
-                        </tbody>
+                        {this.tableHeader()}
+                        <tbody>{this.tableRows()}</tbody>
                     </Table>
                     <Button className="float-right" onClick={this.addFarmer}>
                         Add Farmer
