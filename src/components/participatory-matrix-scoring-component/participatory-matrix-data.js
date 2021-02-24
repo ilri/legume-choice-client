@@ -60,6 +60,54 @@ const MatrixData = {
             label: "female",
         },
     ],
+    summary: {
+        scoreTypes: [],
+        scoresIndividual: [],
+    },
 };
+
+legfunc.forEach((legumefunction) => {
+    MatrixData.summary.scoresIndividual.push({
+        legumeFunction: legumefunction,
+        scores: [
+            {
+                name: "Total",
+                label: "total",
+                score: 0,
+            },
+            {
+                name: "Score (0-5)",
+                label: "score",
+                score: 0,
+            },
+            {
+                name: "Average Rank",
+                label: "rank",
+                score: 0,
+            },
+        ],
+    });
+});
+
+legfunc.forEach((legumefunction, index) => {
+    MatrixData.gender.map((gender) => {
+        MatrixData.summary.scoresIndividual[index].scores.push({
+            name: gender.name + " (0-5)",
+            label: gender.label,
+            type: "gender",
+            score: 0,
+        });
+    });
+    MatrixData.typology.map((typology) => {
+        MatrixData.summary.scoresIndividual[index].scores.push({
+            name: typology.name + " (0-5)",
+            label: typology.name,
+            type: "typology",
+            score: 0,
+        });
+    });
+});
+
+MatrixData.summary.scoreTypes = MatrixData.summary.scoresIndividual[0].scores;
 
 export { MatrixData };

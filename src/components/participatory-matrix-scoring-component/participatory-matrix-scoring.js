@@ -50,7 +50,8 @@ class ParticipatoryMatrix extends React.Component {
     componentDidUpdate() {
         const newContext = this.state;
         this.context.participatoryMatrixScores = newContext;
-        // console.log(this.state);
+
+        console.log(this.state);
     }
 
     addFarmer = () => {
@@ -70,6 +71,7 @@ class ParticipatoryMatrix extends React.Component {
             },
             () => {
                 this.updateTotal();
+                this.updateFarmerSummary();
             }
         );
     };
@@ -173,6 +175,7 @@ class ParticipatoryMatrix extends React.Component {
         });
 
         this.updateTotal();
+        this.updateFarmerSummary();
     };
 
     updateTotal = () => {
@@ -211,6 +214,7 @@ class ParticipatoryMatrix extends React.Component {
             }
         });
         this.setState({ farmers: farmersArray });
+        this.updateFarmerSummary();
     };
 
     tableHeader = () => {
@@ -317,6 +321,287 @@ class ParticipatoryMatrix extends React.Component {
         }
     };
 
+    calculateAttributeRank = () => {
+        const scoresIndividual = _.cloneDeep(
+            this.state.summary.scoresIndividual
+        );
+
+        // Initialise the ranks
+        scoresIndividual.forEach((individualScore) => {
+            // Setting rank to zero
+            individualScore.scores[2].score = 1;
+        });
+
+        // Actually ranking the scores (draws included)
+        scoresIndividual.forEach((firstScore) => {
+            scoresIndividual.forEach((secondScore) => {
+                if (firstScore.scores[1].score > secondScore.scores[1].score) {
+                    firstScore.scores[2].score = firstScore.scores[2].score;
+                }
+                if (firstScore.scores[1].score < secondScore.scores[1].score) {
+                    firstScore.scores[2].score += 1;
+                }
+            });
+        });
+
+        // Averaging the ranks based on number of ties
+        const numberOfScores = this.state.legumeFunctions.length;
+        const numberOfOccurences = [];
+        for (let i = 0; i < numberOfScores; i++) {
+            numberOfOccurences[i] = {
+                number: i + 1,
+                occurences: 0,
+                conversion: i + 1,
+            };
+        }
+
+        // Finding out how to convert to ranking average
+        scoresIndividual.forEach((firstScore) => {
+            numberOfOccurences.forEach((rank) => {
+                if (firstScore.scores[2].score == rank.number) {
+                    rank.occurences += 1;
+                    rank.conversion =
+                        (rank.occurences + 2 * rank.number - 1) / 2;
+                }
+            });
+        });
+
+        //applying ranking average conversion
+        scoresIndividual.forEach((firstScore) => {
+            numberOfOccurences.forEach((rank) => {
+                if (firstScore.scores[2].score == rank.number) {
+                    firstScore.scores[2].score = rank.conversion;
+                }
+            });
+        });
+
+        this.setState((prevState) => {
+            return {
+                ...prevState,
+                summary: {
+                    ...prevState.summary,
+                    scoresIndividual: scoresIndividual,
+                },
+            };
+        });
+    };
+
+    // Return a score from the farmer if they match the correct criteria
+    mapThroughFarmers(props) {
+        const farmers = _.cloneDeep(this.state.farmers);
+
+        let scoreSum = 0;
+        let relevantFarmers = 0;
+
+        farmers.map((farmer, farmerIndex) => {
+            farmer.selections.map((farmerSelection, farmerSelectionIndex) => {
+                // If the farmer has the correct gender
+                // If the farmer is selecting the correct attribute
+                // return Score
+                // else
+                // return 0
+
+                if (props.variable === "typology") {
+                    if (
+                        props.typology.toLowerCase() ===
+                            farmer.typology.toLowerCase() &&
+                        props.selection.label === farmerSelection.label
+                    ) {
+                        relevantFarmers += 1;
+                        scoreSum += parseInt(farmerSelection.score);
+                    }
+                }
+                if (props.variable === "gender") {
+                    if (
+                        props.gender.toLowerCase() ===
+                            farmer.gender.toLowerCase() &&
+                        props.selection.label === farmerSelection.label
+                    ) {
+                        relevantFarmers += 1;
+                        scoreSum += parseInt(farmerSelection.score);
+                    }
+                }
+            });
+        });
+
+        if (relevantFarmers > 0) {
+            return parseFloat(scoreSum / relevantFarmers).toFixed(2);
+        }
+
+        return parseFloat(scoreSum).toFixed(2);
+    }
+
+    // updateGenderScore = () => {
+    //     const summary = _.cloneDeep(this.state.summary.scoresIndividual);
+
+    //     summary.map((scoresByLegumeFunction) => {
+    //         scoresByLegumeFunction.scores.map((individualScores) => {
+    //             if (individualScores.type === "gender") {
+    //                 individualScores.score = this.mapThroughFarmers({
+    //                     variable: "gender",
+    //                     gender: individualScores.label,
+    //                     selection: scoresByLegumeFunction.legumeFunction,
+    //                 });
+    //             }
+    //         });
+    //     });
+
+    //     this.setState((prevState) => {
+    //         return {
+    //             ...prevState,
+    //             summary: {
+    //                 ...prevState.summary,
+    //                 scoresIndividual: summary,
+    //             },
+    //         };
+    //     });
+    // };
+
+    updateTypologyScore = () => {
+        const summary = _.cloneDeep(this.state.summary.scoresIndividual);
+
+        summary.map((scoresByLegumeFunction) => {
+            scoresByLegumeFunction.scores.map((individualScores) => {
+                if (individualScores.type === "typology") {
+                    individualScores.score = this.mapThroughFarmers({
+                        variable: "typology",
+                        typology: individualScores.label,
+                        selection: scoresByLegumeFunction.legumeFunction,
+                    });
+                }
+                if (individualScores.type === "gender") {
+                    individualScores.score = this.mapThroughFarmers({
+                        variable: "gender",
+                        gender: individualScores.label,
+                        selection: scoresByLegumeFunction.legumeFunction,
+                    });
+                }
+            });
+        });
+
+        this.setState(
+            (prevState) => {
+                return {
+                    ...prevState,
+                    summary: {
+                        ...prevState.summary,
+                        scoresIndividual: summary,
+                    },
+                };
+            },
+            () => {
+                this.calculateAttributeRank();
+            }
+        );
+    };
+
+    updateFarmerSummary = () => {
+        const summary = _.cloneDeep(this.state.summary.scoresIndividual);
+        const farmers = _.cloneDeep(this.state.farmers);
+        // Update total score per attribute
+        summary.forEach((summaryscore, summaryScoreIndex) => {
+            summary[summaryScoreIndex].scores[0].score = 0;
+            let totalScoreTemp = _.cloneDeep(
+                summary[summaryScoreIndex].scores[0].score
+            );
+            farmers.forEach((farmer) => {
+                farmer.selections.forEach((farmerSelection, selectionIndex) => {
+                    if (
+                        farmerSelection.label ==
+                        summaryscore.legumeFunction.label
+                    ) {
+                        // Setting total score
+
+                        totalScoreTemp +=
+                            farmerSelection.score / farmers.length;
+
+                        summary[summaryScoreIndex].scores[0].score = parseFloat(
+                            parseFloat(totalScoreTemp).toFixed(2)
+                        );
+                        // Setting 0-5 score
+                        summary[summaryScoreIndex].scores[1].score = parseFloat(
+                            parseFloat((totalScoreTemp * 5) / 20).toFixed(2)
+                        );
+                    }
+                });
+            });
+        });
+
+        this.setState(
+            (prevState) => {
+                return {
+                    ...prevState,
+                    summary: {
+                        ...prevState.summary,
+                        scoresIndividual: summary,
+                    },
+                };
+            },
+            () => {
+                //this.updateGenderScore();
+                this.updateTypologyScore();
+            }
+        );
+    };
+
+    resultsTable = () => {
+        return (
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th rowSpan="2">Summary Type</th>
+                        <th
+                            rowSpan="1"
+                            colSpan={this.state.legumeFunctions.length}
+                        >
+                            Function
+                        </th>
+                    </tr>
+
+                    <tr>
+                        {this.state.legumeFunctions.map((funct) => {
+                            return (
+                                <th
+                                    key={
+                                        "participatory-matrix-head-" +
+                                        funct.label
+                                    }
+                                >
+                                    {funct.name}
+                                </th>
+                            );
+                        })}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {this.state.summary.scoreTypes.map(
+                        (type, scoreTypeIndex) => {
+                            return (
+                                <tr>
+                                    <td>{type.name}</td>
+                                    {this.state.summary.scoresIndividual.map(
+                                        (individualScore) => {
+                                            return (
+                                                <td>
+                                                    {
+                                                        individualScore.scores[
+                                                            scoreTypeIndex
+                                                        ].score
+                                                    }
+                                                </td>
+                                            );
+                                        }
+                                    )}
+                                </tr>
+                            );
+                        }
+                    )}
+                </tbody>
+            </Table>
+        );
+    };
+
     render() {
         return (
             <div>
@@ -338,6 +623,8 @@ class ParticipatoryMatrix extends React.Component {
                         Add Farmer
                     </Button>
                 </Form>
+
+                {this.resultsTable()}
             </div>
         );
     }
