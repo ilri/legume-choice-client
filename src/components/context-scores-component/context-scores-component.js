@@ -16,16 +16,16 @@ class ContextScore extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("ContextScoreData");
-        console.log(ContextScoreData);
-        console.log("Table");
-        console.log(Table);
-        console.log("Form");
-        console.log(Form);
-        console.log("FormControl");
-        console.log(FormControl);
-        console.log("AppContext");
-        console.log(AppContext);
+        // console.log("ContextScoreData");
+        // console.log(ContextScoreData);
+        // console.log("Table");
+        // console.log(Table);
+        // console.log("Form");
+        // console.log(Form);
+        // console.log("FormControl");
+        // console.log(FormControl);
+        // console.log("AppContext");
+        // console.log(AppContext);
 
         this.state = _.cloneDeep(ContextScoreData);
 
@@ -41,16 +41,16 @@ class ContextScore extends React.Component {
     }
 
     componentDidMount() {
-        console.log("Component did mount!");
+        // console.log("Component did mount!");
 
         if (this.context.contextScores !== undefined) {
             const newState = this.context.contextScores;
             this.setState(newState);
-            console.log("Set state with old context");
+            // console.log("Set state with old context");
         } else {
             const newContext = this.state;
             this.context.contextScores = newContext;
-            console.log("Set context with new state");
+            // console.log("Set context with new state");
         }
     }
 
@@ -150,7 +150,7 @@ class ContextScore extends React.Component {
     // A function for generating a row in the input table
     contextRow = (props) => {
         const rowAttribute = props.attribute;
-        console.log("---------------Row--------------------");
+        //console.log("---------------Row--------------------");
 
         return (
             <tr>
@@ -161,14 +161,14 @@ class ContextScore extends React.Component {
                 <td>{rowAttribute.name}</td>
                 {this.state.typologies.map((rowTypology) => {
                     return this.state.participants.map((rowParticipant) => {
-                        console.log(
-                            "||" +
-                                rowTypology.name +
-                                "||" +
-                                rowParticipant.name +
-                                "||" +
-                                rowAttribute.name
-                        );
+                        // console.log(
+                        //     "||" +
+                        //         rowTypology.name +
+                        //         "||" +
+                        //         rowParticipant.name +
+                        //         "||" +
+                        //         rowAttribute.name
+                        // );
 
                         return (
                             <td
@@ -239,7 +239,7 @@ class ContextScore extends React.Component {
     // Using the contextRow and map functions to generate all of the rows in the table
     allRows = () => {
         if (this.state !== null) {
-            console.log("rendering all rows");
+            // console.log("rendering all rows");
             return this.state.attributes.map((attribute) => {
                 return this.contextRow({
                     attribute: attribute,
@@ -254,7 +254,7 @@ class ContextScore extends React.Component {
     // Creating the header for the table. This is a split header which accounts for typologies and participants
     tableHeader = () => {
         if (this.state !== null) {
-            console.log("Header rendering");
+            // console.log("Header rendering");
             return (
                 <thead>
                     {/* Adding The typology Headers */}

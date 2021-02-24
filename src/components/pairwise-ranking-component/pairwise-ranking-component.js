@@ -89,6 +89,26 @@ class PairwiseRanking extends Component {
                 totals: totalsArray,
             },
         }));
+
+        this.updateAverage();
+    };
+
+    updateAverage = () => {
+        const totalsArrayMale = this.state["male"].totals;
+        const totalsArrayFemale = this.state["female"].totals;
+
+        const newAverages = this.state.averages;
+
+        newAverages.map((average, index) => {
+            const newAverage =
+                (totalsArrayMale[index].value +
+                    totalsArrayFemale[index].value) /
+                2;
+            newAverages[index].value = newAverage;
+            this.setState({
+                averages: newAverages,
+            });
+        });
     };
 
     pairWiseTable = (props) => {
@@ -216,6 +236,7 @@ class PairwiseRanking extends Component {
                         <th>Attribute</th>
                         <th>Count Female</th>
                         <th>Count Male</th>
+                        <th>Average Count</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -245,6 +266,15 @@ class PairwiseRanking extends Component {
                                     }
                                 >
                                     {this.state.male.totals[index].value}
+                                </td>
+
+                                <td
+                                    key={
+                                        "pairwise-results-table-row-item-average-" +
+                                        item.name
+                                    }
+                                >
+                                    {this.state.averages[index].value}
                                 </td>
                             </tr>
                         );

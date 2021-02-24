@@ -10,6 +10,7 @@ let PairwiseRankingData = {
         pairwiseSelection: [],
         totals: [],
     },
+    averages: [],
 };
 
 // Creating all of the potential pairwise functions for each of the entries
@@ -30,6 +31,12 @@ for (
         attribute: function1,
         value: 0,
     });
+
+    PairwiseRankingData.averages.push({
+        attribute: function1,
+        value: 0,
+    });
+
     for (
         let innerArrayIndex = 0;
         innerArrayIndex < PairwiseRankingData.legumeFunctions.length;
