@@ -16,16 +16,6 @@ class ContextScore extends React.Component {
 
     constructor(props) {
         super(props);
-        // console.log("ContextScoreData");
-        // console.log(ContextScoreData);
-        // console.log("Table");
-        // console.log(Table);
-        // console.log("Form");
-        // console.log(Form);
-        // console.log("FormControl");
-        // console.log(FormControl);
-        // console.log("AppContext");
-        // console.log(AppContext);
 
         this.state = _.cloneDeep(ContextScoreData);
 
@@ -41,7 +31,7 @@ class ContextScore extends React.Component {
     }
 
     componentDidMount() {
-        // console.log("Component did mount!");
+        //console.log("Component did mount!");
 
         if (this.context.contextScores !== undefined) {
             const newState = this.context.contextScores;
@@ -60,7 +50,7 @@ class ContextScore extends React.Component {
 
         //console.log(this.context);
 
-        //console.log(this.state);
+        console.log(this.state);
     }
 
     handleChange = (event, props) => {
@@ -184,7 +174,7 @@ class ContextScore extends React.Component {
                                 <FormControl
                                     as="select"
                                     key={props.key}
-                                    defaultValue={this.renderDefaultValue({
+                                    value={this.renderDefaultValue({
                                         typology: rowTypology,
                                         participant: rowParticipant,
                                         attribute: rowAttribute,

@@ -6,7 +6,8 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 
-import AgroEcoData from "./agro-ecological-data";
+import _ from "lodash";
+import { AgroEcoData } from "./agro-ecological-data";
 
 import "./agro-ecological-filter.css";
 
@@ -18,7 +19,7 @@ class AgroEco extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = AgroEcoData;
+        this.state = _.cloneDeep(AgroEcoData);
     }
 
     componentDidMount() {
@@ -34,6 +35,7 @@ class AgroEco extends React.Component {
     componentDidUpdate() {
         const newContext = this.state;
         this.context.agroEcoData = newContext;
+        console.log(this.context.agroEcoData);
     }
     tableHeader = () => {
         return (
@@ -46,19 +48,26 @@ class AgroEco extends React.Component {
         );
     };
 
+    renderDefaultValue = (props) => {
+        return props.value;
+    };
     tableBody = () => {
         return (
             <tbody>
-                {this.state.biofilters.map((biofilter) => {
+                {this.state.biofilters.map((biofilter, index) => {
                     return (
                         <tr key={"agro-eco-table" + biofilter.label}>
                             <td>{biofilter.name}</td>
                             <td>
                                 <FormControl
                                     type="number"
-                                    defaultValue={biofilter.value}
-                                    onClick={(event) => {
-                                        this.handleChange(event, biofilter);
+                                    value={this.renderDefaultValue({
+                                        value: biofilter.value,
+                                    })}
+                                    onChange={(event) => {
+                                        this.handleChange(event, {
+                                            biofilter: biofilter,
+                                        });
                                     }}
                                 />
                             </td>
@@ -69,20 +78,20 @@ class AgroEco extends React.Component {
         );
     };
 
-    handleChange = (event, biofilter) => {
+    handleChange = (event, props) => {
         const bioFiltersArray = this.state.biofilters;
 
-        if (
-            event.target.value < biofilter.minValue ||
-            event.target.value > biofilter.maxValue
-        ) {
-            alert("Outside of range");
-            return;
-        }
+        // if (
+        //     event.target.value < biofilter.minValue ||
+        //     event.target.value > biofilter.maxValue
+        // ) {
+        //     alert("Outside of range");
+        //     return;
+        // }
 
         bioFiltersArray.forEach((biofilterSubset, biofilterIndex) => {
-            if (biofilterSubset === biofilter) {
-                bioFiltersArray[biofilterIndex].value = parseInt(
+            if (biofilterSubset.label === props.biofilter.label) {
+                bioFiltersArray[biofilterIndex].value = parseFloat(
                     event.target.value
                 );
             }

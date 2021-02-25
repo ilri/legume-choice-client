@@ -33,7 +33,7 @@ class PairwiseRanking extends Component {
     componentDidUpdate() {
         const newContext = this.state;
         this.context.pairWiseScores = newContext;
-        //console.log(this.state);
+        console.log(this.state);
     }
 
     updateSelections = (event, props) => {
@@ -123,106 +123,118 @@ class PairwiseRanking extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state[props.gender].pairwiseSelection.map((item) => {
-                        return (
-                            <tr
-                                key={
-                                    "pairwise-ranking-table-row" +
-                                    item.funct1.name +
-                                    item.funct2.name
-                                }
-                            >
-                                <td
+                    {this.state[props.gender].pairwiseSelection.map(
+                        (item, itemIndex) => {
+                            return (
+                                <tr
                                     key={
-                                        "pairwise-ranking-table-item-name" +
+                                        "pairwise-ranking-table-row" +
                                         item.funct1.name +
-                                        "-" +
                                         item.funct2.name
                                     }
                                 >
-                                    {item.funct1.name +
-                                        " vs " +
-                                        item.funct2.name}
-                                </td>
-                                <td
-                                    key={
-                                        "pairwise-ranking-table-item-form" +
-                                        item.funct1.name +
-                                        "-" +
-                                        item.funct2.name +
-                                        "-female"
-                                    }
-                                >
-                                    <FormControl
-                                        defaultValue={
-                                            this.state["female"]
-                                                .pairwiseSelection.value
-                                        }
+                                    <td
                                         key={
-                                            "pairwise-ranking-table-form" +
+                                            "pairwise-ranking-table-item-name" +
+                                            item.funct1.name +
+                                            "-" +
+                                            item.funct2.name
+                                        }
+                                    >
+                                        {item.funct1.name +
+                                            " vs " +
+                                            item.funct2.name}
+                                    </td>
+                                    <td
+                                        key={
+                                            "pairwise-ranking-table-item-form" +
                                             item.funct1.name +
                                             "-" +
                                             item.funct2.name +
                                             "-female"
                                         }
-                                        as="select"
-                                        onChange={(
-                                            event,
-
-                                            props = {
-                                                funct1: item.funct1,
-                                                funct2: item.funct2,
-                                                gender: "female",
-                                            }
-                                        ) =>
-                                            this.updateSelections(event, props)
-                                        }
                                     >
-                                        <option>{item.funct1.name}</option>
-                                        <option>{item.funct2.name}</option>
-                                    </FormControl>
-                                </td>
-                                <td
-                                    key={
-                                        "pairwise-ranking-table-item-form" +
-                                        item.funct1.name +
-                                        "-" +
-                                        item.funct2.name +
-                                        "-male"
-                                    }
-                                >
-                                    <FormControl
-                                        as="select"
-                                        defaultValue={
-                                            this.state["male"].pairwiseSelection
-                                                .value
-                                        }
+                                        <FormControl
+                                            value={
+                                                this.state["female"]
+                                                    .pairwiseSelection[
+                                                    itemIndex
+                                                ].value.name
+                                            }
+                                            key={
+                                                "pairwise-ranking-table-form" +
+                                                item.funct1.name +
+                                                "-" +
+                                                item.funct2.name +
+                                                "-female"
+                                            }
+                                            as="select"
+                                            onChange={(
+                                                event,
+
+                                                props = {
+                                                    funct1: item.funct1,
+                                                    funct2: item.funct2,
+                                                    gender: "female",
+                                                }
+                                            ) =>
+                                                this.updateSelections(
+                                                    event,
+                                                    props
+                                                )
+                                            }
+                                        >
+                                            <option>{item.funct1.name}</option>
+                                            <option>{item.funct2.name}</option>
+                                        </FormControl>
+                                    </td>
+                                    <td
                                         key={
-                                            "pairwise-ranking-table-form" +
+                                            "pairwise-ranking-table-item-form" +
                                             item.funct1.name +
                                             "-" +
                                             item.funct2.name +
                                             "-male"
                                         }
-                                        onChange={(
-                                            event,
-
-                                            props = {
-                                                funct1: item.funct1,
-                                                funct2: item.funct2,
-                                                gender: "male",
-                                            }
-                                        ) =>
-                                            this.updateSelections(event, props)
-                                        }
                                     >
-                                        <option>{item.funct1.name}</option>
-                                        <option>{item.funct2.name}</option>
-                                    </FormControl>
-                                </td>
-                            </tr>
-                        );
-                    })}
+                                        <FormControl
+                                            as="select"
+                                            value={
+                                                this.state["male"]
+                                                    .pairwiseSelection[
+                                                    itemIndex
+                                                ].value.name
+                                            }
+                                            key={
+                                                "pairwise-ranking-table-form" +
+                                                item.funct1.name +
+                                                "-" +
+                                                item.funct2.name +
+                                                "-male"
+                                            }
+                                            onChange={(
+                                                event,
+
+                                                props = {
+                                                    funct1: item.funct1,
+                                                    funct2: item.funct2,
+                                                    gender: "male",
+                                                }
+                                            ) =>
+                                                this.updateSelections(
+                                                    event,
+                                                    props
+                                                )
+                                            }
+                                        >
+                                            <option>{item.funct1.name}</option>
+                                            <option>{item.funct2.name}</option>
+                                        </FormControl>
+                                    </td>
+                                </tr>
+                            );
+                        }
+                    )}
                 </tbody>
             </Table>
         );

@@ -7,7 +7,7 @@ import ContextScore from "../context-scores-component/context-scores-component";
 import ParticipatoryMatrix from "../participatory-matrix-scoring-component/participatory-matrix-scoring";
 import PairwiseRanking from "../pairwise-ranking-component/pairwise-ranking-component";
 
-import Results from "../results-component/results-component";
+// import Results from "../results-component/results-component";
 
 class DataEntry extends React.Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class DataEntry extends React.Component {
                 <PairwiseRanking key="pairwise" />,
                 <ParticipatoryMatrix key="matrix" />,
                 <AgroEco key="agroeco" />,
-                <Results key="results" />,
+                //<Results key="results" />,
             ],
         };
     }

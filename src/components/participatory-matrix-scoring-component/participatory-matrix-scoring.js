@@ -407,7 +407,9 @@ class ParticipatoryMatrix extends React.Component {
                         props.selection.label === farmerSelection.label
                     ) {
                         relevantFarmers += 1;
-                        scoreSum += parseInt(farmerSelection.score);
+                        scoreSum += parseFloat(
+                            (farmerSelection.score * 5) / 20
+                        );
                     }
                 }
                 if (props.variable === "gender") {
@@ -417,7 +419,9 @@ class ParticipatoryMatrix extends React.Component {
                         props.selection.label === farmerSelection.label
                     ) {
                         relevantFarmers += 1;
-                        scoreSum += parseInt(farmerSelection.score);
+                        scoreSum += parseFloat(
+                            (farmerSelection.score * 5) / 20
+                        );
                     }
                 }
             });
