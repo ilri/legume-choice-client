@@ -30,7 +30,7 @@ class Results extends Component {
 
     initialiseResults = () => {
         // Adding empty results to each legume
-        const newLegumes = _.cloneDeep(legumesData.allLegumes.slice(0, 10));
+        const newLegumes = _.cloneDeep(legumesData.allLegumes.slice(0, 1));
         newLegumes.map((newLegume) => {
             newLegume.results = _.cloneDeep(this.state.emptyScoresForLegume);
         });
@@ -51,7 +51,7 @@ class Results extends Component {
                     newcontextscore.attribute.label ===
                         contextscore.attribute.label
                 ) {
-                    newcontextscore.score = contextscore.score;
+                    newcontextscore.score = 4 - contextscore.score;
                 }
             });
         });
@@ -113,33 +113,47 @@ class Results extends Component {
 
     legumeContextScores = (props) => {
         // Context Scores
-        let legumecontext = props.legumecontext;
-        let formcontext = props.formcontext;
-        let scoreToReturn = 0;
+        console.log("Legume Context: " + props.legumecontext);
+        console.log("Form Context: " + props.formcontext);
+
+        let legumecontext = parseFloat(props.legumecontext);
+        let formcontext = parseFloat(props.formcontext);
+        // Condition 1
         if (
             legumecontext - formcontext > -0.5 &&
             legumecontext - formcontext <= 0
         ) {
-            scoreToReturn = 4 + (legumecontext - formcontext) / 2;
+            let scoreToReturn = 4 + (legumecontext - formcontext) / 2;
+            if (scoreToReturn > 0) {
+                return scoreToReturn;
+            }
         }
+
+        // Condition 2
         if (
             legumecontext - formcontext < 0.5 &&
             legumecontext - formcontext >= 0
         ) {
-            scoreToReturn = 4 - (legumecontext - formcontext) / 2;
-        }
-        if (legumecontext > formcontext) {
-            scoreToReturn = 4 - (legumecontext - formcontext) * 2;
-        }
-        if (formcontext > legumecontext) {
-            scoreToReturn = 4;
+            let scoreToReturn = 4 - (legumecontext - formcontext) / 2;
+            if (scoreToReturn > 0) {
+                return scoreToReturn;
+            }
         }
 
-        if (scoreToReturn < 0) {
-            return 0;
-        } else {
-            return scoreToReturn;
+        // Condition 3
+        if (legumecontext > formcontext) {
+            let scoreToReturn = 4 - (legumecontext - formcontext) * 2;
+            if (scoreToReturn > 0) {
+                return scoreToReturn;
+            }
         }
+
+        // Condition 4
+        if (formcontext > legumecontext) {
+            return 4;
+        }
+
+        return 0;
     };
 
     legumeFunctionScores = (props) => {
@@ -158,9 +172,9 @@ class Results extends Component {
     };
 
     legumeAgroEcoScores = (props) => {
-        console.log(props.legumeMin);
-        console.log(props.legumeMax);
-        console.log(props.formvalue);
+        //console.log(props.legumeMin);
+        //console.log(props.legumeMax);
+        //console.log(props.formvalue);
 
         let legumeMin = props.legumeMin;
         let legumeMax = props.legumeMax;
@@ -189,8 +203,13 @@ class Results extends Component {
                             legumeContextScore.attribute.label
                         ) {
                             // Assign the context score
-                            console.log(legumeContextScore);
-                            console.log(contextAttribute);
+                            // console.log(legumeContextScore);
+                            // console.log(contextAttribute);
+                            console.log(
+                                "Legume Attribute: " +
+                                    contextAttribute.attribute.label
+                            );
+                            //console.log(legume);
 
                             legumeContextScore.score = this.legumeContextScores(
                                 // Props to send to the function
@@ -202,6 +221,7 @@ class Results extends Component {
                                     formcontext: contextAttribute.score,
                                 }
                             );
+                            console.log(legumeContextScore.score);
                         }
                     }
                 });
@@ -325,14 +345,14 @@ class Results extends Component {
             const newContext = this.state;
             this.context.results = newContext;
         }
-        console.log(this.context);
+        //console.log(this.context);
 
         this.checkFormFilled();
     }
     componentDidUpdate() {
         const newContext = this.state;
         this.context.results = newContext;
-        console.log(this.state);
+        // console.log(this.state);
     }
 
     returnResultsForSummaryTable = (props) => {
