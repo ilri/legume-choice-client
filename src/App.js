@@ -48,7 +48,7 @@ class App extends React.Component {
                                             </Route>
                                         );
                                     })}
-                                    {/* <Redirect exact from="/" to="/home" /> */}
+                                    <Redirect exact from="/" to="/home" />
                                 </AppContext.Provider>
                             </Switch>
                         </div>
