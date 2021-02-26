@@ -1,8 +1,8 @@
 import React from "react";
 
 import {
-    BrowserRouter as Router,
-    //HashRouter as Router,
+    //BrowserRouter as Router,
+    HashRouter as Router,
     Switch,
     Route,
     Redirect,
@@ -24,8 +24,11 @@ class App extends React.Component {
     }
 
     render() {
+        {
+            /*basename={process.env.PUBLIC_URL + "/"}*/
+        }
         return (
-            <Router basename={process.env.PUBLIC_URL + "/"}>
+            <Router>
                 <div>
                     <Sidebar />
                     <div className="outer-page-container">
@@ -45,7 +48,7 @@ class App extends React.Component {
                                             </Route>
                                         );
                                     })}
-                                    <Redirect exact from="/" to="/home" />
+                                    {/* <Redirect exact from="/" to="/home" /> */}
                                 </AppContext.Provider>
                             </Switch>
                         </div>
