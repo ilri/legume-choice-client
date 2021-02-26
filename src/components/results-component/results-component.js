@@ -30,7 +30,7 @@ class Results extends Component {
 
     initialiseResults = () => {
         // Adding empty results to each legume
-        const newLegumes = _.cloneDeep(legumesData.allLegumes.slice(0, 1));
+        const newLegumes = _.cloneDeep(legumesData.allLegumes.slice(0, 10));
         newLegumes.map((newLegume) => {
             newLegume.results = _.cloneDeep(this.state.emptyScoresForLegume);
         });
@@ -113,8 +113,8 @@ class Results extends Component {
 
     legumeContextScores = (props) => {
         // Context Scores
-        console.log("Legume Context: " + props.legumecontext);
-        console.log("Form Context: " + props.formcontext);
+        // console.log("Legume Context: " + props.legumecontext);
+        // console.log("Form Context: " + props.formcontext);
 
         let legumecontext = parseFloat(props.legumecontext);
         let formcontext = parseFloat(props.formcontext);
@@ -205,10 +205,10 @@ class Results extends Component {
                             // Assign the context score
                             // console.log(legumeContextScore);
                             // console.log(contextAttribute);
-                            console.log(
-                                "Legume Attribute: " +
-                                    contextAttribute.attribute.label
-                            );
+                            // console.log(
+                            //     "Legume Attribute: " +
+                            //         contextAttribute.attribute.label
+                            // );
                             //console.log(legume);
 
                             legumeContextScore.score = this.legumeContextScores(
@@ -221,7 +221,7 @@ class Results extends Component {
                                     formcontext: contextAttribute.score,
                                 }
                             );
-                            console.log(legumeContextScore.score);
+                            // console.log(legumeContextScore.score);
                         }
                     }
                 });
@@ -314,6 +314,72 @@ class Results extends Component {
             });
         });
 
+        // Set ranking the scores (draws included)
+        newLegumeState.forEach((firstLegume) => {
+            // Overall rank is the fifth item in the array
+            firstLegume.results.agroEcoFit[5].overallRank = 1;
+            let valuesEncountered = [];
+            newLegumeState.forEach((secondLegume) => {
+                //-------------------------------------------------------------------------------------------------
+                // AgroEco Rank
+                if (
+                    // Overall rank is the fifth item in the array
+
+                    firstLegume.results.agroEcoFit[4].overallFit <
+                        secondLegume.results.agroEcoFit[4].overallFit &&
+                    // Making sure the value has not been encountered before.
+                    // If it has, there is no need to push the rank further down the list
+                    !valuesEncountered.includes(
+                        secondLegume.results.agroEcoFit[4].overallFit
+                    )
+                ) {
+                    //
+                    valuesEncountered.push(
+                        secondLegume.results.agroEcoFit[4].overallFit
+                    );
+                    firstLegume.results.agroEcoFit[5].overallRank += 1;
+                }
+                //-------------------------------------------------------------------------------------------------
+                // Context Rank
+                if (
+                    // Overall rank is the fifth item in the array
+
+                    firstLegume.results.contextFit[7].overallFit <
+                        secondLegume.results.contextFit[7].overallFit &&
+                    // Making sure the value has not been encountered before.
+                    // If it has, there is no need to push the rank further down the list
+                    !valuesEncountered.includes(
+                        secondLegume.results.contextFit[7].overallFit
+                    )
+                ) {
+                    //
+                    valuesEncountered.push(
+                        secondLegume.results.contextFit[7].overallFit
+                    );
+                    firstLegume.results.contextFit[8].overallRank += 1;
+                }
+                // Function Rank
+                //-------------------------------------------------------------------------------------------------
+                if (
+                    // Overall rank is the fifth item in the array
+
+                    firstLegume.results.functionFit[6].overallFit <
+                        secondLegume.results.functionFit[6].overallFit &&
+                    // Making sure the value has not been encountered before.
+                    // If it has, there is no need to push the rank further down the list
+                    !valuesEncountered.includes(
+                        secondLegume.results.functionFit[6].overallFit
+                    )
+                ) {
+                    //
+                    valuesEncountered.push(
+                        secondLegume.results.functionFit[6].overallFit
+                    );
+                    firstLegume.results.functionFit[7].overallRank += 1;
+                }
+            });
+        });
+
         this.setState({
             legumes: newLegumeState,
         });
@@ -345,14 +411,14 @@ class Results extends Component {
             const newContext = this.state;
             this.context.results = newContext;
         }
-        //console.log(this.context);
+        //console.log(this.state);
 
         this.checkFormFilled();
     }
     componentDidUpdate() {
         const newContext = this.state;
         this.context.results = newContext;
-        // console.log(this.state);
+        console.log(this.state);
     }
 
     returnResultsForSummaryTable = (props) => {
@@ -363,7 +429,7 @@ class Results extends Component {
             return <td>{parseFloat(props.item.overallFit).toFixed(2)}</td>;
         }
         if (props.item.overallRank !== undefined) {
-            return <td>{parseFloat(props.item.overallRank).toFixed(2)}</td>;
+            return <td>{parseInt(props.item.overallRank)}</td>;
         }
     };
 
@@ -373,12 +439,14 @@ class Results extends Component {
                 <h1>AgroEco Fit</h1>
                 <Table striped bordered hover>
                     <thead>
-                        <th>Legume Name</th>
-                        {this.state.agroEcoFilters.map((agroEcoFilter) => {
-                            return <th>{agroEcoFilter.label}</th>;
-                        })}
-                        <th>total score</th>
-                        <th>overall rank</th>
+                        <tr>
+                            <th>Legume Name</th>
+                            {this.state.agroEcoFilters.map((agroEcoFilter) => {
+                                return <th>{agroEcoFilter.label}</th>;
+                            })}
+                            <th>total score</th>
+                            <th>overall rank</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {this.state.legumes.map((legume) => {
@@ -402,12 +470,14 @@ class Results extends Component {
                 <h1>Context Fit</h1>
                 <Table striped bordered hover>
                     <thead>
-                        <th>Legume Name</th>
-                        {this.state.attributes.map((attribute) => {
-                            return <th>{attribute.label}</th>;
-                        })}
-                        <th>total score</th>
-                        <th>overall rank</th>
+                        <tr>
+                            <th>Legume Name</th>
+                            {this.state.attributes.map((attribute) => {
+                                return <th>{attribute.label}</th>;
+                            })}
+                            <th>total score</th>
+                            <th>overall rank</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {this.state.legumes.map((legume) => {
@@ -431,12 +501,16 @@ class Results extends Component {
                 <h1>Functional Fit</h1>
                 <Table striped bordered hover>
                     <thead>
-                        <th>Legume Name</th>
-                        {this.state.legumeFunctions.map((legumeFunction) => {
-                            return <th>{legumeFunction.label}</th>;
-                        })}
-                        <th>total score</th>
-                        <th>overall rank</th>
+                        <tr>
+                            <th>Legume Name</th>
+                            {this.state.legumeFunctions.map(
+                                (legumeFunction) => {
+                                    return <th>{legumeFunction.label}</th>;
+                                }
+                            )}
+                            <th>total score</th>
+                            <th>overall rank</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {this.state.legumes.map((legume) => {
