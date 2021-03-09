@@ -14,7 +14,6 @@ class Login extends React.Component {
 
         this.state = {
             username: "",
-            projectID: "",
             password: "",
             authenticated: false,
         };
@@ -50,7 +49,7 @@ class Login extends React.Component {
     render() {
         return (
             <div className="form-container">
-                <h1>Project Information</h1>
+                <h1>Login</h1>
                 <Form>
                     <Form.Label>Username</Form.Label>
                     <Form.Control
@@ -60,14 +59,14 @@ class Login extends React.Component {
                             this.handleChange(event, { variable: "username" })
                         }
                     />
-                    <Form.Label>Project ID</Form.Label>
+                    {/* <Form.Label>Project ID</Form.Label>
                     <Form.Control
                         type="text"
                         value={this.state.projectID}
                         onChange={(event) =>
                             this.handleChange(event, { variable: "projectID" })
                         }
-                    />
+                    /> */}
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                         type="password"
