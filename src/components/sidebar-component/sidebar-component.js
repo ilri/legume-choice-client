@@ -5,7 +5,10 @@ import { AiOutlineMenu } from "react-icons/ai";
 import "./sidebar-component.css";
 import SidebarData from "./sidebar-data";
 
+import AppContext from "../../AppContext";
+
 class Sidebar extends React.Component {
+    static contextType = AppContext;
     constructor(props) {
         super(props);
 
@@ -13,8 +16,24 @@ class Sidebar extends React.Component {
 
         this.state = {
             sideBarOpen: false,
+            user: "",
+            project: "",
         };
     }
+
+    componentDidMount() {
+        if (
+            (this.context.user !== undefined) &
+            (this.context.projectInfo !== undefined)
+        ) {
+            this.setState({
+                user: this.context.user.username,
+                project: this.context.projectInfo.projectName,
+            });
+        }
+    }
+
+    componentDidUpdate() {}
 
     // When this function is trigered, state of the side-bar is change, which triggers a change in the css
     toggleSidebar = () => {
@@ -23,13 +42,36 @@ class Sidebar extends React.Component {
         });
     };
 
+    returnTopBarInformation = () => {
+        if ((this.state.user === "") | (this.state.project === "")) {
+            return (
+                <div className="top-bar-items">
+                    <p className="top-bar-text">User:</p>
+                    <p className="top-bar-text">Project:</p>
+                </div>
+            );
+        }
+
+        if ((this.state.user !== "") & (this.state.project !== "")) {
+            return (
+                <div className="top-bar-items">
+                    <p className="top-bar-text">User: {this.state.user}</p>
+                    <p className="top-bar-text">
+                        Project: {this.state.project}
+                    </p>
+                </div>
+            );
+        }
+    };
+
     render() {
         return (
             <div className="container_row">
-                <div className="menu-button">
+                <div className="top-bar">
                     <a onClick={this.toggleSidebar}>
                         <AiOutlineMenu size={50} color="white" />
                     </a>
+                    {this.returnTopBarInformation()}
                 </div>
 
                 <div

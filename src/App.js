@@ -30,12 +30,12 @@ class App extends React.Component {
         return (
             <Router>
                 <div>
-                    <Sidebar />
-                    <div className="outer-page-container">
-                        <div className="inner-page-container">
-                            <Switch>
-                                {/* Context provider specifies which components should have access to the context */}
-                                <AppContext.Provider value={{}}>
+                    <AppContext.Provider value={{}}>
+                        <Sidebar />
+                        <div className="outer-page-container">
+                            <div className="inner-page-container">
+                                <Switch>
+                                    {/* Context provider specifies which components should have access to the context */}
                                     {SidebarData.map((item) => {
                                         // Return Each of the components and their specified routes
                                         return (
@@ -49,10 +49,10 @@ class App extends React.Component {
                                         );
                                     })}
                                     <Redirect exact from="/" to="/home" />
-                                </AppContext.Provider>
-                            </Switch>
+                                </Switch>
+                            </div>
                         </div>
-                    </div>
+                    </AppContext.Provider>
                 </div>
             </Router>
         );

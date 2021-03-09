@@ -66,12 +66,38 @@ li:hover {
     transition: background 0.2s ease-in;
 }
 
-.menu-button {
+.top-bar {
+    height: 5em;
+    display: flex;
     padding: 1em;
     background-color: black;
     position: fixed;
     fill: white;
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    z-index: 9999;
+    align-items: center;
+}
+
+.top-bar-items {
+    display: flex;
+    width: 90vw;
+    color: white;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-end;
+
+    font-size: x-large;
+    padding-left: 2em;
+}
+.top-bar-text {
+    padding-top: 4px;
+    padding-left: 2em;
+    padding-right: 2em;
+
+    display: flex;
+    align-content: center;
 }
 
 .close-menu-icon {

@@ -3,11 +3,19 @@ import AppContext from "../../AppContext";
 
 import MapPolygon from "../map-polygon-component/map-polygon-component";
 
+import { v4 as uuidv4 } from "uuid";
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+import "./project-information-component.css";
+
 import { countryList } from "./countries-list";
 import {
     Button,
     Form,
     FormControl,
+    FormText,
     FormLabel,
     FormGroup,
 } from "react-bootstrap";
@@ -18,6 +26,7 @@ countryList.forEach((country) => {
     countryNames.push(country.name);
 });
 
+const projectID = uuidv4();
 class ProjectInformation extends Component {
     static contextType = AppContext;
 
@@ -28,8 +37,14 @@ class ProjectInformation extends Component {
             userLocationFound: false,
             userLocation: {},
             projectName: "",
-            projectID: "",
+            projectID: projectID,
             country: "",
+            majorRegion: "",
+            minorRegion: "",
+            communityName: "",
+            communityType: "",
+            description: "",
+            date: new Date(),
             countryNames: countryNames,
         };
     }
@@ -37,7 +52,7 @@ class ProjectInformation extends Component {
     componentDidMount() {
         if (this.context.projectInfo === undefined) {
             const newContext = this.state;
-            this.context = newContext;
+            this.context.projectInfo = newContext;
         }
         if (this.context.projectInfo !== undefined) {
             const newState = this.context.projectInfo;
@@ -45,7 +60,7 @@ class ProjectInformation extends Component {
         }
 
         console.log(this.state);
-        console.log(this.state.countryNames);
+        // console.log(this.state.countryNames);
     }
 
     // geoLocate = () => {
@@ -75,27 +90,45 @@ class ProjectInformation extends Component {
 
     componentDidUpdate() {
         console.log(this.state);
+        const newContext = this.state;
+        this.context.projectInfo = newContext;
     }
 
     render() {
         return (
             <div>
                 <h1>Project info</h1>
-                <Form>
-                    <FormGroup>
+                <Form className="form-display">
+                    <FormGroup className="short-form-entry">
                         <FormLabel>Project Name</FormLabel>
-                        <FormControl></FormControl>
-                        <Form.Text className="text-muted">
+                        <FormControl
+                            type="text"
+                            value={this.state.projectName}
+                            onChange={(event) =>
+                                this.setState({
+                                    projectName: event.target.value,
+                                })
+                            }
+                        />
+                        <FormText className="text-muted">
                             A memorable name for your project.
-                        </Form.Text>
+                        </FormText>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className="short-form-entry">
                         <FormLabel>Project ID</FormLabel>
-                        <FormControl></FormControl>
+                        <FormControl
+                            type="text"
+                            placeholder={this.state.projectID}
+                            readOnly
+                        />
+                        <FormText className="text-muted">
+                            A universally unique identifier (uuid) for your
+                            project.
+                        </FormText>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className="short-form-entry">
                         <FormLabel>Country</FormLabel>
                         <FormControl as="select">
                             {this.state.countryNames.map((country) => {
@@ -104,47 +137,63 @@ class ProjectInformation extends Component {
                         </FormControl>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className="short-form-entry">
                         <FormLabel>Major Region</FormLabel>
                         <FormControl></FormControl>
-                        <Form.Text className="text-muted">
+                        <FormText className="text-muted">
                             e.g. state/province
-                        </Form.Text>
+                        </FormText>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className="short-form-entry">
                         <FormLabel>Minor Region</FormLabel>
                         <FormControl></FormControl>
-                        <Form.Text className="text-muted">
-                            e.g. county
-                        </Form.Text>
+                        <FormText className="text-muted">e.g. county</FormText>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className="short-form-entry">
                         <FormLabel>Community Name</FormLabel>
                         <FormControl></FormControl>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className="short-form-entry">
                         <FormLabel>Community Type</FormLabel>
                         <FormControl></FormControl>
-                        <Form.Text className="text-muted">
+                        <FormText className="text-muted">
                             e.g. village/sub-village
-                        </Form.Text>
+                        </FormText>
                     </FormGroup>
 
-                    <FormGroup>
-                        <FormLabel>Meeting Date</FormLabel>
-                        <FormControl></FormControl>
+                    <FormGroup className="short-form-entry">
+                        <FormLabel>Date</FormLabel>
+                        <DatePicker
+                            selected={this.state.date}
+                            onChange={(date) => this.setState({ date: date })}
+                        />
+                        <FormText className="text-muted">
+                            The date the data-collection ended
+                        </FormText>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className="long-form-entry">
                         <FormLabel>Project Description</FormLabel>
-                        <FormControl as="textarea" rows={4}></FormControl>
+                        <FormControl
+                            as="textarea"
+                            rows={4}
+                            value={this.state.description}
+                            onChange={(event) =>
+                                this.setState({
+                                    description: event.target.value,
+                                })
+                            }
+                        ></FormControl>
                     </FormGroup>
                 </Form>
-                <h2>Geolocation</h2>
-                <MapPolygon />
+
+                <div className="map-container">
+                    <h2>Geolocation</h2>
+                    <MapPolygon />
+                </div>
             </div>
         );
     }
