@@ -41,9 +41,10 @@ class ParticipatoryMatrix extends React.Component {
         } else {
             const newContext = this.state;
             this.context.participatoryMatrixScores = newContext;
+
+            this.addFarmer();
         }
         //console.log(this.state);
-        //this.addFarmer();
     }
 
     componentDidUpdate() {

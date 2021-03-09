@@ -8,6 +8,8 @@ import "./results-component.css";
 import { resultsData } from "./results-data";
 import AppContext from "../../AppContext";
 
+import { Form, FormControl, FormLabel, FormGroup } from "react-bootstrap";
+
 import { legumesData } from "../legumes-component/legume-data";
 
 class Results extends Component {
@@ -30,7 +32,8 @@ class Results extends Component {
 
     initialiseResults = () => {
         // Adding empty results to each legume
-        const newLegumes = _.cloneDeep(legumesData.allLegumes.slice(0, 10));
+        //const newLegumes = _.cloneDeep(legumesData.allLegumes.slice(0, 10));
+        const newLegumes = _.cloneDeep(legumesData.allLegumes);
         newLegumes.map((newLegume) => {
             newLegume.results = _.cloneDeep(this.state.emptyScoresForLegume);
         });
@@ -312,6 +315,20 @@ class Results extends Component {
                     functionScore.overallFit = functionAccumulator;
                 }
             });
+
+            // Set overall Score
+            legume.results.overallFit.map((avgFit) => {
+                if (avgFit.overallFit !== undefined) {
+                    avgFit.overallFit =
+                        (agroecoscoreAccumulator /
+                            this.state.agroEcoFilters.length +
+                            contextAccumulator /
+                                (this.state.attributes.length * 4) +
+                            functionAccumulator /
+                                (this.state.legumeFunctions.length * 4)) /
+                        3;
+                }
+            });
         });
 
         // Set ranking the scores (draws included)
@@ -342,7 +359,7 @@ class Results extends Component {
                 //-------------------------------------------------------------------------------------------------
                 // Context Rank
                 if (
-                    // Overall rank is the fifth item in the array
+                    // Overall rank is the 8th item in the array
 
                     firstLegume.results.contextFit[7].overallFit <
                         secondLegume.results.contextFit[7].overallFit &&
@@ -361,7 +378,7 @@ class Results extends Component {
                 // Function Rank
                 //-------------------------------------------------------------------------------------------------
                 if (
-                    // Overall rank is the fifth item in the array
+                    // Overall rank is the 7th item in the array
 
                     firstLegume.results.functionFit[6].overallFit <
                         secondLegume.results.functionFit[6].overallFit &&
@@ -376,6 +393,26 @@ class Results extends Component {
                         secondLegume.results.functionFit[6].overallFit
                     );
                     firstLegume.results.functionFit[7].overallRank += 1;
+                }
+
+                // Overall Rank
+                //-------------------------------------------------------------------------------------------------
+                if (
+                    // Overall rank is the first item in the array
+
+                    firstLegume.results.overallFit[0].overallFit <
+                        secondLegume.results.overallFit[0].overallFit &&
+                    // Making sure the value has not been encountered before.
+                    // If it has, there is no need to push the rank further down the list
+                    !valuesEncountered.includes(
+                        secondLegume.results.overallFit[0].overallFit
+                    )
+                ) {
+                    //
+                    valuesEncountered.push(
+                        secondLegume.results.overallFit[0].overallFit
+                    );
+                    firstLegume.results.overallFit[1].overallRank += 1;
                 }
             });
         });
@@ -433,7 +470,7 @@ class Results extends Component {
         }
     };
 
-    renderLegumeResults = () => {
+    agroEcoTable = () => {
         return (
             <div>
                 <h1>AgroEco Fit</h1>
@@ -449,7 +486,7 @@ class Results extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.legumes.map((legume) => {
+                        {this.orderAndFilterLegume().map((legume) => {
                             return (
                                 <tr>
                                     <td>{legume.name}</td>
@@ -467,6 +504,13 @@ class Results extends Component {
                         })}
                     </tbody>
                 </Table>
+            </div>
+        );
+    };
+
+    contextFitTable = () => {
+        return (
+            <div>
                 <h1>Context Fit</h1>
                 <Table striped bordered hover>
                     <thead>
@@ -480,7 +524,7 @@ class Results extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.legumes.map((legume) => {
+                        {this.orderAndFilterLegume().map((legume) => {
                             return (
                                 <tr>
                                     <td>{legume.name}</td>
@@ -498,7 +542,15 @@ class Results extends Component {
                         })}
                     </tbody>
                 </Table>
-                <h1>Functional Fit</h1>
+            </div>
+        );
+    };
+
+    functionFitTable = () => {
+        return (
+            <div>
+                <h1>Function Fit</h1>
+
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -513,7 +565,7 @@ class Results extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.legumes.map((legume) => {
+                        {this.orderAndFilterLegume().map((legume) => {
                             return (
                                 <tr>
                                     <td>{legume.name}</td>
@@ -535,12 +587,317 @@ class Results extends Component {
         );
     };
 
+    returnRank = (props) => {
+        let scoreToReturn = 0;
+        props.arr.map((item) => {
+            if (item.overallRank !== undefined) {
+                scoreToReturn = item.overallRank;
+            }
+        });
+
+        return scoreToReturn;
+    };
+
+    returnScore = (props) => {
+        let scoreToReturn = 0;
+        props.arr.map((item) => {
+            if (item.overallFit !== undefined) {
+                scoreToReturn = item.overallFit;
+            }
+        });
+
+        return parseFloat(scoreToReturn).toFixed(2);
+    };
+
+    compareScores = (a, b, props) => {
+        let scoreA = "";
+        a.results[props.scoreType].map((item) => {
+            if (item.overallFit !== undefined) {
+                scoreA = item.overallFit;
+            }
+        });
+        let scoreB = "";
+        b.results[props.scoreType].map((item) => {
+            if (item.overallFit !== undefined) {
+                scoreB = item.overallFit;
+            }
+        });
+
+        if (scoreA < scoreB) {
+            return 1;
+        }
+        if (scoreA > scoreB) {
+            return -1;
+        }
+        return 0;
+    };
+
+    orderAndFilterLegume = () => {
+        const filter = this.state.resultsFilter.selection.order;
+
+        let legumeArr = _.cloneDeep(this.state.legumes);
+
+        // Filter by overall score
+        if (filter === "Overall Score") {
+            legumeArr.sort((a, b) =>
+                this.compareScores(a, b, { scoreType: "overallFit" })
+            );
+            console.log(legumeArr);
+        }
+        // Filter by AgroEcoScore
+        if (filter === "AgroEco Score") {
+            legumeArr.sort((a, b) =>
+                this.compareScores(a, b, { scoreType: "agroEcoFit" })
+            );
+            console.log(legumeArr);
+        }
+        // Filter by ContextScore
+        if (filter === "Context Score") {
+            legumeArr.sort((a, b) =>
+                this.compareScores(a, b, { scoreType: "contextFit" })
+            );
+            console.log(legumeArr);
+        }
+        // Filter by Function Fit
+        if (filter === "Function Score") {
+            legumeArr.sort((a, b) =>
+                this.compareScores(a, b, { scoreType: "functionFit" })
+            );
+            console.log(legumeArr);
+        }
+
+        if (this.state.resultsFilter.selection.numberOfLegumes == "5") {
+            legumeArr = legumeArr.slice(0, 5);
+        }
+
+        if (this.state.resultsFilter.selection.numberOfLegumes == "10") {
+            legumeArr = legumeArr.slice(0, 10);
+        }
+
+        if (this.state.resultsFilter.selection.numberOfLegumes == "20") {
+            legumeArr = legumeArr.slice(0, 20);
+        }
+
+        return legumeArr;
+    };
+
+    changeCellColour = () => {
+        return "blue";
+    };
+
+    summaryTable = () => {
+        return (
+            <div>
+                <h1>Summary</h1>
+                <Table bordered striped hover>
+                    <thead>
+                        <tr>
+                            <th>Legume Name</th>
+                            <th>Agro-Eco score</th>
+                            <th>Agro-Eco rank</th>
+                            <th>Context score</th>
+                            <th>Context rank</th>
+                            <th>Function score</th>
+                            <th>Function rank</th>
+
+                            <th>Overall score (0-1)</th>
+                            <th>Overall rank</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.orderAndFilterLegume().map((legume) => {
+                            return (
+                                <tr>
+                                    <td>{legume.name}</td>
+                                    <td
+                                    // style={{
+                                    //     backgroundColor: this.changeCellColour(),
+                                    // }}
+                                    >
+                                        {this.returnScore({
+                                            arr: legume.results.agroEcoFit,
+                                        })}
+                                    </td>
+                                    <td>
+                                        {this.returnRank({
+                                            arr: legume.results.agroEcoFit,
+                                        })}
+                                    </td>
+                                    <td>
+                                        {this.returnScore({
+                                            arr: legume.results.contextFit,
+                                        })}
+                                    </td>
+                                    <td>
+                                        {this.returnRank({
+                                            arr: legume.results.contextFit,
+                                        })}
+                                    </td>
+                                    <td>
+                                        {this.returnScore({
+                                            arr: legume.results.functionFit,
+                                        })}
+                                    </td>
+                                    <td>
+                                        {this.returnRank({
+                                            arr: legume.results.functionFit,
+                                        })}
+                                    </td>
+                                    <td>
+                                        {this.returnScore({
+                                            arr: legume.results.overallFit,
+                                        })}
+                                    </td>
+                                    <td>
+                                        {this.returnRank({
+                                            arr: legume.results.overallFit,
+                                        })}
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </Table>
+            </div>
+        );
+    };
+
+    renderLegumeResults = () => {
+        if (this.state.resultsFilter.selection.whichResults === "Summary") {
+            return this.summaryTable();
+        }
+
+        if (
+            this.state.resultsFilter.selection.whichResults === "AgroEco Scores"
+        ) {
+            return this.agroEcoTable();
+        }
+
+        if (
+            this.state.resultsFilter.selection.whichResults === "Context Scores"
+        ) {
+            return this.contextFitTable();
+        }
+
+        if (
+            this.state.resultsFilter.selection.whichResults ===
+            "Function Scores"
+        ) {
+            return this.functionFitTable();
+        }
+    };
+
+    changeSelection = (event, props) => {
+        this.setState(
+            (prevState) => {
+                return {
+                    ...prevState,
+                    resultsFilter: {
+                        ...prevState.resultsFilter,
+                        selection: {
+                            ...prevState.resultsFilter.selection,
+                            [props.type]: event.target.value,
+                        },
+                    },
+                };
+            },
+            () => this.orderAndFilterLegume()
+        );
+    };
+
+    resultsFilters = () => {
+        return (
+            <div className="results-form">
+                <Form className="results-form">
+                    <FormGroup controlId="resultsSelect" className="form-item">
+                        <FormLabel>Results</FormLabel>
+
+                        <FormControl
+                            value={
+                                this.state.resultsFilter.selection.whichResults
+                            }
+                            onChange={(event) =>
+                                this.changeSelection(event, {
+                                    type: "whichResults",
+                                })
+                            }
+                            as="select"
+                        >
+                            {this.state.resultsFilter.selectOptions.map(
+                                (selectionoption) => {
+                                    return <option>{selectionoption}</option>;
+                                }
+                            )}
+                        </FormControl>
+                    </FormGroup>
+
+                    <FormGroup
+                        value={this.state.resultsFilter.selection.order}
+                        onChange={(event) =>
+                            this.changeSelection(event, {
+                                type: "order",
+                            })
+                        }
+                        controlId="resultsFilter"
+                        className="form-item"
+                    >
+                        <FormLabel>Order by:</FormLabel>
+
+                        <FormControl
+                            as="select"
+                            value={this.state.resultsFilter.selection.order}
+                            onChange={(event) =>
+                                this.changeSelection(event, {
+                                    type: "order",
+                                })
+                            }
+                        >
+                            {this.state.resultsFilter.orderOptions.map(
+                                (orderoption) => {
+                                    return <option>{orderoption}</option>;
+                                }
+                            )}
+                        </FormControl>
+                    </FormGroup>
+
+                    <FormGroup controlId="resultsFilter" className="form-item">
+                        <FormLabel>Number of Legumes Displayed</FormLabel>
+
+                        <FormControl
+                            as="select"
+                            value={
+                                this.state.resultsFilter.selection
+                                    .numberOfLegumes
+                            }
+                            onChange={(event) =>
+                                this.changeSelection(event, {
+                                    type: "numberOfLegumes",
+                                })
+                            }
+                        >
+                            {this.state.resultsFilter.numberOfLegumesOptions.map(
+                                (numberoption) => {
+                                    return <option>{numberoption}</option>;
+                                }
+                            )}
+                        </FormControl>
+                    </FormGroup>
+                </Form>
+            </div>
+        );
+    };
+
     renderBody = () => {
         if (this.state.formFilled === false) {
             return <h1>No data entered yet. Please fill in data-entry form</h1>;
         }
         if (this.state.formFilled === true) {
-            return this.renderLegumeResults();
+            return (
+                <div>
+                    {this.resultsFilters()}
+                    <div>{this.renderLegumeResults()}</div>
+                </div>
+            );
         }
     };
 

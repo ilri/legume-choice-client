@@ -28,7 +28,7 @@ class Sidebar extends React.Component {
             <div className="container_row">
                 <div className="menu-button">
                     <a onClick={this.toggleSidebar}>
-                        <AiOutlineMenu size={50} color="black" />
+                        <AiOutlineMenu size={50} color="white" />
                     </a>
                 </div>
 

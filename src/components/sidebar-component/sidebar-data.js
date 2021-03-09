@@ -4,15 +4,16 @@ import { AiOutlineDatabase, AiFillHome } from "react-icons/ai";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { VscAccount } from "react-icons/vsc";
 import { FaLeaf, FaDatabase } from "react-icons/fa";
-import { GoGraph } from "react-icons/go";
-
+import { GoGraph, GoSettings } from "react-icons/go";
+import { FiMapPin } from "react-icons/fi";
 import Home from "../home-component/home-component";
 import Admin from "../admin-data-entry-component/admin-data-entry-component";
 import Login from "../login-component/login-component";
 import DataEntry from "../data-entry-component/data-entry-component";
-
+import MapPolygon from "../map-polygon-component/map-polygon-component";
 import Results from "../results-component/results-component";
 import ViewContext from "../view-context-component/view-context-component";
+import ProjectInformation from "../project-information-component/project-information-component";
 
 //import Legumes from "../legumes-component/legumes-component";
 
@@ -37,6 +38,15 @@ const SidebarData = [
         path: "/data-entry",
 
         icon: <AiOutlineDatabase size={iconSize} />,
+        cName: sidebarlinkcName,
+    },
+    {
+        title: "Project Information",
+        routeKey: "project-info-route",
+        component: <ProjectInformation />,
+        path: "/project-info",
+
+        icon: <GoSettings size={iconSize} />,
         cName: sidebarlinkcName,
     },
 
@@ -74,6 +84,14 @@ const SidebarData = [
         icon: <FaDatabase size={iconSize} />,
         cName: sidebarlinkcName,
     },
+    // {
+    //     title: "Specify Location",
+    //     routeKey: "location",
+    //     component: <MapPolygon />,
+    //     path: "/location",
+    //     icon: <FiMapPin size={iconSize} />,
+    //     cName: sidebarlinkcName,
+    // },
 ];
 
 export default SidebarData;

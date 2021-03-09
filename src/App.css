@@ -8,11 +8,14 @@
 }
 
 .inner-page-container {
-    padding: 8em;
-    padding-top: 3em;
+    padding: 10em;
 
     align-items: center;
     place-content: center;
+}
+
+h1 {
+    padding-bottom: 1em;
 }
 
 /*h3 {

@@ -34,6 +34,7 @@ let legumeResultsToAdd = {
     functionFit: [],
     contextFit: [],
     agroEcoFit: [],
+    overallFit: [],
 };
 
 // Adding legume function scores to each legume
@@ -80,6 +81,14 @@ legumeResultsToAdd.agroEcoFit.push({
     overallRank: 1,
 });
 
+// Overall Scores
+legumeResultsToAdd.overallFit.push({
+    overallFit: 0,
+});
+legumeResultsToAdd.overallFit.push({
+    overallRank: 1,
+});
+
 const agroEcoFilters = [];
 
 const biofiltersCopy = _.cloneDeep(biofilters);
@@ -102,6 +111,29 @@ const resultsData = {
     contextFitSummary: contextFitForm,
     emptyScoresForLegume: legumeResultsToAdd,
     legumes: [],
+
+    resultsFilter: {
+        selectOptions: [
+            "Summary",
+            "AgroEco Scores",
+            "Context Scores",
+            "Function Scores",
+        ],
+        orderOptions: [
+            "Overall Score",
+            "AgroEco Score",
+            "Context Score",
+            "Function Score",
+        ],
+        numberOfLegumesOptions: ["5", "10", "20", "All"],
+
+        selection: {
+            whichResults: "Summary",
+            order: "Overall Score",
+            numberOfLegumes: "5",
+        },
+    },
+
     formFilled: false,
 };
 

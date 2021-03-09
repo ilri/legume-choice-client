@@ -1,0 +1,9 @@
+.results-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.form-item {
+    padding: 2em;
+}

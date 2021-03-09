@@ -1,3 +1,12 @@
 .reset-button {
     justify-self: self-end;
 }
+
+.radar-container {
+    display: grid;
+    place-items: center;
+}
+
+.radar-style {
+    fill-opacity: 0.5;
+}

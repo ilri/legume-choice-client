@@ -5,6 +5,9 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 
+import RadarChart from "react-svg-radar-chart";
+import "react-svg-radar-chart/build/css/index.css";
+
 import _ from "lodash";
 
 import "./context-scores-component.css";
@@ -28,6 +31,7 @@ class ContextScore extends React.Component {
         this.contextRow = this.contextRow.bind(this);
         this.allRows = this.allRows.bind(this);
         this.tableHeader = this.tableHeader.bind(this);
+        this.renderRadarChart = this.renderRadarChart.bind(this);
     }
 
     componentDidMount() {
@@ -52,6 +56,84 @@ class ContextScore extends React.Component {
 
         console.log(this.state);
     }
+
+    renderRadarChart = () => {
+        const avergeScores = {};
+        const scoreLabels = {};
+        this.state.scores.forEach((score) => {
+            if (score.scoreType === "average") {
+                avergeScores[score.attribute.label] = score.score / 4;
+                scoreLabels[score.attribute.label] = score.attribute.name;
+            }
+        });
+
+        const radarData = [
+            {
+                data: avergeScores,
+                meta: {
+                    class: "radar-style",
+                    color: "green",
+                },
+            },
+        ];
+
+        const noSmoothing = (points) => {
+            let d =
+                "M" + points[0][0].toFixed(4) + "," + points[0][1].toFixed(4);
+            for (let i = 1; i < points.length; i++) {
+                d +=
+                    "L" +
+                    points[i][0].toFixed(4) +
+                    "," +
+                    points[i][1].toFixed(4);
+            }
+            return d + "z";
+        };
+
+        const defaultOptions = {
+            size: 200,
+            axes: true, // show axes?
+            scales: 5, // show scale circles?
+            captions: true, // show captions?
+            captionMargin: 10,
+            dots: true, // show dots?
+            zoomDistance: 1.2, // where on the axes are the captions?
+            setViewBox: (options) =>
+                `-${options.captionMargin} 0 ${
+                    options.size + options.captionMargin * 2
+                } ${options.size}`, // custom viewBox ?
+            smoothing: noSmoothing, // shape smoothing function
+            axisProps: () => ({ className: "axis" }),
+            scaleProps: () => ({ className: "scale", fill: "none" }),
+            shapeProps: () => ({ className: "shape" }),
+            captionProps: () => ({
+                className: "caption",
+                textAnchor: "middle",
+                fontSize: 10,
+                fontFamily: "sans-serif",
+            }),
+            dotProps: () => ({
+                className: "dot",
+                mouseEnter: (dot) => {
+                    console.log(dot);
+                },
+                mouseLeave: (dot) => {
+                    console.log(dot);
+                },
+            }),
+        };
+
+        return (
+            <div className="radar-container">
+                <RadarChart
+                    captions={scoreLabels}
+                    data={radarData}
+                    size={450}
+                    options={defaultOptions}
+                />
+            </div>
+        );
+    };
 
     handleChange = (event, props) => {
         props.score = parseInt(event.target.value); // Ensuring that the entered value is an integer
@@ -302,6 +384,7 @@ class ContextScore extends React.Component {
                         <tbody>{this.allRows()}</tbody>
                     </Table>
                 </Form>
+                {this.renderRadarChart()}
             </div>
         );
     }
