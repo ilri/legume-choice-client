@@ -26,20 +26,41 @@ class Sidebar extends React.Component {
             (this.context.user !== undefined) &
             (this.context.projectInfo !== undefined)
         ) {
-            this.setState({
-                user: this.context.user.username,
-                project: this.context.projectInfo.projectName,
-            });
+            this.setState(
+                {
+                    user: this.context.user.username,
+                    project: this.context.projectInfo.projectName,
+                },
+                () => console.log(this.state)
+            );
         }
     }
 
     componentDidUpdate() {}
 
+    initialiseContext() {
+        if (
+            (this.context.user !== undefined) &
+            (this.context.projectInfo !== undefined)
+        ) {
+            this.setState(
+                {
+                    user: this.context.user.username,
+                    project: this.context.projectInfo.projectName,
+                },
+                () => console.log(this.state)
+            );
+        }
+    }
+
     // When this function is trigered, state of the side-bar is change, which triggers a change in the css
     toggleSidebar = () => {
-        this.setState({
-            sideBarOpen: !this.state.sideBarOpen,
-        });
+        this.setState(
+            {
+                sideBarOpen: !this.state.sideBarOpen,
+            },
+            () => this.initialiseContext()
+        );
     };
 
     returnTopBarInformation = () => {

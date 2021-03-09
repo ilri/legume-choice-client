@@ -21,6 +21,8 @@ import AppContext from "./AppContext";
 class App extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = AppContext;
     }
 
     render() {
@@ -30,7 +32,7 @@ class App extends React.Component {
         return (
             <Router>
                 <div>
-                    <AppContext.Provider value={{}}>
+                    <AppContext.Provider value={this.state}>
                         <Sidebar />
                         <div className="outer-page-container">
                             <div className="inner-page-container">
