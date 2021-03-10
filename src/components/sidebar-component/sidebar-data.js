@@ -1,20 +1,18 @@
 import React, { Component } from "react";
 
-import { AiOutlineDatabase, AiFillHome } from "react-icons/ai";
+import { AiOutlineDatabase, AiFillHome, AiOutlineSend } from "react-icons/ai";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { VscAccount } from "react-icons/vsc";
 import { FaLeaf, FaDatabase } from "react-icons/fa";
 import { GoGraph, GoSettings } from "react-icons/go";
-import { FiMapPin } from "react-icons/fi";
 import Home from "../home-component/home-component";
 import Admin from "../admin-data-entry-component/admin-data-entry-component";
 import Login from "../login-component/login-component";
 import DataEntry from "../data-entry-component/data-entry-component";
-import MapPolygon from "../map-polygon-component/map-polygon-component";
 import Results from "../results-component/results-component";
 import ViewContext from "../view-context-component/view-context-component";
 import ProjectInformation from "../project-information-component/project-information-component";
-
+import SubmitData from "../submit-data-component/submit-data-component";
 //import Legumes from "../legumes-component/legumes-component";
 
 // Set the icon size for the imported icons
@@ -77,13 +75,22 @@ const SidebarData = [
         cName: sidebarlinkcName,
     },
     {
-        title: "View App Data",
-        routeKey: "app-data-route",
-        component: <ViewContext />,
-        path: "/app-data",
-        icon: <FaDatabase size={iconSize} />,
+        title: "Submit Data",
+        routeKey: "submit-data-route",
+        component: <SubmitData />,
+        path: "/submit-data",
+        icon: <AiOutlineSend size={iconSize} />,
         cName: sidebarlinkcName,
     },
+
+    // {
+    //     title: "View App Data",
+    //     routeKey: "app-data-route",
+    //     component: <ViewContext />,
+    //     path: "/app-data",
+    //     icon: <FaDatabase size={iconSize} />,
+    //     cName: sidebarlinkcName,
+    // },
     // {
     //     title: "Specify Location",
     //     routeKey: "location",
