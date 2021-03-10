@@ -3,6 +3,8 @@ import { Form, Button } from "react-bootstrap";
 
 import AppContext from "../../AppContext";
 
+import _ from "lodash";
+
 import "./login-component.css";
 
 class Login extends React.Component {
@@ -21,14 +23,18 @@ class Login extends React.Component {
 
     componentDidMount() {
         if (this.context.user !== undefined) {
-            const newState = this.context.user;
+            const newState = _.cloneDeep(this.context.user);
             this.setState(newState);
+        }
+
+        if (this.context.user === undefined) {
+            const newContext = _.cloneDeep(this.state);
+            this.context.user = newContext;
         }
     }
     componentDidUpdate() {
-        const newContext = this.state;
+        const newContext = _.cloneDeep(this.state);
         this.context.user = newContext;
-        console.log(this.context);
     }
 
     handleChange = (event, props) => {
@@ -36,7 +42,7 @@ class Login extends React.Component {
             [props.variable]: event.target.value,
         });
 
-        this.context.user = this.state;
+        this.context.user = _.cloneDeep(this.state);
     };
 
     authenticateUser = (event) => {

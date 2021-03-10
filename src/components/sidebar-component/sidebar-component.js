@@ -5,6 +5,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import "./sidebar-component.css";
 import SidebarData from "./sidebar-data";
 
+import _ from "lodash";
 import AppContext from "../../AppContext";
 
 class Sidebar extends React.Component {
@@ -21,35 +22,25 @@ class Sidebar extends React.Component {
         };
     }
 
-    componentDidMount() {
-        if (
-            (this.context.user !== undefined) &
-            (this.context.projectInfo !== undefined)
-        ) {
-            this.setState(
-                {
-                    user: this.context.user.username,
-                    project: this.context.projectInfo.projectName,
-                },
-                () => console.log(this.state)
-            );
-        }
-    }
+    componentDidMount() {}
 
     componentDidUpdate() {}
 
     initialiseContext() {
-        if (
-            (this.context.user !== undefined) &
-            (this.context.projectInfo !== undefined)
-        ) {
-            this.setState(
-                {
-                    user: this.context.user.username,
-                    project: this.context.projectInfo.projectName,
-                },
-                () => console.log(this.state)
-            );
+        let newUser = "";
+        if (this.context.user !== undefined) {
+            newUser = _.cloneDeep(this.context.user.username);
+            this.setState({
+                user: newUser,
+            });
+        }
+
+        let newProject = "";
+        if (this.context.projectInfo !== undefined) {
+            newProject = _.cloneDeep(this.context.projectInfo.projectName);
+            this.setState({
+                project: newProject,
+            });
         }
     }
 
@@ -64,25 +55,12 @@ class Sidebar extends React.Component {
     };
 
     returnTopBarInformation = () => {
-        if ((this.state.user === "") | (this.state.project === "")) {
-            return (
-                <div className="top-bar-items">
-                    <p className="top-bar-text">User:</p>
-                    <p className="top-bar-text">Project:</p>
-                </div>
-            );
-        }
-
-        if ((this.state.user !== "") & (this.state.project !== "")) {
-            return (
-                <div className="top-bar-items">
-                    <p className="top-bar-text">User: {this.state.user}</p>
-                    <p className="top-bar-text">
-                        Project: {this.state.project}
-                    </p>
-                </div>
-            );
-        }
+        return (
+            <div className="top-bar-items">
+                <p className="top-bar-text">User: {this.state.user}</p>
+                <p className="top-bar-text">Project: {this.state.project}</p>
+            </div>
+        );
     };
 
     render() {
