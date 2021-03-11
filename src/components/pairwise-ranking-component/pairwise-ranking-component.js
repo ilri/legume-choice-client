@@ -10,7 +10,7 @@ import FormControl from "react-bootstrap/FormControl";
 import AppContext from "../../AppContext";
 
 class PairwiseRanking extends Component {
-    static contextType = AppContext;
+    //static contextType = AppContext;
     constructor(props) {
         super(props);
 
@@ -327,4 +327,6 @@ class PairwiseRanking extends Component {
         );
     }
 }
+PairwiseRanking.contextType = AppContext;
+
 export default PairwiseRanking;

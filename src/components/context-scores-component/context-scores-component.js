@@ -15,12 +15,12 @@ import "./context-scores-component.css";
 import AppContext from "../../AppContext";
 
 class ContextScore extends React.Component {
-    static contextType = AppContext;
+    //static contextType = AppContext;
 
     constructor(props) {
         super(props);
 
-        this.state = _.cloneDeep(ContextScoreData);
+        this.state = ContextScoreData;
 
         this.handleChange = this.handleChange.bind(this);
         this.changeIndividualScores = this.changeIndividualScores.bind(this);
@@ -37,22 +37,25 @@ class ContextScore extends React.Component {
     componentDidMount() {
         //console.log("Component did mount!");
 
-        if (this.context.contextScores !== undefined) {
-            const newState = this.context.contextScores;
+        if (this.context.currentProject.contextScores !== undefined) {
+            let newState = _.cloneDeep(
+                this.context.currentProject.contextScores
+            );
             this.setState(newState);
             // console.log("Set state with old context");
-        } else {
-            const newContext = this.state;
-            this.context.contextScores = newContext;
+        }
+        if (this.context.currentProject.contextScores === undefined) {
+            let newContext = _.cloneDeep(this.state);
+            this.context.currentProject.contextScores = newContext;
             // console.log("Set context with new state");
         }
     }
 
     componentDidUpdate() {
-        const newContext = this.state;
-        this.context.contextScores = newContext;
+        let newContext = _.cloneDeep(this.state);
+        this.context.currentProject.contextScores = newContext;
 
-        //console.log(this.context);
+        console.log(this.context.currentProject);
 
         console.log(this.state);
     }
@@ -204,18 +207,37 @@ class ContextScore extends React.Component {
     // Ensuring that the correct values are preselected in the table
     renderDefaultValue = (props) => {
         {
-            const valueToReturn = this.state.scores.filter((element, index) => {
+            // const valueToReturn = this.state.scores.filter((element, index) => {
+            //     if (
+            //         element.scoreType === "individual" &&
+            //         element.attribute === props.attribute &&
+            //         element.participant === props.participant &&
+            //         element.typology === props.typology
+            //     ) {
+            //         return true;
+            //     }
+            // });
+            const scores = _.cloneDeep(this.state.scores);
+            let valueToReturn = "";
+            scores.forEach((score) => {
                 if (
-                    element.scoreType === "individual" &&
-                    element.attribute === props.attribute &&
-                    element.participant === props.participant &&
-                    element.typology === props.typology
+                    score.scoreType === "individual" &&
+                    score.attribute.label === props.attribute.label &&
+                    score.participant.label === props.participant.label &&
+                    score.typology.label === props.typology.label
                 ) {
-                    return true;
+                    //console.log("found it: " + score.score);
+                    valueToReturn = score.score;
                 }
             });
 
-            return valueToReturn[0].score;
+            return valueToReturn;
+
+            // console.log(props);
+            // console.log(scores);
+            //console.log(this.state.scores);
+            //return 999;
+            //return valueToReturn[0].score;
         }
     };
 
@@ -233,15 +255,11 @@ class ContextScore extends React.Component {
                 <td>{rowAttribute.name}</td>
                 {this.state.typologies.map((rowTypology) => {
                     return this.state.participants.map((rowParticipant) => {
-                        // console.log(
-                        //     "||" +
-                        //         rowTypology.name +
-                        //         "||" +
-                        //         rowParticipant.name +
-                        //         "||" +
-                        //         rowAttribute.name
-                        // );
-
+                        const defaultValue = this.renderDefaultValue({
+                            typology: rowTypology,
+                            participant: rowParticipant,
+                            attribute: rowAttribute,
+                        });
                         return (
                             <td
                                 key={
@@ -256,11 +274,7 @@ class ContextScore extends React.Component {
                                 <FormControl
                                     as="select"
                                     key={props.key}
-                                    value={this.renderDefaultValue({
-                                        typology: rowTypology,
-                                        participant: rowParticipant,
-                                        attribute: rowAttribute,
-                                    })}
+                                    value={defaultValue}
                                     onChange={(event) =>
                                         this.handleChange(
                                             event,
@@ -389,5 +403,6 @@ class ContextScore extends React.Component {
         );
     }
 }
+ContextScore.contextType = AppContext;
 
 export default ContextScore;

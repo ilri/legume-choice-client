@@ -12,7 +12,7 @@ import { MatrixData } from "./participatory-matrix-data";
 import AppContext from "../../AppContext";
 
 class ParticipatoryMatrix extends React.Component {
-    static contextType = AppContext;
+    //static contextType = AppContext;
     constructor(props) {
         super(props);
         this.state = _.cloneDeep(MatrixData);
@@ -633,5 +633,7 @@ class ParticipatoryMatrix extends React.Component {
         );
     }
 }
+
+ParticipatoryMatrix.contextType = AppContext;
 
 export default ParticipatoryMatrix;

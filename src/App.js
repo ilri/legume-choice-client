@@ -25,6 +25,10 @@ class App extends React.Component {
         this.state = AppContext;
     }
 
+    componentDidMount() {
+        this.setState({ currentProject: {} });
+    }
+
     render() {
         {
             /*basename={process.env.PUBLIC_URL + "/"}*/

@@ -28,7 +28,7 @@ countryList.forEach((country) => {
 
 const projectID = uuidv4();
 class ProjectInformation extends Component {
-    static contextType = AppContext;
+    //static contextType = AppContext;
 
     constructor(props) {
         super(props);
@@ -198,5 +198,7 @@ class ProjectInformation extends Component {
         );
     }
 }
+
+ProjectInformation.contextType = AppContext;
 
 export default ProjectInformation;

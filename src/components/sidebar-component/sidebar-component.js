@@ -9,7 +9,7 @@ import _ from "lodash";
 import AppContext from "../../AppContext";
 
 class Sidebar extends React.Component {
-    static contextType = AppContext;
+    //static contextType = AppContext;
     constructor(props) {
         super(props);
 
@@ -126,5 +126,7 @@ class Sidebar extends React.Component {
         );
     }
 }
+
+Sidebar.contextType = AppContext;
 
 export default Sidebar;

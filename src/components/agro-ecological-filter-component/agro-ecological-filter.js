@@ -14,7 +14,7 @@ import "./agro-ecological-filter.css";
 import AppContext from "../../AppContext";
 
 class AgroEco extends React.Component {
-    static contextType = AppContext;
+    //static contextType = AppContext;
 
     constructor(props) {
         super(props);
@@ -120,5 +120,7 @@ class AgroEco extends React.Component {
         );
     }
 }
+
+AgroEco.contextType = AppContext;
 
 export default AgroEco;

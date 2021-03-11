@@ -9,7 +9,7 @@ import "./login-component.css";
 
 class Login extends React.Component {
     // Initialising context
-    static contextType = AppContext;
+    //static contextType = AppContext;
 
     constructor(props) {
         super(props);
@@ -94,5 +94,7 @@ class Login extends React.Component {
         );
     }
 }
+
+Login.contextType = AppContext;
 
 export default Login;

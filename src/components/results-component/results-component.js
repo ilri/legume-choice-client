@@ -13,7 +13,7 @@ import { Form, FormControl, FormLabel, FormGroup } from "react-bootstrap";
 import { legumesData } from "../legumes-component/legume-data";
 
 class Results extends Component {
-    static contextType = AppContext;
+    //static contextType = AppContext;
 
     constructor(props) {
         super(props);
@@ -905,5 +905,7 @@ class Results extends Component {
         return <div>{this.renderBody()}</div>;
     }
 }
+
+Results.contextType = AppContext;
 
 export default Results;
