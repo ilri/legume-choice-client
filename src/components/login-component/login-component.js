@@ -22,27 +22,28 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
-        if (this.context.user !== undefined) {
-            const newState = _.cloneDeep(this.context.user);
+        if (this.context.currentProject === undefined) {
+            this.context.currentProject = {};
+        }
+        if (this.context.currentProject.user !== undefined) {
+            const newState = _.cloneDeep(this.context.currentProject.user);
             this.setState(newState);
         }
 
-        if (this.context.user === undefined) {
+        if (this.context.currentProject.user === undefined) {
             const newContext = _.cloneDeep(this.state);
-            this.context.user = newContext;
+            this.context.currentProject.user = newContext;
         }
     }
     componentDidUpdate() {
         const newContext = _.cloneDeep(this.state);
-        this.context.user = newContext;
+        this.context.currentProject.user = newContext;
     }
 
     handleChange = (event, props) => {
         this.setState({
             [props.variable]: event.target.value,
         });
-
-        this.context.user = _.cloneDeep(this.state);
     };
 
     authenticateUser = (event) => {

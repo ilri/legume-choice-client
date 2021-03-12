@@ -17,7 +17,6 @@ class Sidebar extends React.Component {
 
         this.state = {
             sideBarOpen: false,
-            user: "",
             project: "",
         };
     }
@@ -27,17 +26,14 @@ class Sidebar extends React.Component {
     componentDidUpdate() {}
 
     initialiseContext() {
-        let newUser = "";
-        if (this.context.user !== undefined) {
-            newUser = _.cloneDeep(this.context.user.username);
-            this.setState({
-                user: newUser,
-            });
-        }
-
         let newProject = "";
-        if (this.context.projectInfo !== undefined) {
-            newProject = _.cloneDeep(this.context.projectInfo.projectName);
+        if (this.context.currentProject === undefined) {
+            this.context.currentProject = {};
+        }
+        if (this.context.currentProject.projectInfo !== undefined) {
+            newProject = _.cloneDeep(
+                this.context.currentProject.projectInfo.projectName
+            );
             this.setState({
                 project: newProject,
             });
@@ -57,7 +53,6 @@ class Sidebar extends React.Component {
     returnTopBarInformation = () => {
         return (
             <div className="top-bar-items">
-                <p className="top-bar-text">User: {this.state.user}</p>
                 <p className="top-bar-text">Project: {this.state.project}</p>
             </div>
         );

@@ -41,10 +41,14 @@ class Results extends Component {
         // Adding form Results
 
         // Not much editing for agroeco
-        const agroEcoData = _.cloneDeep(this.context.agroEcoData);
+        const agroEcoData = _.cloneDeep(
+            this.context.currentProject.agroEcoData
+        );
 
         //Extract average scores for context
-        const contextData = _.cloneDeep(this.context.contextScores.scores);
+        const contextData = _.cloneDeep(
+            this.context.currentProject.contextScores.scores
+        );
         const newContextAverages = _.cloneDeep(this.state.contextFitSummary);
 
         newContextAverages.map((newcontextscore) => {
@@ -62,9 +66,12 @@ class Results extends Component {
         // For the functional summary, need to average results from the pairwise selections and
         // from the participatory score matching
 
-        const pairWiseData = _.cloneDeep(this.context.pairWiseScores.averages);
+        const pairWiseData = _.cloneDeep(
+            this.context.currentProject.pairWiseScores.averages
+        );
         const participatoryMatrixData = _.cloneDeep(
-            this.context.participatoryMatrixScores.summary.scoresIndividual
+            this.context.currentProject.participatoryMatrixScores.summary
+                .scoresIndividual
         );
 
         const newFunctionAverages = _.cloneDeep(this.state.functionFitSummary);
@@ -424,10 +431,10 @@ class Results extends Component {
 
     checkFormFilled = () => {
         if (
-            this.context.agroEcoData !== undefined &&
-            this.context.contextScores !== undefined &&
-            this.context.pairWiseScores !== undefined &&
-            this.context.participatoryMatrixScores !== undefined
+            this.context.currentProject.agroEcoData !== undefined &&
+            this.context.currentProject.contextScores !== undefined &&
+            this.context.currentProject.pairWiseScores !== undefined &&
+            this.context.currentProject.participatoryMatrixScores !== undefined
         ) {
             this.setState(
                 {
@@ -441,20 +448,23 @@ class Results extends Component {
     };
 
     componentDidMount() {
-        if (this.context.results !== undefined) {
-            const newState = this.context.results;
+        if (this.context.currentProject === undefined) {
+            this.context.currentProject = {};
+        }
+        if (this.context.currentProject.results !== undefined) {
+            const newState = _.cloneDeep(this.context.currentProject.results);
             this.setState(newState);
         } else {
-            const newContext = this.state;
-            this.context.results = newContext;
+            const newContext = _.cloneDeep(this.state);
+            this.context.currentProject.results = newContext;
         }
         //console.log(this.state);
 
         this.checkFormFilled();
     }
     componentDidUpdate() {
-        const newContext = this.state;
-        this.context.results = newContext;
+        const newContext = _.cloneDeep(this.state);
+        this.context.currentProject.results = newContext;
         console.log(this.state);
     }
 

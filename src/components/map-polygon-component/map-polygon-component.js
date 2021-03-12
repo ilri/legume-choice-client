@@ -35,7 +35,10 @@ let center = {
 
 let markerpositions = [];
 
-if (AppContext.location === undefined) {
+if (AppContext.currentProject === undefined) {
+    AppContext.currentProject = {};
+}
+if (AppContext.currentProject.location === undefined) {
     markerpositions = [
         {
             lat: center.lat + 0.01,
@@ -56,8 +59,8 @@ if (AppContext.location === undefined) {
     ];
 }
 
-if (AppContext.location !== undefined) {
-    markerpositions = AppContext.location;
+if (AppContext.currentProject.location !== undefined) {
+    markerpositions = AppContext.currentProject.location;
 }
 
 function DraggableMarker(props) {
@@ -110,9 +113,9 @@ function MapPolygon() {
     const [mapCenter, changeCenter] = useState(center);
 
     const AppContextMap = useContext(AppContext);
-    // console.log(AppContextMap);
+    // console.log(AppContextMap.currentProject);
     useEffect(() => {
-        AppContextMap.location = markerPositions;
+        AppContextMap.currentProject.location = markerPositions;
         // console.log(markerPositions);
     });
 

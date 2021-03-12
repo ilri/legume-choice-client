@@ -5,6 +5,8 @@ import MapPolygon from "../map-polygon-component/map-polygon-component";
 
 import { v4 as uuidv4 } from "uuid";
 
+import _ from "lodash";
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -50,12 +52,17 @@ class ProjectInformation extends Component {
     }
 
     componentDidMount() {
-        if (this.context.projectInfo === undefined) {
-            const newContext = this.state;
-            this.context.projectInfo = newContext;
+        if (this.context.currentProject === undefined) {
+            this.context.currentProject = {};
         }
-        if (this.context.projectInfo !== undefined) {
-            const newState = this.context.projectInfo;
+        if (this.context.currentProject.projectInfo === undefined) {
+            const newContext = _.cloneDeep(this.state);
+            this.context.currentProject.projectInfo = newContext;
+        }
+        if (this.context.currentProject.projectInfo !== undefined) {
+            const newState = _.cloneDeep(
+                this.context.currentProject.projectInfo
+            );
             this.setState(newState);
         }
 
@@ -90,8 +97,8 @@ class ProjectInformation extends Component {
 
     componentDidUpdate() {
         console.log(this.state);
-        const newContext = this.state;
-        this.context.projectInfo = newContext;
+        const newContext = _.cloneDeep(this.state);
+        this.context.currentProject.projectInfo = newContext;
     }
 
     render() {
@@ -139,7 +146,14 @@ class ProjectInformation extends Component {
 
                     <FormGroup className="short-form-entry">
                         <FormLabel>Major Region</FormLabel>
-                        <FormControl></FormControl>
+                        <FormControl
+                            value={this.state.majorRegion}
+                            onChange={(event) =>
+                                this.setState({
+                                    majorRegion: event.target.value,
+                                })
+                            }
+                        ></FormControl>
                         <FormText className="text-muted">
                             e.g. state/province
                         </FormText>
@@ -147,18 +161,39 @@ class ProjectInformation extends Component {
 
                     <FormGroup className="short-form-entry">
                         <FormLabel>Minor Region</FormLabel>
-                        <FormControl></FormControl>
+                        <FormControl
+                            value={this.state.minorRegion}
+                            onChange={(event) =>
+                                this.setState({
+                                    minorRegion: event.target.value,
+                                })
+                            }
+                        ></FormControl>
                         <FormText className="text-muted">e.g. county</FormText>
                     </FormGroup>
 
                     <FormGroup className="short-form-entry">
                         <FormLabel>Community Name</FormLabel>
-                        <FormControl></FormControl>
+                        <FormControl
+                            value={this.state.communityName}
+                            onChange={(event) =>
+                                this.setState({
+                                    communityName: event.target.value,
+                                })
+                            }
+                        ></FormControl>
                     </FormGroup>
 
                     <FormGroup className="short-form-entry">
                         <FormLabel>Community Type</FormLabel>
-                        <FormControl></FormControl>
+                        <FormControl
+                            value={this.state.communityType}
+                            onChange={(event) =>
+                                this.setState({
+                                    communityType: event.target.value,
+                                })
+                            }
+                        ></FormControl>
                         <FormText className="text-muted">
                             e.g. village/sub-village
                         </FormText>

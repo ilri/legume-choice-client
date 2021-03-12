@@ -35,12 +35,15 @@ class ParticipatoryMatrix extends React.Component {
     }
 
     componentDidMount() {
-        if (this.context.participatoryMatrixScores !== undefined) {
-            const newState = this.context.participatoryMatrixScores;
+        if (
+            this.context.currentProject.participatoryMatrixScores !== undefined
+        ) {
+            const newState = this.context.currentProject
+                .participatoryMatrixScores;
             this.setState(newState);
         } else {
             const newContext = this.state;
-            this.context.participatoryMatrixScores = newContext;
+            this.context.currentProject.participatoryMatrixScores = newContext;
 
             this.addFarmer();
         }
@@ -49,7 +52,7 @@ class ParticipatoryMatrix extends React.Component {
 
     componentDidUpdate() {
         const newContext = this.state;
-        this.context.participatoryMatrixScores = newContext;
+        this.context.currentProject.participatoryMatrixScores = newContext;
 
         //console.log(this.state);
     }

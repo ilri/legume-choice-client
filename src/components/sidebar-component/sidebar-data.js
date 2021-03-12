@@ -58,14 +58,14 @@ const SidebarData = [
         cName: sidebarlinkcName,
     },
 
-    {
-        title: "Admin",
-        routeKey: "admin-route",
-        component: <Admin />,
-        path: "/admin",
-        icon: <RiUserSettingsLine size={iconSize} />,
-        cName: sidebarlinkcName,
-    },
+    // {
+    //     title: "Admin",
+    //     routeKey: "admin-route",
+    //     component: <Admin />,
+    //     path: "/admin",
+    //     icon: <RiUserSettingsLine size={iconSize} />,
+    //     cName: sidebarlinkcName,
+    // },
     {
         title: "Login",
         routeKey: "login-route",

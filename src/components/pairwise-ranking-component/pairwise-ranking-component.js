@@ -9,30 +9,34 @@ import FormControl from "react-bootstrap/FormControl";
 
 import AppContext from "../../AppContext";
 
+import _ from "lodash";
+
 class PairwiseRanking extends Component {
     //static contextType = AppContext;
     constructor(props) {
         super(props);
 
-        this.state = PairwiseRankingData;
+        this.state = _.cloneDeep(PairwiseRankingData);
     }
 
     componentDidMount() {
         //console.log(this.state);
 
-        if (this.context.pairWiseScores !== undefined) {
-            const newState = this.context.pairWiseScores;
+        if (this.context.currentProject.pairWiseScores !== undefined) {
+            let newState = _.cloneDeep(
+                this.context.currentProject.pairWiseScores
+            );
             this.setState(newState);
         } else {
-            const newContext = this.state;
-            this.context.pairWiseScores = newContext;
+            let newContext = _.cloneDeep(this.state);
+            this.context.currentProject.pairWiseScores = newContext;
+            this.upDateTotalScore("male");
+            this.upDateTotalScore("female");
         }
-        this.upDateTotalScore("male");
-        this.upDateTotalScore("female");
     }
     componentDidUpdate() {
-        const newContext = this.state;
-        this.context.pairWiseScores = newContext;
+        let newContext = _.cloneDeep(this.state);
+        this.context.currentProject.pairWiseScores = newContext;
         console.log(this.state);
     }
 
@@ -63,14 +67,17 @@ class PairwiseRanking extends Component {
         });
 
         const gender = props.gender;
-        this.setState((prevState) => ({
-            [gender]: {
-                ...prevState[gender],
-                pairfemalewiseSelection: selectionArr,
-            },
-        }));
-
-        this.upDateTotalScore(gender);
+        this.setState(
+            (prevState) => ({
+                [gender]: {
+                    ...prevState[gender],
+                    pairwiseSelection: selectionArr,
+                },
+            }),
+            () => {
+                this.upDateTotalScore(gender);
+            }
+        );
     };
 
     upDateTotalScore = (gender) => {
@@ -83,14 +90,19 @@ class PairwiseRanking extends Component {
                 }
             });
         });
-        this.setState((prevState) => ({
-            [gender]: {
-                ...prevState[gender],
-                totals: totalsArray,
-            },
-        }));
+        this.setState(
+            (prevState) => ({
+                [gender]: {
+                    ...prevState[gender],
+                    totals: totalsArray,
+                },
+            }),
+            () => {
+                this.updateAverage();
+            }
+        );
 
-        this.updateAverage();
+        //this.updateAverage();
     };
 
     updateAverage = () => {

@@ -22,11 +22,11 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = AppContext;
+        //this.state = AppContext;
     }
 
     componentDidMount() {
-        this.setState({ currentProject: {} });
+        //this.setState({ currentProject: {} });
     }
 
     render() {
@@ -36,7 +36,7 @@ class App extends React.Component {
         return (
             <Router>
                 <div>
-                    <AppContext.Provider value={this.state}>
+                    <AppContext.Provider value={{}}>
                         <Sidebar />
                         <div className="outer-page-container">
                             <div className="inner-page-container">
@@ -64,5 +64,7 @@ class App extends React.Component {
         );
     }
 }
+
+App.contextType = AppContext;
 
 export default App;

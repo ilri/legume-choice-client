@@ -20,32 +20,25 @@ class ContextScore extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = ContextScoreData;
-
-        this.handleChange = this.handleChange.bind(this);
-        this.changeIndividualScores = this.changeIndividualScores.bind(this);
-        this.changeAverages = this.changeAverages.bind(this);
-        this.averageAttribute = this.averageAttribute.bind(this);
-        this.renderRowAverage = this.renderRowAverage.bind(this);
-        this.renderDefaultValue = this.renderDefaultValue.bind(this);
-        this.contextRow = this.contextRow.bind(this);
-        this.allRows = this.allRows.bind(this);
-        this.tableHeader = this.tableHeader.bind(this);
-        this.renderRadarChart = this.renderRadarChart.bind(this);
+        this.state = _.cloneDeep(ContextScoreData);
     }
 
     componentDidMount() {
         //console.log("Component did mount!");
 
+        if (this.context.currentProject === undefined) {
+            this.context.currentProject = {};
+        }
+
         if (this.context.currentProject.contextScores !== undefined) {
-            let newState = _.cloneDeep(
+            const newState = _.cloneDeep(
                 this.context.currentProject.contextScores
             );
             this.setState(newState);
             // console.log("Set state with old context");
         }
         if (this.context.currentProject.contextScores === undefined) {
-            let newContext = _.cloneDeep(this.state);
+            const newContext = _.cloneDeep(this.state);
             this.context.currentProject.contextScores = newContext;
             // console.log("Set context with new state");
         }
@@ -55,9 +48,14 @@ class ContextScore extends React.Component {
         let newContext = _.cloneDeep(this.state);
         this.context.currentProject.contextScores = newContext;
 
-        console.log(this.context.currentProject);
+        // console.log("context!!!!!!!!!!!!");
+        // console.log(this.context.currentProject);
 
-        console.log(this.state);
+        // console.log(this.context.currentProject.contextScores);
+        // console.log("State!!!!!!!!!!!!");
+        // console.log(this.state);
+
+        //console.log(this.state);
     }
 
     renderRadarChart = () => {
@@ -140,68 +138,126 @@ class ContextScore extends React.Component {
 
     handleChange = (event, props) => {
         props.score = parseInt(event.target.value); // Ensuring that the entered value is an integer
-        const scoresArray = this.state.scores;
+        let scoresArray = this.state.scores;
+        console.log(props);
 
-        this.changeIndividualScores(scoresArray, props);
-        this.changeAverages(scoresArray, props);
-
-        this.setState({
-            scores: scoresArray,
+        scoresArray.forEach((element, index) => {
+            console.log(element);
+            if (element.scoreType == "individual") {
+                if (
+                    element.participant.label == props.participant.label &&
+                    element.attribute.label == props.attribute.label &&
+                    element.typology.label == props.typology.label
+                ) {
+                    scoresArray[index].score = parseInt(props.score);
+                }
+            }
         });
+
+        this.setState(
+            {
+                scores: scoresArray,
+            },
+            () => this.averageAttributes()
+        );
+
+        //scoresArray = this.changeIndividualScores(scoresArray, props);
+
+        //scoresArray = this.changeAverages(scoresArray);
     };
 
     // Change individual scores in an array through filtering
-    changeIndividualScores = (arr, query) => {
-        arr.forEach((element, index) => {
-            if (
-                element.participant === query.participant &&
-                element.attribute === query.attribute &&
-                element.typology === query.typology
-            ) {
-                arr[index].score = query.score;
-            }
+    changeIndividualScores = (arr, props) => {};
+
+    averageAttributes = () => {
+        const arr = _.cloneDeep(this.state.scores);
+
+        this.state.attributes.forEach((attribute) => {
+            let total = 0;
+            let numberofscores = 0;
+
+            arr.forEach((score) => {
+                if (
+                    score.scoreType === "individual" &&
+                    score.attribute.label === attribute.label
+                ) {
+                    total += score.score;
+                    console.log("total: " + total);
+                    numberofscores += 1;
+                    console.log("number of scores: " + numberofscores);
+
+                    // let average = this.averageAttribute(arr, attribute);
+                    // console.log(average);
+                    // arr[scoreIndex].score = average;
+                }
+            });
+            const average = total / numberofscores;
+            arr.forEach((score, scoreIndex) => {
+                if (
+                    score.scoreType === "average" &&
+                    score.attribute.label === attribute.label
+                ) {
+                    console.log(average);
+                    arr[scoreIndex].score = average;
+                }
+            });
+
+            this.setState({
+                scores: arr,
+            });
+        });
+
+        // arr.forEach((score, scoreIndex) => {
+        //     this.state.attributes.forEach((attribute) => {
+        //         if (
+        //             score.scoreType === "average" &&
+        //             score.attribute.label === attribute.label
+        //         ) {
+        //             let average = this.averageAttribute(arr, attribute);
+        //             console.log(average);
+        //             arr[scoreIndex].score = average;
+        //         }
+        //     });
+        // });
+        this.setState({
+            scores: arr,
         });
     };
-
-    changeAverages = (arr) => {
-        arr.forEach((element, index) => {
-            if (element.scoreType === "average") {
-                let average = this.averageAttribute(arr, element.attribute);
-                arr[index].score = average;
-            }
-        });
-    };
-
     // Update Averages after we see a score change
     averageAttribute = (arr, attributetoAverage) => {
         //axisToAverage.forEach((element, index) => {});
-        const scores = [];
+        //const scores = [];
+        let scores = 0;
+        let scoresLength = 0;
         arr.forEach((element, index) => {
             if (
-                element.attribute === attributetoAverage &&
+                element.attribute.label === attributetoAverage.label &&
                 element.scoreType === "individual"
             ) {
-                scores.push(arr[index].score);
+                //scores.push(arr[index].score);
+                scores += arr[index].score;
+                scoresLength += 1;
             }
         });
 
-        const total = scores.reduce(
-            (accumulator, currentValue) => accumulator + currentValue,
-            0
-        );
-        const average = total / scores.length;
+        // const total = scores.reduce(
+        //     (accumulator, currentValue) => accumulator + currentValue,
+        //     0
+        // );
+        //const average = total / scores.length;
+        const average = scores / scoresLength;
         return average;
     };
 
     renderRowAverage = (props) => {
-        return (
-            <td>
-                {this.averageAttribute(
-                    this.state.scores,
-                    props.attribute
-                ).toFixed(2)}
-            </td>
-        );
+        return this.state.scores.map((score) => {
+            if (
+                score.scoreType == "average" &&
+                score.attribute.label == props.attribute.label
+            ) {
+                return <td>{score.score.toFixed(2)}</td>;
+            }
+        });
     };
 
     // Ensuring that the correct values are preselected in the table
@@ -217,9 +273,8 @@ class ContextScore extends React.Component {
             //         return true;
             //     }
             // });
-            const scores = _.cloneDeep(this.state.scores);
             let valueToReturn = "";
-            scores.forEach((score) => {
+            this.state.scores.forEach((score) => {
                 if (
                     score.scoreType === "individual" &&
                     score.attribute.label === props.attribute.label &&
@@ -232,7 +287,6 @@ class ContextScore extends React.Component {
             });
 
             return valueToReturn;
-
             // console.log(props);
             // console.log(scores);
             //console.log(this.state.scores);
@@ -255,11 +309,6 @@ class ContextScore extends React.Component {
                 <td>{rowAttribute.name}</td>
                 {this.state.typologies.map((rowTypology) => {
                     return this.state.participants.map((rowParticipant) => {
-                        const defaultValue = this.renderDefaultValue({
-                            typology: rowTypology,
-                            participant: rowParticipant,
-                            attribute: rowAttribute,
-                        });
                         return (
                             <td
                                 key={
@@ -274,16 +323,17 @@ class ContextScore extends React.Component {
                                 <FormControl
                                     as="select"
                                     key={props.key}
-                                    value={defaultValue}
+                                    value={this.renderDefaultValue({
+                                        typology: rowTypology,
+                                        participant: rowParticipant,
+                                        attribute: rowAttribute,
+                                    })}
                                     onChange={(event) =>
-                                        this.handleChange(
-                                            event,
-                                            (props = {
-                                                typology: rowTypology,
-                                                participant: rowParticipant,
-                                                attribute: rowAttribute,
-                                            })
-                                        )
+                                        this.handleChange(event, {
+                                            typology: rowTypology,
+                                            participant: rowParticipant,
+                                            attribute: rowAttribute,
+                                        })
                                     }
                                     key={
                                         "form-control-" +

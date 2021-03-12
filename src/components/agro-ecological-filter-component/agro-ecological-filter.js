@@ -23,19 +23,21 @@ class AgroEco extends React.Component {
     }
 
     componentDidMount() {
-        if (this.context.agroEcoData !== undefined) {
-            const newState = this.context.agroEcoData;
+        if (this.context.currentProject.agroEcoData !== undefined) {
+            const newState = _.cloneDeep(
+                this.context.currentProject.agroEcoData
+            );
             this.setState(newState);
         } else {
-            const newContext = this.state;
-            this.context.agroEcoData = newContext;
+            const newContext = _.cloneDeep(this.state);
+            this.context.currentProject.agroEcoData = newContext;
         }
     }
 
     componentDidUpdate() {
-        const newContext = this.state;
-        this.context.agroEcoData = newContext;
-        console.log(this.context.agroEcoData);
+        const newContext = _.cloneDeep(this.state);
+        this.context.currentProject.agroEcoData = newContext;
+        console.log(this.context.currentProject.agroEcoData);
     }
     tableHeader = () => {
         return (
