@@ -36,59 +36,6 @@ class SubmitData extends Component {
         //console.log(this.context);
     }
 
-    // initialiseState = () => {
-    //     const appNames = {};
-
-    //     const appVariables = [
-    //         "agroEcoData",
-    //         "contextScores",
-    //         "location",
-    //         "pairWiseScores",
-    //         "participatoryMatrixScores",
-    //         "projectInfo",
-    //         "results",
-    //         "user",
-    //     ];
-
-    //     const appData = {};
-
-    //     appVariables.map((variable) => {
-    //         if (this.context[variable] !== undefined) {
-    //             appData[variable] = _.cloneDeep(this.context[variable]);
-    //         }
-    //     });
-
-    //     this.setState({ currentProject: appData });
-    // };
-
-    // setContext = () => {
-    //     console.log(this.state);
-    //     const appNames = {};
-
-    //     const appVariables = [
-    //         "agroEcoData",
-    //         "contextScores",
-    //         "location",
-    //         "pairWiseScores",
-    //         "participatoryMatrixScores",
-    //         "projectInfo",
-    //         "results",
-    //         "user",
-    //     ];
-
-    //     const appData = {};
-
-    //     appVariables.map((variable) => {
-    //         if (this.state.currentProject[variable] !== undefined) {
-    //             this.context[variable] = _.cloneDeep(
-    //                 this.state.currentProject[variable]
-    //             );
-    //         }
-    //     });
-    //     console.log(this.context);
-    //     //this.context = appData;
-    // };
-
     submitData = () => {
         const dataToSubmit = _.cloneDeep(this.context.currentProject);
         // console.log(dataToSubmit);

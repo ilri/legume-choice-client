@@ -66,7 +66,6 @@ class ProjectInformation extends Component {
             this.setState(newState);
         }
 
-        console.log(this.state);
         // console.log(this.state.countryNames);
     }
 
@@ -96,7 +95,7 @@ class ProjectInformation extends Component {
     // };
 
     componentDidUpdate() {
-        console.log(this.state);
+        //console.log(this.state);
         const newContext = _.cloneDeep(this.state);
         this.context.currentProject.projectInfo = newContext;
     }
@@ -137,7 +136,13 @@ class ProjectInformation extends Component {
 
                     <FormGroup className="short-form-entry">
                         <FormLabel>Country</FormLabel>
-                        <FormControl as="select">
+                        <FormControl
+                            as="select"
+                            value={this.state.country}
+                            onChange={(event) => {
+                                this.setState({ country: event.target.value });
+                            }}
+                        >
                             {this.state.countryNames.map((country) => {
                                 return <option>{country}</option>;
                             })}
@@ -202,7 +207,7 @@ class ProjectInformation extends Component {
                     <FormGroup className="short-form-entry">
                         <FormLabel>Date</FormLabel>
                         <DatePicker
-                            selected={this.state.date}
+                            selected={Date.parse(this.state.date)}
                             onChange={(date) => this.setState({ date: date })}
                         />
                         <FormText className="text-muted">

@@ -107,13 +107,20 @@ function DraggablePolygon(props) {
     );
 }
 
-function MapPolygon() {
+function MapPolygon(location) {
     const [markerPositions, changeMarkerPositions] = useState(markerpositions);
 
     const [mapCenter, changeCenter] = useState(center);
 
     const AppContextMap = useContext(AppContext);
-    // console.log(AppContextMap.currentProject);
+
+    console.log(AppContextMap.currentProject);
+    useEffect(() => {
+        if (AppContextMap.currentProject.location !== undefined) {
+            changeMarkerPositions(AppContextMap.currentProject.location);
+        }
+    }, []);
+
     useEffect(() => {
         AppContextMap.currentProject.location = markerPositions;
         // console.log(markerPositions);

@@ -26,7 +26,10 @@ class PairwiseRanking extends Component {
             let newState = _.cloneDeep(
                 this.context.currentProject.pairWiseScores
             );
-            this.setState(newState);
+            this.setState(newState, () => {
+                this.upDateTotalScore("male");
+                this.upDateTotalScore("female");
+            });
         } else {
             let newContext = _.cloneDeep(this.state);
             this.context.currentProject.pairWiseScores = newContext;
@@ -55,16 +58,19 @@ class PairwiseRanking extends Component {
             selectedValue = props.funct2;
         }
 
-        let selectionArr = this.state[props.gender].pairwiseSelection;
+        let selectionArr = _.cloneDeep(
+            this.state[props.gender].pairwiseSelection
+        );
         selectionArr.forEach((selectionItem, selectionIndex) => {
             if (
-                selectionItem.funct1 === props.funct1 &&
-                selectionItem.funct2 === props.funct2
+                selectionItem.funct1.label === props.funct1.label &&
+                selectionItem.funct2.label === props.funct2.label
             ) {
                 selectionArr[selectionIndex].value = selectedValue;
-                //console.log(selectionArr);
+                console.log(selectionArr);
             }
         });
+        //console.log("selection: " + JSON.stringify(selectionArr));
 
         const gender = props.gender;
         this.setState(
@@ -81,11 +87,11 @@ class PairwiseRanking extends Component {
     };
 
     upDateTotalScore = (gender) => {
-        const totalsArray = this.state[gender].totals;
+        const totalsArray = _.cloneDeep(this.state[gender].totals);
         totalsArray.forEach((totalsItem, totalsIndex) => {
             totalsArray[totalsIndex].value = 0;
             this.state[gender].pairwiseSelection.forEach((selectionItem) => {
-                if (selectionItem.value === totalsItem.attribute) {
+                if (selectionItem.value.label === totalsItem.attribute.label) {
                     totalsArray[totalsIndex].value++;
                 }
             });
@@ -106,10 +112,10 @@ class PairwiseRanking extends Component {
     };
 
     updateAverage = () => {
-        const totalsArrayMale = this.state["male"].totals;
-        const totalsArrayFemale = this.state["female"].totals;
+        const totalsArrayMale = _.cloneDeep(this.state["male"].totals);
+        const totalsArrayFemale = _.cloneDeep(this.state["female"].totals);
 
-        const newAverages = this.state.averages;
+        const newAverages = _.cloneDeep(this.state.averages);
 
         newAverages.map((average, index) => {
             const newAverage =
@@ -181,19 +187,12 @@ class PairwiseRanking extends Component {
                                                 "-female"
                                             }
                                             as="select"
-                                            onChange={(
-                                                event,
-
-                                                props = {
+                                            onChange={(event) =>
+                                                this.updateSelections(event, {
                                                     funct1: item.funct1,
                                                     funct2: item.funct2,
                                                     gender: "female",
-                                                }
-                                            ) =>
-                                                this.updateSelections(
-                                                    event,
-                                                    props
-                                                )
+                                                })
                                             }
                                         >
                                             <option>{item.funct1.name}</option>
@@ -224,19 +223,12 @@ class PairwiseRanking extends Component {
                                                 item.funct2.name +
                                                 "-male"
                                             }
-                                            onChange={(
-                                                event,
-
-                                                props = {
+                                            onChange={(event) =>
+                                                this.updateSelections(event, {
                                                     funct1: item.funct1,
                                                     funct2: item.funct2,
                                                     gender: "male",
-                                                }
-                                            ) =>
-                                                this.updateSelections(
-                                                    event,
-                                                    props
-                                                )
+                                                })
                                             }
                                         >
                                             <option>{item.funct1.name}</option>
