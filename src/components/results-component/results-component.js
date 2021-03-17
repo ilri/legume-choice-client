@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Table } from "react-bootstrap";
+import { Table, Card } from "react-bootstrap";
 
 import _ from "lodash";
 import "./results-component.css";
@@ -483,7 +483,6 @@ class Results extends Component {
     agroEcoTable = () => {
         return (
             <div>
-                <h1>AgroEco Fit</h1>
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -521,7 +520,6 @@ class Results extends Component {
     contextFitTable = () => {
         return (
             <div>
-                <h1>Context Fit</h1>
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -559,8 +557,6 @@ class Results extends Component {
     functionFitTable = () => {
         return (
             <div>
-                <h1>Function Fit</h1>
-
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -698,7 +694,6 @@ class Results extends Component {
     summaryTable = () => {
         return (
             <div>
-                <h1>Summary</h1>
                 <Table bordered striped hover>
                     <thead>
                         <tr>
@@ -817,82 +812,108 @@ class Results extends Component {
 
     resultsFilters = () => {
         return (
-            <div className="results-form">
-                <Form className="results-form">
-                    <FormGroup controlId="resultsSelect" className="form-item">
-                        <FormLabel>Results</FormLabel>
+            <div className="card-container">
+                <Card>
+                    <Card.Header className="bg-dark text-white">
+                        <h2>Filter Results</h2>
+                    </Card.Header>
+                    <Card.Body>
+                        <Form className="results-form">
+                            <FormGroup
+                                controlId="resultsSelect"
+                                className="form-item"
+                            >
+                                <FormLabel>Results</FormLabel>
 
-                        <FormControl
-                            value={
-                                this.state.resultsFilter.selection.whichResults
-                            }
-                            onChange={(event) =>
-                                this.changeSelection(event, {
-                                    type: "whichResults",
-                                })
-                            }
-                            as="select"
-                        >
-                            {this.state.resultsFilter.selectOptions.map(
-                                (selectionoption) => {
-                                    return <option>{selectionoption}</option>;
+                                <FormControl
+                                    value={
+                                        this.state.resultsFilter.selection
+                                            .whichResults
+                                    }
+                                    onChange={(event) =>
+                                        this.changeSelection(event, {
+                                            type: "whichResults",
+                                        })
+                                    }
+                                    as="select"
+                                >
+                                    {this.state.resultsFilter.selectOptions.map(
+                                        (selectionoption) => {
+                                            return (
+                                                <option>
+                                                    {selectionoption}
+                                                </option>
+                                            );
+                                        }
+                                    )}
+                                </FormControl>
+                            </FormGroup>
+
+                            <FormGroup
+                                value={this.state.resultsFilter.selection.order}
+                                onChange={(event) =>
+                                    this.changeSelection(event, {
+                                        type: "order",
+                                    })
                                 }
-                            )}
-                        </FormControl>
-                    </FormGroup>
+                                controlId="resultsFilter"
+                                className="form-item"
+                            >
+                                <FormLabel>Order by:</FormLabel>
 
-                    <FormGroup
-                        value={this.state.resultsFilter.selection.order}
-                        onChange={(event) =>
-                            this.changeSelection(event, {
-                                type: "order",
-                            })
-                        }
-                        controlId="resultsFilter"
-                        className="form-item"
-                    >
-                        <FormLabel>Order by:</FormLabel>
+                                <FormControl
+                                    as="select"
+                                    value={
+                                        this.state.resultsFilter.selection.order
+                                    }
+                                    onChange={(event) =>
+                                        this.changeSelection(event, {
+                                            type: "order",
+                                        })
+                                    }
+                                >
+                                    {this.state.resultsFilter.orderOptions.map(
+                                        (orderoption) => {
+                                            return (
+                                                <option>{orderoption}</option>
+                                            );
+                                        }
+                                    )}
+                                </FormControl>
+                            </FormGroup>
 
-                        <FormControl
-                            as="select"
-                            value={this.state.resultsFilter.selection.order}
-                            onChange={(event) =>
-                                this.changeSelection(event, {
-                                    type: "order",
-                                })
-                            }
-                        >
-                            {this.state.resultsFilter.orderOptions.map(
-                                (orderoption) => {
-                                    return <option>{orderoption}</option>;
-                                }
-                            )}
-                        </FormControl>
-                    </FormGroup>
+                            <FormGroup
+                                controlId="resultsFilter"
+                                className="form-item"
+                            >
+                                <FormLabel>
+                                    Number of Legumes Displayed
+                                </FormLabel>
 
-                    <FormGroup controlId="resultsFilter" className="form-item">
-                        <FormLabel>Number of Legumes Displayed</FormLabel>
-
-                        <FormControl
-                            as="select"
-                            value={
-                                this.state.resultsFilter.selection
-                                    .numberOfLegumes
-                            }
-                            onChange={(event) =>
-                                this.changeSelection(event, {
-                                    type: "numberOfLegumes",
-                                })
-                            }
-                        >
-                            {this.state.resultsFilter.numberOfLegumesOptions.map(
-                                (numberoption) => {
-                                    return <option>{numberoption}</option>;
-                                }
-                            )}
-                        </FormControl>
-                    </FormGroup>
-                </Form>
+                                <FormControl
+                                    as="select"
+                                    value={
+                                        this.state.resultsFilter.selection
+                                            .numberOfLegumes
+                                    }
+                                    onChange={(event) =>
+                                        this.changeSelection(event, {
+                                            type: "numberOfLegumes",
+                                        })
+                                    }
+                                >
+                                    {this.state.resultsFilter.numberOfLegumesOptions.map(
+                                        (numberoption) => {
+                                            return (
+                                                <option>{numberoption}</option>
+                                            );
+                                        }
+                                    )}
+                                </FormControl>
+                            </FormGroup>
+                        </Form>
+                    </Card.Body>
+                </Card>
             </div>
         );
     };
@@ -903,7 +924,7 @@ class Results extends Component {
         }
         if (this.state.formFilled === true) {
             return (
-                <div>
+                <div className="results-container">
                     {this.resultsFilters()}
                     <div>{this.renderLegumeResults()}</div>
                 </div>

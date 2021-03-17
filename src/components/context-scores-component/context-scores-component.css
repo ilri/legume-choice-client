@@ -5,8 +5,13 @@
 .radar-container {
     display: grid;
     place-items: center;
+    width: 75em;
 }
 
 .radar-style {
     fill-opacity: 0.5;
+}
+
+.context-table {
+    width: 70em;
 }

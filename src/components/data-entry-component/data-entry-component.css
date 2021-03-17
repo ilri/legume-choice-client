@@ -1,7 +1,14 @@
 .data-entry-container {
-    margin-top: 2em;
+    margin: 2em;
+    padding: 2em;
+    width: 70em;
+
+    display: grid;
+    justify-content: center;
 }
 
-.card-style {
-    width: 30em;
+.card-container {
+    width: 70em;
+    padding-bottom: 2em;
+    justify-self: center;
 }

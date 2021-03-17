@@ -29,7 +29,6 @@ class DataEntry extends React.Component {
     render() {
         return (
             <div>
-                <h1>Data Entry</h1>
                 {/* <AppContext.Provider value={AppContext}> */}
                 <div className="data-entry-container">
                     {this.state.components.map((component) => {

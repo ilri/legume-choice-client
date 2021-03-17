@@ -6,11 +6,13 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 
+import { Card } from "react-bootstrap";
+
 import _ from "lodash";
 import { AgroEcoData } from "./agro-ecological-data";
 
 import "./agro-ecological-filter.css";
-
+import "../data-entry-component/data-entry-component.css";
 import AppContext from "../../AppContext";
 
 class AgroEco extends React.Component {
@@ -106,10 +108,25 @@ class AgroEco extends React.Component {
 
     render() {
         return (
-            <div>
-                <h2>Agroecological Filter</h2>
-
-                <div className="table-container">
+            <div className="table-container">
+                <div className="card-container">
+                    <Card>
+                        <Card.Header className="bg-dark text-white">
+                            <h2>Agroecological Filter</h2>
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                Using your own knowledge of the field site fill
+                                the green cells with representative data. These
+                                data are used to assess agro-ecological
+                                suitability of the field site for different
+                                legume options in the Legume Option Scores
+                                sheet.
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                </div>
+                <div>
                     <Form>
                         <Table striped bordered hover>
                             {this.tableHeader()}

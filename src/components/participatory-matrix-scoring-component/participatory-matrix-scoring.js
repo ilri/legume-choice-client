@@ -6,7 +6,7 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-
+import { Card } from "react-bootstrap";
 import { MatrixData } from "./participatory-matrix-data";
 
 import AppContext from "../../AppContext";
@@ -611,22 +611,42 @@ class ParticipatoryMatrix extends React.Component {
 
     render() {
         return (
-            <div>
-                <h2>Participatory Matrix Scoring</h2>
-                <p>
-                    Complete participatory matrix scoring exercise. Each
-                    individual has 20 beans which they can distribute across
-                    legume functions. Use the "Add Farmer" button to add as many
-                    farmers as you need for the exercises. These scores are
-                    averaged and automatically transcribed into Legume Option
-                    Scores.
-                </p>
+            <div className="data-entry-container">
+                <div className="card-container">
+                    <Card>
+                        <Card.Header className="bg-dark text-white">
+                            <h2>Participatory Matrix Scoring</h2>
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                Purpose of the exercise is to assess what
+                                individual farmers of different gender and
+                                typology would look for in any new intervention
+                                involving legumes. This is a separate approach
+                                to establishing/validating community aspirations
+                                on legume functions. This helps to triangulate
+                                the results of the previous exercise. Farmers
+                                are given 20 beans/seeds and asked to allocate
+                                them according to the importance of the various
+                                functions for their future aspirations. The data
+                                from this exercise produces an overall community
+                                score for each legume function but also allows
+                                variation according to type and gender to be
+                                assessed.
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                </div>
                 <Form>
                     <Table striped bordered hover>
                         {this.tableHeader()}
                         <tbody>{this.tableRows()}</tbody>
                     </Table>
-                    <Button className="float-right" onClick={this.addFarmer}>
+                    <Button
+                        style={{ "margin-bottom": "2em" }}
+                        className="float-right"
+                        onClick={this.addFarmer}
+                    >
                         Add Farmer
                     </Button>
                 </Form>

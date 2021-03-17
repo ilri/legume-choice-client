@@ -4,14 +4,14 @@ import AppContext from "../../AppContext";
 import MapPolygon from "../map-polygon-component/map-polygon-component";
 
 import { v4 as uuidv4 } from "uuid";
-
+import { Card } from "react-bootstrap";
 import _ from "lodash";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import "./project-information-component.css";
-
+import "../../App.css";
 import { countryList } from "./countries-list";
 import {
     Button,
@@ -52,6 +52,7 @@ class ProjectInformation extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if (this.context.currentProject === undefined) {
             this.context.currentProject = {};
         }
@@ -102,8 +103,14 @@ class ProjectInformation extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Project info</h1>
+            <div className="project-info-container">
+                <div className="card-container">
+                    <Card>
+                        <Card.Header className="bg-dark text-white">
+                            <h2>Meta Data</h2>
+                        </Card.Header>
+                    </Card>
+                </div>
                 <Form className="form-display">
                     <FormGroup className="short-form-entry">
                         <FormLabel>Project Name</FormLabel>
@@ -230,8 +237,25 @@ class ProjectInformation extends Component {
                     </FormGroup>
                 </Form>
 
+                <div className="card-container">
+                    <Card>
+                        <Card.Header className="bg-dark text-white">
+                            <h2>Mapping</h2>
+                        </Card.Header>
+                        <Card.Body>
+                            The map below can be used to select your study
+                            region. We recommend that you set the approximate
+                            study location before going to the field. That way,
+                            the some information from the map can be cached for
+                            offline use. If there are any problems collecting
+                            geolocation offline, collect the rest of the data
+                            needed, save your progress, and fill in the mapping
+                            information when you once again have access to
+                            internet
+                        </Card.Body>
+                    </Card>
+                </div>
                 <div className="map-container">
-                    <h2>Geolocation</h2>
                     <MapPolygon />
                 </div>
             </div>

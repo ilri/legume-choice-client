@@ -1,6 +1,6 @@
 import React from "react";
 import { ContextScoreData } from "./context-scores-data";
-
+import { Card } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
@@ -11,7 +11,7 @@ import "react-svg-radar-chart/build/css/index.css";
 import _ from "lodash";
 
 import "./context-scores-component.css";
-
+import "../data-entry-component/data-entry-component.css";
 import AppContext from "../../AppContext";
 
 class ContextScore extends React.Component {
@@ -94,7 +94,7 @@ class ContextScore extends React.Component {
         const defaultOptions = {
             size: 200,
             axes: true, // show axes?
-            scales: 5, // show scale circles?
+            scales: 4, // show scale circles?
             captions: true, // show captions?
             captionMargin: 10,
             dots: true, // show dots?
@@ -440,14 +440,39 @@ class ContextScore extends React.Component {
 
     render() {
         return (
-            <div>
-                <h2>Context Scoring</h2>
-                <Form>
-                    <Table striped bordered hover>
-                        {this.tableHeader()}
-                        <tbody>{this.allRows()}</tbody>
-                    </Table>
-                </Form>
+            <div className="radar-container">
+                <div className="card-container">
+                    <Card>
+                        <Card.Header className="bg-dark text-white">
+                            <h2>Context Assessment</h2>
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                The purpose of the exercise is to come up with a
+                                series of scores from zero to four that indicate
+                                the strength of a series of generic constraints
+                                to legume production. The exercise is carried
+                                out with a group – the questions are asked and
+                                on the basis of the responses, the group is
+                                asked to come up with a score for each
+                                constraint. The facilitator also assigns a score
+                                based on his assessment. This exercise is
+                                conducted separately with the 3 typology groups
+                                and the average for each attribute is the
+                                rounded average of all 6 scores (3 typologies x
+                                2 score types per attribute)
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                </div>
+                <div className="context-table">
+                    <Form>
+                        <Table striped bordered hover>
+                            {this.tableHeader()}
+                            <tbody>{this.allRows()}</tbody>
+                        </Table>
+                    </Form>
+                </div>
                 {this.renderRadarChart()}
             </div>
         );

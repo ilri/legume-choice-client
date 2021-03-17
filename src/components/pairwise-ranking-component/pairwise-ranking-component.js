@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import PairwiseRankingData from "./pairwise-ranking-data";
 
 import "./pairwise-ranking-component.css";
+import "../data-entry-component/data-entry-component.css";
+
+import { Card } from "react-bootstrap";
 
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
@@ -310,12 +313,24 @@ class PairwiseRanking extends Component {
 
     render() {
         return (
-            <div>
-                <h2>Pairwise Component Ranking</h2>
-                <p>
-                    Select the most important attribute out of the following
-                    pairs
-                </p>
+            <div className="data-entry-container">
+                <div className="card-container">
+                    <Card>
+                        <Card.Header className="bg-dark text-white">
+                            <h2>Pairwise Component Ranking</h2>
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                This exercise is carried out as a group. The
+                                method for this exercise involves presenting all
+                                possible pairs of functions to participants and
+                                asking them to vote on which is more important.
+                                The exercise is conducted separately for men and
+                                women.
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                </div>
                 <div className="table-container">
                     <Form className="table-container">
                         {this.pairWiseTable({ gender: "female" })}

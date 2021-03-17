@@ -1,5 +1,8 @@
 .map-container {
-    padding-top: 4em;
+    display: grid;
+    width: 70em;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .short-form-entry {
@@ -8,7 +11,7 @@
 }
 
 .long-form-entry {
-    width: 100%;
+    width: 70em;
     padding: 1em;
 }
 
@@ -16,6 +19,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+.project-info-container {
+    display: grid;
+    align-content: center;
 }
 
 .react-datepicker-wrapper,
