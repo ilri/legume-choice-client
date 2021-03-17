@@ -6,11 +6,13 @@ import axios from "axios";
 // import { TiTick } from "react-icons/ti";
 // import { ImCross } from "react-icons/im";
 
-import { Button, FormFile } from "react-bootstrap";
+import { Button, FormFile, Card } from "react-bootstrap";
 
 import AppContext from "../../AppContext";
 
-class SubmitData extends Component {
+import "./submit-data-component.css";
+
+class ManageData extends Component {
     //static contextType = AppContext;
 
     constructor(props) {
@@ -87,7 +89,9 @@ class SubmitData extends Component {
                 )}`}
                 download="filename.json"
             >
-                <Button>Save Progress</Button>
+                <Button className="bg-light text-dark" variant="outline-dark ">
+                    Save Progress
+                </Button>
             </a>
         );
     };
@@ -143,25 +147,78 @@ class SubmitData extends Component {
     render() {
         return (
             <div>
-                <h1>App Context</h1>
-                <Button onClick={this.submitData}>Submit</Button>
-                {/* <Button onClick={this.retrieveProjects}>
-                    Get all Projects
-                </Button> */}
-                {this.downLoadData()}
-                {this.uploadData()}
-                {/* A button to upload data */}
+                <h1>Manage Data</h1>
+                <div className="cards-container">
+                    <Card className="card-style ">
+                        <Card.Header className="bg-dark text-white">
+                            Save Project Progress
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                This application allows you to save your
+                                progress as a JSON file. At any point, you can
+                                upload this file into the application to
+                                continue collecting/editing your data
+                            </Card.Text>
+                            {this.downLoadData()}
+                        </Card.Body>
+                    </Card>
+                    <Card className="card-style">
+                        <Card.Header className="bg-dark text-white">
+                            Load Project
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                Here you can load in data from a previously
+                                saved project. This data must be stored as a
+                                JSON file.
+                            </Card.Text>
+                            <footer>
+                                <div className="upload-button">
+                                    {this.uploadData()}
+                                </div>
+                            </footer>
+                        </Card.Body>
+                    </Card>
 
-                {/* <h1>Current Project</h1>
-                <pre>{JSON.stringify(this.state.currentProject, null, 2)}</pre>
-                <h1>Fetched projects</h1>
-                <pre>
-                    {JSON.stringify(this.state.previousProjects, null, 2)}
-                </pre> */}
+                    <Card className="card-style">
+                        <Card.Header className="bg-dark text-white">
+                            Submit Data
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                Submit your data in order for it to be processed
+                                into csv format. Follow this &nbsp;
+                                <a
+                                    href="https://l-gorman.com/LegumeCHOICE/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    link
+                                </a>
+                                &nbsp; to access publicly available legume
+                                CHOICE projects. To find data from your own
+                                project, go to "IndividualProjects" and search
+                                for the folder which matches your project ID.{" "}
+                                <br />
+                                <br /> You cannot submit data unless data has
+                                been entered, project information has been
+                                entered, and results have been viewed.
+                            </Card.Text>
+                            <Button
+                                className="bg-light text-dark"
+                                variant="outline-dark "
+                                onClick={this.submitData}
+                            >
+                                Submit
+                            </Button>
+                        </Card.Body>
+                    </Card>
+                </div>
             </div>
         );
     }
 }
-SubmitData.contextType = AppContext;
+ManageData.contextType = AppContext;
 
-export default SubmitData;
+export default ManageData;

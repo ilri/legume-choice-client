@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { BsCheck } from "react-icons/bs";
+import { TiTick, TiTimes } from "react-icons/ti";
 import "./sidebar-component.css";
 import SidebarData from "./sidebar-data";
 
@@ -17,7 +19,10 @@ class Sidebar extends React.Component {
 
         this.state = {
             sideBarOpen: false,
-            project: "",
+            project: "Not Yet Specified",
+            dataEntryComplete: false,
+            projectInformationComplete: false,
+            resultsComplete: false,
         };
     }
 
@@ -26,7 +31,8 @@ class Sidebar extends React.Component {
     componentDidUpdate() {}
 
     initialiseContext() {
-        let newProject = "";
+        let newProject = "Not Yet Specified";
+        console.log(this.context);
         if (this.context.currentProject === undefined) {
             this.context.currentProject = {};
         }
@@ -34,10 +40,32 @@ class Sidebar extends React.Component {
             newProject = _.cloneDeep(
                 this.context.currentProject.projectInfo.projectName
             );
-            this.setState({
-                project: newProject,
-            });
         }
+
+        let projectInfoState = false;
+        if (this.context.currentProject.projectInfo !== undefined) {
+            projectInfoState = true;
+        }
+        let dataEntryState = false;
+        if (
+            this.context.currentProject.contextScores !== undefined &&
+            this.context.currentProject.agroEcoData !== undefined &&
+            this.context.currentProject.pairWiseScores !== undefined &&
+            this.context.currentProject.participatoryMatrixScores !== undefined
+        ) {
+            dataEntryState = true;
+        }
+        let resultsState = false;
+        if (this.context.currentProject.results !== undefined) {
+            resultsState = true;
+        }
+
+        this.setState({
+            project: newProject,
+            dataEntryComplete: dataEntryState,
+            projectInformationComplete: projectInfoState,
+            resultsComplete: resultsState,
+        });
     }
 
     // When this function is trigered, state of the side-bar is change, which triggers a change in the css
@@ -54,6 +82,30 @@ class Sidebar extends React.Component {
         return (
             <div className="top-bar-items">
                 <p className="top-bar-text">Project: {this.state.project}</p>
+                <p className="top-bar-text">
+                    Data Entry:{" "}
+                    {this.state.dataEntryComplete ? (
+                        <BsCheck size={40} />
+                    ) : (
+                        <AiOutlineClose size={40} />
+                    )}
+                </p>
+                <p className="top-bar-text">
+                    Project Information:{" "}
+                    {this.state.projectInformationComplete ? (
+                        <BsCheck size={40} />
+                    ) : (
+                        <AiOutlineClose size={40} />
+                    )}
+                </p>
+                <p className="top-bar-text">
+                    Results:{" "}
+                    {this.state.resultsComplete ? (
+                        <BsCheck size={40} />
+                    ) : (
+                        <AiOutlineClose size={40} />
+                    )}
+                </p>
             </div>
         );
     };

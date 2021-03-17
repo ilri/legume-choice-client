@@ -4,6 +4,7 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import markdownFile from "./home-component-markdown.md";
 
+import { Button } from "react-bootstrap";
 class Home extends Component {
     // Initialising state for the component
     constructor(props) {
@@ -26,8 +27,15 @@ class Home extends Component {
 
     render() {
         return (
-            <div>
+            <div className="markdown-container">
                 <ReactMarkdown children={this.state.markdown}></ReactMarkdown>
+                <a
+                    type="button"
+                    href={"/legume_CHOICE_guide.pdf"}
+                    download="legume_CHOICE_guide.pdf"
+                >
+                    <Button>Download Guide</Button>
+                </a>
             </div>
         );
     }

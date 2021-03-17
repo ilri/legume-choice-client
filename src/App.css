@@ -8,10 +8,10 @@
 }
 
 .inner-page-container {
-    padding: 10em;
-
+    display: flex;
     align-items: center;
     place-content: center;
+    padding: 10em;
 }
 
 h1 {

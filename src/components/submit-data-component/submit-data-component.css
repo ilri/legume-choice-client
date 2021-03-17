@@ -1,0 +1,15 @@
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card-style {
+    width: 20em;
+    margin: 1em;
+}
+
+.upload-button {
+    height: 100%;
+    margin-top: auto;
+}
