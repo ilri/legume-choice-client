@@ -16,22 +16,9 @@ import AppContext from "../../AppContext";
 import { MapContainer, Marker, Popup, TileLayer, Polygon } from "react-leaflet";
 
 let center = {
-    lat: 51.4,
-    lng: 0,
+    lat: 5.26,
+    lng: 22.7,
 };
-// if ("geolocation" in navigator) {
-//     navigator.geolocation.getCurrentPosition(function (position) {
-//         center = {
-//             lat: position.coords.latitude,
-//             lng: position.coords.longitude,
-//         };
-//         //console.log("Latitude is :", );
-//         //console.log("Longitude is :", );
-//     });
-//     console.log("Available");
-// } else {
-//     //console.log("Not Available");
-// }
 
 let markerpositions = [];
 
@@ -41,20 +28,20 @@ if (AppContext.currentProject === undefined) {
 if (AppContext.currentProject.location === undefined) {
     markerpositions = [
         {
-            lat: center.lat + 0.01,
-            lng: center.lng - 0.01,
+            lat: center.lat + 10,
+            lng: center.lng - 10,
         },
         {
-            lat: center.lat + 0.01,
-            lng: center.lng + 0.01,
+            lat: center.lat + 10,
+            lng: center.lng + 10,
         },
         {
-            lat: center.lat - 0.01,
-            lng: center.lng + 0.01,
+            lat: center.lat - 10,
+            lng: center.lng + 10,
         },
         {
-            lat: center.lat - 0.01,
-            lng: center.lng - 0.01,
+            lat: center.lat - 10,
+            lng: center.lng - 10,
         },
     ];
 }
@@ -128,7 +115,7 @@ function MapPolygon(location) {
 
     return (
         <div className="leaflet-container">
-            <MapContainer center={mapCenter} zoom={13} scrollWheelZoom={false}>
+            <MapContainer center={mapCenter} zoom={3} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
