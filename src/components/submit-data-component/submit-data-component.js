@@ -29,7 +29,7 @@ class ManageData extends Component {
 
     componentDidMount() {
         //this.initialiseState();
-        //console.log(this.context);
+        console.log(this.context);
         //console.log(navigator.onLine);
     }
     componentDidUpdate() {
@@ -37,6 +37,27 @@ class ManageData extends Component {
         //this.context = newContext;
         //console.log(this.context);
     }
+
+    checkAllFieldsComplete = () => {
+        if (this.context.currentProject === undefined) {
+            this.context.currentProject = {};
+        }
+
+        if (
+            this.context.currentProject.agroEcoData !== undefined &&
+            this.context.currentProject.contextScores !== undefined &&
+            this.context.currentProject.location !== undefined &&
+            this.context.currentProject.pairWiseScores !== undefined &&
+            this.context.currentProject.participatoryMatrixScores !==
+                undefined &&
+            this.context.currentProject.projectInfo !== undefined &&
+            this.context.currentProject.results !== undefined
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    };
 
     submitData = () => {
         const dataToSubmit = _.cloneDeep(this.context.currentProject);
@@ -205,13 +226,24 @@ class ManageData extends Component {
                                 been entered, project information has been
                                 entered, and results have been viewed.
                             </Card.Text>
-                            <Button
-                                className="bg-light text-dark"
-                                variant="outline-dark "
-                                onClick={this.submitData}
-                            >
-                                Submit
-                            </Button>
+                            {this.checkAllFieldsComplete() ? (
+                                <Button
+                                    className="bg-light text-dark"
+                                    variant="outline-dark "
+                                    onClick={this.submitData}
+                                >
+                                    Submit
+                                </Button>
+                            ) : (
+                                <Button
+                                    className="bg-light text-dark"
+                                    variant="outline-dark "
+                                    onClick={this.submitData}
+                                    disabled={true}
+                                >
+                                    Project not yet complete
+                                </Button>
+                            )}
                         </Card.Body>
                     </Card>
                 </div>
