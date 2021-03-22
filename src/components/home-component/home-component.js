@@ -31,7 +31,7 @@ class Home extends Component {
                 <ReactMarkdown children={this.state.markdown}></ReactMarkdown>
                 <a
                     type="button"
-                    href={"/legume_CHOICE_guide.pdf"}
+                    href={"legume_CHOICE_guide.pdf"}
                     download="legume_CHOICE_guide.pdf"
                 >
                     <Button>Download Guide</Button>
