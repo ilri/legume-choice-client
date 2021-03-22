@@ -32,21 +32,21 @@ const SidebarData = [
         cName: sidebarlinkcName,
     },
     {
-        title: "Data Entry",
-        routeKey: "data-entry-route",
-        component: <DataEntry />,
-        path: "/data-entry",
-
-        icon: <AiOutlineDatabase size={iconSize} />,
-        cName: sidebarlinkcName,
-    },
-    {
         title: "Project Information",
         routeKey: "project-info-route",
         component: <ProjectInformation />,
         path: "/project-info",
 
         icon: <GoSettings size={iconSize} />,
+        cName: sidebarlinkcName,
+    },
+    {
+        title: "Data Entry",
+        routeKey: "data-entry-route",
+        component: <DataEntry />,
+        path: "/data-entry",
+
+        icon: <AiOutlineDatabase size={iconSize} />,
         cName: sidebarlinkcName,
     },
 
