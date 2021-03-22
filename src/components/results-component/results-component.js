@@ -490,8 +490,8 @@ class Results extends Component {
                             {this.state.agroEcoFilters.map((agroEcoFilter) => {
                                 return <th>{agroEcoFilter.label}</th>;
                             })}
-                            <th>total score</th>
-                            <th>overall rank</th>
+                            <th>total agro-eco score</th>
+                            <th>agro-eco rank</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -527,8 +527,8 @@ class Results extends Component {
                             {this.state.attributes.map((attribute) => {
                                 return <th>{attribute.label}</th>;
                             })}
-                            <th>total score</th>
-                            <th>overall rank</th>
+                            <th>context score</th>
+                            <th>context rank</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -566,8 +566,8 @@ class Results extends Component {
                                     return <th>{legumeFunction.label}</th>;
                                 }
                             )}
-                            <th>total score</th>
-                            <th>overall rank</th>
+                            <th>function score</th>
+                            <th>function rank</th>
                         </tr>
                     </thead>
                     <tbody>
