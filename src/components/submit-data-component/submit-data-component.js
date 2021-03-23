@@ -32,13 +32,27 @@ class ManageData extends Component {
     componentDidMount() {
         //this.initialiseState();
 
-        console.log(this.context);
+        if (this.context.currentProject === undefined) {
+            this.context.currentProject = {};
+        }
+
+        if (this.context.currentProject.projectSecret === undefined) {
+            const newContext = _.cloneDeep(this.state);
+            this.context.currentProject.projectSecret = newContext;
+        }
+        if (this.context.currentProject.projectSecret !== undefined) {
+            const newState = _.cloneDeep(
+                this.context.currentProject.projectSecret
+            );
+            this.setState(newState);
+        }
+
+        console.log(this.state);
         //console.log(navigator.onLine);
     }
     componentDidUpdate() {
-        //const newContext = _.cloneDeep(this.state.currentProject);
-        //this.context = newContext;
-        //console.log(this.context);
+        const newContext = _.cloneDeep(this.state);
+        this.context.currentProject.projectInfo = newContext;
     }
 
     checkAllFieldsComplete = () => {
@@ -54,7 +68,8 @@ class ManageData extends Component {
             this.context.currentProject.participatoryMatrixScores !==
             undefined &&
             this.context.currentProject.projectInfo !== undefined &&
-            this.context.currentProject.results !== undefined
+            this.context.currentProject.results !== undefined &&
+            this.context.currentProject.projectSecret !== undefined
         ) {
             return true;
         } else {

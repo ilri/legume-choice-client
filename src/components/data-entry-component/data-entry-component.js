@@ -28,6 +28,8 @@ class DataEntry extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
 
+
+
     }
 
     renderComponents = () => { };
