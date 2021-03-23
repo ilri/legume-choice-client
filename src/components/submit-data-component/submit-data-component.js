@@ -52,7 +52,7 @@ class ManageData extends Component {
     }
     componentDidUpdate() {
         const newContext = _.cloneDeep(this.state);
-        this.context.currentProject.projectInfo = newContext;
+        this.context.currentProject.projectSecret = newContext;
     }
 
     checkAllFieldsComplete = () => {
@@ -82,8 +82,8 @@ class ManageData extends Component {
         // console.log(dataToSubmit);
         axios({
             method: "post",
-            //url: "http://localhost:5000/api/projects/submit-data/",
-            url: "https://l-gorman.com/api/projects/submit-data/",
+            url: "http://localhost:5000/api/projects/submit-data/",
+            //url: "https://l-gorman.com/api/projects/submit-data/",
             data: dataToSubmit,
             headers: {
                 accept: "application/json",
