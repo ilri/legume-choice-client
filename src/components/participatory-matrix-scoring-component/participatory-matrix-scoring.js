@@ -407,7 +407,7 @@ class ParticipatoryMatrix extends React.Component {
                 if (props.variable === "typology") {
                     if (
                         props.typology.toLowerCase() ===
-                            farmer.typology.toLowerCase() &&
+                        farmer.typology.toLowerCase() &&
                         props.selection.label === farmerSelection.label
                     ) {
                         relevantFarmers += 1;
@@ -419,7 +419,7 @@ class ParticipatoryMatrix extends React.Component {
                 if (props.variable === "gender") {
                     if (
                         props.gender.toLowerCase() ===
-                            farmer.gender.toLowerCase() &&
+                        farmer.gender.toLowerCase() &&
                         props.selection.label === farmerSelection.label
                     ) {
                         relevantFarmers += 1;

@@ -36,8 +36,12 @@ class ProjectInformation extends Component {
         super(props);
 
         this.state = {
-            userLocationFound: false,
-            userLocation: {},
+            user: {
+                firstname: "",
+                surname: "",
+                email: "",
+                institution: ""
+            },
             projectName: "",
             projectID: projectID,
             country: "",
@@ -70,30 +74,6 @@ class ProjectInformation extends Component {
         // console.log(this.state.countryNames);
     }
 
-    // geoLocate = () => {
-    //     let userlocation = {};
-    //     if ("geolocation" in navigator) {
-    //         navigator.geolocation.getCurrentPosition(function (
-    //             position
-    //         ) {
-    //             userlocation = {
-    //                 lat: position.coords.latitude,
-    //                 lng: position.coords.longitude,
-    //             };
-
-    //             console.log(userlocation);
-    //             return userlocation;
-    //             //console.log("Longitude is :", );
-    //         });
-    //         console.log("Available");
-    //         this.setState({
-    //             userLocationFound: true,
-    //             userLocation: userlocation,
-    //         });
-    //     } else {
-    //         //console.log("Not Available");
-    //     }
-    // };
 
     componentDidUpdate() {
         //console.log(this.state);
@@ -107,7 +87,93 @@ class ProjectInformation extends Component {
                 <div className="card-container">
                     <Card>
                         <Card.Header className="bg-dark text-white">
-                            <h2>Meta Data</h2>
+                            <h2>User Information</h2>
+                        </Card.Header>
+                    </Card>
+                </div>
+
+                <Form className="form-display">
+                    <FormGroup className="short-form-entry">
+                        <FormLabel>First Name</FormLabel>
+                        <FormControl
+                            type="text"
+                            value={this.state.user.firstname}
+                            onChange={(event) =>
+                                this.setState((prevState) => {
+                                    return {
+                                        ...prevState,
+                                        user: {
+                                            ...prevState.user,
+                                            firstname: event.target.value,
+                                        }
+                                    }
+                                })
+                            }
+                        />
+                    </FormGroup>
+                    <FormGroup className="short-form-entry">
+                        <FormLabel>Surname</FormLabel>
+                        <FormControl
+                            type="text"
+                            value={this.state.user.surname}
+                            onChange={(event) =>
+                                this.setState((prevState) => {
+                                    return {
+                                        ...prevState,
+                                        user: {
+                                            ...prevState.user,
+                                            surname: event.target.value,
+                                        }
+                                    }
+                                })
+                            }
+                        />
+                    </FormGroup>
+                    <FormGroup className="short-form-entry">
+                        <FormLabel>Institution</FormLabel>
+                        <FormControl
+                            type="text"
+                            value={this.state.user.institution}
+                            onChange={(event) =>
+                                this.setState((prevState) => {
+                                    return {
+                                        ...prevState,
+                                        user: {
+                                            ...prevState.user,
+                                            institution: event.target.value,
+                                        }
+                                    }
+                                })
+                            }
+                        />
+                        <FormText>The organisation responsible for data collection</FormText>
+                    </FormGroup>
+                    <FormGroup className="short-form-entry">
+                        <FormLabel>Email</FormLabel>
+                        <FormControl
+                            type="email"
+                            value={this.state.user.email}
+                            onChange={(event) =>
+                                this.setState((prevState) => {
+                                    return {
+                                        ...prevState,
+                                        user: {
+                                            ...prevState.user,
+                                            email: event.target.value,
+                                        }
+                                    }
+                                })
+                            }
+                        />
+                    </FormGroup>
+                </Form>
+
+
+
+                <div className="card-container">
+                    <Card>
+                        <Card.Header className="bg-dark text-white">
+                            <h2>Project Metadata</h2>
                         </Card.Header>
                     </Card>
                 </div>
