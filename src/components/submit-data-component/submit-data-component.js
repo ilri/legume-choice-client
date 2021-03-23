@@ -12,23 +12,26 @@ import AppContext from "../../AppContext";
 
 import "./submit-data-component.css";
 
+import { v4 as uuidv4 } from "uuid";
+
+
+const projectSecret = uuidv4();
 class ManageData extends Component {
     //static contextType = AppContext;
 
     constructor(props) {
         super(props);
 
-        // this.state = {
-        //     currentProject: {},
-        //     jsonFile: {},
-        //     previousProjects: [],
-        // };
+        this.state = {
+            secretKey: projectSecret
+        };
 
         this.fileOnload = this.fileOnload.bind(this);
     }
 
     componentDidMount() {
         //this.initialiseState();
+
         console.log(this.context);
         //console.log(navigator.onLine);
     }
@@ -49,7 +52,7 @@ class ManageData extends Component {
             this.context.currentProject.location !== undefined &&
             this.context.currentProject.pairWiseScores !== undefined &&
             this.context.currentProject.participatoryMatrixScores !==
-                undefined &&
+            undefined &&
             this.context.currentProject.projectInfo !== undefined &&
             this.context.currentProject.results !== undefined
         ) {
