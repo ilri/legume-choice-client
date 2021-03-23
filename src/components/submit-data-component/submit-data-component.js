@@ -14,7 +14,6 @@ import "./submit-data-component.css";
 
 import { v4 as uuidv4 } from "uuid";
 
-
 const projectSecret = uuidv4();
 class ManageData extends Component {
     //static contextType = AppContext;
@@ -23,7 +22,7 @@ class ManageData extends Component {
         super(props);
 
         this.state = {
-            secretKey: projectSecret
+            secretKey: projectSecret,
         };
 
         this.fileOnload = this.fileOnload.bind(this);
@@ -66,7 +65,7 @@ class ManageData extends Component {
             this.context.currentProject.location !== undefined &&
             this.context.currentProject.pairWiseScores !== undefined &&
             this.context.currentProject.participatoryMatrixScores !==
-            undefined &&
+                undefined &&
             this.context.currentProject.projectInfo !== undefined &&
             this.context.currentProject.results !== undefined &&
             this.context.currentProject.projectSecret !== undefined
@@ -82,8 +81,8 @@ class ManageData extends Component {
         // console.log(dataToSubmit);
         axios({
             method: "post",
-            url: "http://localhost:5000/api/projects/submit-data/",
-            //url: "https://l-gorman.com/api/projects/submit-data/",
+            //url: "http://localhost:5000/api/projects/submit-data/",
+            url: "https://l-gorman.com/api/projects/submit-data/",
             data: dataToSubmit,
             headers: {
                 accept: "application/json",
