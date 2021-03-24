@@ -233,6 +233,7 @@ class ParticipatoryMatrix extends React.Component {
                             Functions
                         </th>
                         <th rowSpan="2">Total</th>
+                        <th rowSpan="2">Delete Farmer</th>
                     </tr>
                     <tr>
                         {this.state.legumeFunctions.map((funct) => {
@@ -316,6 +317,18 @@ class ParticipatoryMatrix extends React.Component {
                                 });
                             }
                         })}
+
+                        <td key={"delete-farmer" + farmer.number}>
+                            <Button
+                                onClick={(event) => {
+                                    this.deleteFarmer(event, {
+                                        farmerNumber: farmer.number,
+                                    });
+                                }}
+                            >
+                                Delete
+                            </Button>
+                        </td>
                     </tr>
                 );
             });
@@ -324,6 +337,26 @@ class ParticipatoryMatrix extends React.Component {
         }
     };
 
+    deleteFarmer = (event, props) => {
+        console.log(props);
+        console.log(this.state);
+        const allFarmers = _.cloneDeep(this.state.farmers);
+
+        // Removing the correct farmer
+        allFarmers.forEach((farmer, index) => {
+            if (farmer.number === props.farmerNumber) {
+                allFarmers.splice(index, 1);
+            }
+        });
+
+        allFarmers.forEach((farmer, index) => {
+            farmer.number = index + 1;
+        });
+
+        this.setState({
+            farmers: allFarmers,
+        });
+    };
     calculateAttributeRank = () => {
         const scoresIndividual = _.cloneDeep(
             this.state.summary.scoresIndividual
@@ -407,7 +440,7 @@ class ParticipatoryMatrix extends React.Component {
                 if (props.variable === "typology") {
                     if (
                         props.typology.toLowerCase() ===
-                        farmer.typology.toLowerCase() &&
+                            farmer.typology.toLowerCase() &&
                         props.selection.label === farmerSelection.label
                     ) {
                         relevantFarmers += 1;
@@ -419,7 +452,7 @@ class ParticipatoryMatrix extends React.Component {
                 if (props.variable === "gender") {
                     if (
                         props.gender.toLowerCase() ===
-                        farmer.gender.toLowerCase() &&
+                            farmer.gender.toLowerCase() &&
                         props.selection.label === farmerSelection.label
                     ) {
                         relevantFarmers += 1;
@@ -437,32 +470,6 @@ class ParticipatoryMatrix extends React.Component {
 
         return parseFloat(scoreSum).toFixed(2);
     }
-
-    // updateGenderScore = () => {
-    //     const summary = _.cloneDeep(this.state.summary.scoresIndividual);
-
-    //     summary.map((scoresByLegumeFunction) => {
-    //         scoresByLegumeFunction.scores.map((individualScores) => {
-    //             if (individualScores.type === "gender") {
-    //                 individualScores.score = this.mapThroughFarmers({
-    //                     variable: "gender",
-    //                     gender: individualScores.label,
-    //                     selection: scoresByLegumeFunction.legumeFunction,
-    //                 });
-    //             }
-    //         });
-    //     });
-
-    //     this.setState((prevState) => {
-    //         return {
-    //             ...prevState,
-    //             summary: {
-    //                 ...prevState.summary,
-    //                 scoresIndividual: summary,
-    //             },
-    //         };
-    //     });
-    // };
 
     updateTypologyScore = () => {
         const summary = _.cloneDeep(this.state.summary.scoresIndividual);
