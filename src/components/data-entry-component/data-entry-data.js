@@ -89,6 +89,7 @@ export const biofilters = [
         minValue: 280,
         maxValue: 4290,
         value: (280 + 4290) / 2,
+        validity: "Valid",
     },
     {
         name: "Temperature (mean °C/month)",
@@ -96,6 +97,7 @@ export const biofilters = [
         minValue: 0,
         maxValue: 45,
         value: 45 / 2,
+        validity: "Valid",
     },
 
     {
@@ -104,6 +106,7 @@ export const biofilters = [
         minValue: 0,
         maxValue: 3800,
         value: 3800 / 2,
+        validity: "Valid",
     },
 
     {
@@ -112,5 +115,6 @@ export const biofilters = [
         minValue: 4,
         maxValue: 9,
         value: (4 + 9) / 2,
+        validity: "Valid",
     },
 ];

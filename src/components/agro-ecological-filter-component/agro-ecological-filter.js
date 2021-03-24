@@ -47,6 +47,7 @@ class AgroEco extends React.Component {
                 <tr>
                     <th>Biofilters</th>
                     <th>Site Values</th>
+                    <th>Validity</th>
                 </tr>
             </thead>
         );
@@ -75,6 +76,7 @@ class AgroEco extends React.Component {
                                     }}
                                 />
                             </td>
+                            <td>{biofilter.validity}</td>
                         </tr>
                     );
                 })}
@@ -83,21 +85,21 @@ class AgroEco extends React.Component {
     };
 
     handleChange = (event, props) => {
-        const bioFiltersArray = this.state.biofilters;
+        const bioFiltersArray = _.cloneDeep(this.state.biofilters);
 
-        // if (
-        //     event.target.value < biofilter.minValue ||
-        //     event.target.value > biofilter.maxValue
-        // ) {
-        //     alert("Outside of range");
-        //     return;
-        // }
-
+        let validity = "Valid";
         bioFiltersArray.forEach((biofilterSubset, biofilterIndex) => {
             if (biofilterSubset.label === props.biofilter.label) {
+                if (event.target.value < biofilterSubset.minValue) {
+                    validity = "Too low";
+                }
+                if (event.target.value > biofilterSubset.maxValue) {
+                    validity = "Too high";
+                }
                 bioFiltersArray[biofilterIndex].value = parseFloat(
                     event.target.value
                 );
+                bioFiltersArray[biofilterIndex].validity = validity;
             }
         });
 
