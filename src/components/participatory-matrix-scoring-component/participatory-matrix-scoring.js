@@ -71,10 +71,10 @@ class ParticipatoryMatrix extends React.Component {
         this.setState(
             {
                 farmers: farmersArray,
+                tempFarmers: farmersArray,
             },
             () => {
                 this.updateTotal();
-                this.updateFarmerSummary();
             }
         );
     };
@@ -109,7 +109,7 @@ class ParticipatoryMatrix extends React.Component {
         return (
             <td>
                 <FormControl
-                    defaultValue={props.legumeFunctions.score}
+                    value={props.legumeFunctions.score}
                     type="number"
                     onChange={(event) => this.updateFarmerScore(event, props)}
                 />
@@ -149,7 +149,8 @@ class ParticipatoryMatrix extends React.Component {
     };
 
     updateFarmerScore = (event, props) => {
-        let farmersArray = [...this.state.farmers];
+        //let farmersArray = [...this.state.farmers];
+        let farmersArray = _.cloneDeep(this.state.farmers);
 
         //console.log(farmersArray);
         //console.log(props);
@@ -173,16 +174,19 @@ class ParticipatoryMatrix extends React.Component {
         let newScore = { ...farmersArray[whichFarmer].selections[whichValue] };
         newScore.score = parseInt(event.target.value);
         farmersArray[whichFarmer].selections[whichValue] = newScore;
-        this.setState({
-            farmers: farmersArray,
-        });
-
-        this.updateTotal();
-        this.updateFarmerSummary();
+        this.setState(
+            {
+                tempFarmers: farmersArray,
+            },
+            () => {
+                this.updateTotal();
+            }
+        );
     };
 
     updateTotal = () => {
-        const farmers = this.state.farmers;
+        //const farmers = this.state.farmers;
+        const farmers = _.cloneDeep(this.state.tempFarmers);
 
         farmers.map((farmer) => {
             farmer.total = 0;
@@ -192,9 +196,14 @@ class ParticipatoryMatrix extends React.Component {
             });
         });
 
-        this.setState({
-            farmers: farmers,
-        });
+        this.setState(
+            {
+                tempFarmers: farmers,
+            },
+            () => {
+                this.updateFarmerSummary();
+            }
+        );
     };
 
     updateFarmerName = (event, props) => {
@@ -209,15 +218,20 @@ class ParticipatoryMatrix extends React.Component {
     };
 
     updateFarmerDetailesSelect = (event, props) => {
-        let farmersArray = [...this.state.farmers]; // making a shallow copy
+        //let farmersArray = [...this.state.farmers]; // making a shallow copy
+        let farmersArray = _.cloneDeep(this.state.farmers); // making a deep copy
         farmersArray.forEach((farmer, farmerIndex) => {
             if (farmer.number === props.farmer.number) {
                 farmersArray[farmerIndex][props.attribute.label] =
                     event.target.value;
             }
         });
-        this.setState({ farmers: farmersArray });
-        this.updateFarmerSummary();
+        //this.setState({ farmers: farmersArray });
+        //this.updateFarmerSummary();
+
+        this.setState({ tempFarmers: farmersArray }, () => {
+            this.updateFarmerSummary();
+        });
     };
 
     tableHeader = () => {
@@ -511,8 +525,12 @@ class ParticipatoryMatrix extends React.Component {
 
     updateFarmerSummary = () => {
         const summary = _.cloneDeep(this.state.summary.scoresIndividual);
-        const farmers = _.cloneDeep(this.state.farmers);
+        //const farmers = _.cloneDeep(this.state.farmers);
+        const farmers = _.cloneDeep(this.state.tempFarmers);
         // Update total score per attribute
+        console.log(this.state);
+        let scoreError = false;
+
         summary.forEach((summaryscore, summaryScoreIndex) => {
             summary[summaryScoreIndex].scores[0].score = 0;
             let totalScoreTemp = _.cloneDeep(
@@ -529,6 +547,10 @@ class ParticipatoryMatrix extends React.Component {
                         totalScoreTemp +=
                             farmerSelection.score / farmers.length;
 
+                        if (farmer.total > 20 || farmerSelection.score < 0) {
+                            scoreError = true;
+                            //alert("Incorrect score");
+                        }
                         summary[summaryScoreIndex].scores[0].score = parseFloat(
                             parseFloat(totalScoreTemp).toFixed(2)
                         );
@@ -541,21 +563,25 @@ class ParticipatoryMatrix extends React.Component {
             });
         });
 
-        this.setState(
-            (prevState) => {
-                return {
-                    ...prevState,
-                    summary: {
-                        ...prevState.summary,
-                        scoresIndividual: summary,
-                    },
-                };
-            },
-            () => {
-                //this.updateGenderScore();
-                this.updateTypologyScore();
-            }
-        );
+        if (scoreError == false) {
+            this.setState(
+                (prevState) => {
+                    return {
+                        //...prevState,
+                        tempFarmers: [],
+                        farmers: farmers,
+                        summary: {
+                            ...prevState.summary,
+                            scoresIndividual: summary,
+                        },
+                    };
+                },
+                () => {
+                    //this.updateGenderScore();
+                    this.updateTypologyScore();
+                }
+            );
+        }
     };
 
     resultsTable = () => {
