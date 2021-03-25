@@ -466,7 +466,7 @@
             "src": "AppImages/firefox/firefox-general-16-16.png",
             "sizes": "16x16",
             "type": "image/png"
-        })
+        }
     ],
     "start_url": ".",
     "display": "standalone",
