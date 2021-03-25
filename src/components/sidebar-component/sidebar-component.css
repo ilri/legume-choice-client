@@ -23,27 +23,28 @@
     flex-direction: row;
 }
 
-ul {
+.sidebar-list {
     padding: 0;
     text-decoration: none !important;
-
     height: 100%;
 }
 
-li {
+/* li {
     transition: background 0.2s ease-out;
-}
+} */
 
 .sidebar-nav-link {
     text-decoration: none !important;
 }
 
 .sidebar-list-item {
+    margin-top: 0.3em;
     padding-bottom: 0.7em;
     padding-top: 0.7em;
     display: flex;
     flex-direction: row;
     width: 100%;
+    transition: background 0.2s ease-out;
 }
 
 .side-bar-link-icon {
@@ -61,7 +62,7 @@ span {
     color: white;
 }
 
-li:hover {
+.sidebar-list-item:hover {
     background-color: gray;
     transition: background 0.2s ease-in;
 }
@@ -93,8 +94,8 @@ li:hover {
 }
 .top-bar-text {
     padding-top: 4px;
-    padding-left: 2em;
-    padding-right: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
 
     display: flex;
     align-content: center;

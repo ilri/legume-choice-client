@@ -14,6 +14,7 @@ import {
     FormCheck,
     FormControl,
     Card,
+    FormLabel,
 } from "react-bootstrap";
 
 import AppContext from "../../AppContext";
@@ -31,9 +32,9 @@ class ManageData extends Component {
 
         this.state = {
             secretKey: projectSecret,
-            submitDataImmediately: false,
-            submitDataOneYear: false,
-            realOrTestProject: "test",
+            dataAvailability: "Private",
+            realOrTestProject: "Test",
+            dateAvailable: "",
         };
 
         this.fileOnload = this.fileOnload.bind(this);
@@ -66,12 +67,43 @@ class ManageData extends Component {
         this.context.currentProject.projectSecret = newContext;
     }
 
+    makeDataPublic = () => {
+        if (this.state.dataAvailability === "Share immediately") {
+            let dateToSubmit = new Date();
+
+            this.setState({
+                dateAvailable: dateToSubmit,
+            });
+        }
+        if (this.state.dataAvailability === "Share after one year") {
+            let todaysDate = new Date();
+            const year = todaysDate.getFullYear();
+            const month = todaysDate.getMonth();
+            const day = todaysDate.getDate();
+            let dateToSubmit = new Date(year + 1, month, day);
+
+            this.setState({
+                dateAvailable: dateToSubmit,
+            });
+        }
+    };
+
     checkAllFieldsComplete = () => {
         if (this.context.currentProject === undefined) {
             this.context.currentProject = {};
         }
 
+        let agreeToSubmit = false;
+
         if (
+            this.state.dataAvailability !== "Private" &&
+            this.state.realOrTestProject === "Genuine"
+        ) {
+            agreeToSubmit = true;
+        }
+
+        if (
+            // Making sure all data is filled in
             this.context.currentProject.agroEcoData !== undefined &&
             this.context.currentProject.contextScores !== undefined &&
             this.context.currentProject.location !== undefined &&
@@ -80,7 +112,9 @@ class ManageData extends Component {
                 undefined &&
             this.context.currentProject.projectInfo !== undefined &&
             this.context.currentProject.results !== undefined &&
-            this.context.currentProject.projectSecret !== undefined
+            this.context.currentProject.projectSecret !== undefined &&
+            // Making sure all conditions are agreed
+            agreeToSubmit === true
         ) {
             return true;
         } else {
@@ -90,7 +124,6 @@ class ManageData extends Component {
 
     submitData = () => {
         const dataToSubmit = _.cloneDeep(this.context.currentProject);
-        // console.log(dataToSubmit);
         axios({
             method: "post",
             //url: "http://localhost:5000/api/projects/submit-data/",
@@ -148,15 +181,11 @@ class ManageData extends Component {
 
     uploadData = () => {
         return (
-            // Good tutorial on file upload
             <div>
-                {/* <input type="file" name="file" onChange={this.fileUploader} />
-                <div> */}
                 <FormFile
                     className="button-primary"
                     onChange={this.fileUploadButton}
                 />
-                {/* </div> */}
             </div>
         );
     };
@@ -238,7 +267,7 @@ class ManageData extends Component {
                         <Card.Body>
                             <Card.Text>
                                 Submit your data in order for it to be processed
-                                into csv format. Follow this &nbsp;
+                                into csv format. Follow this&nbsp;
                                 <a
                                     href="https://l-gorman.com/LegumeCHOICE/"
                                     target="_blank"
@@ -246,55 +275,67 @@ class ManageData extends Component {
                                 >
                                     link
                                 </a>
-                                &nbsp; to access publicly available legume
-                                CHOICE projects. To find data from your own
-                                project, go to "IndividualProjects" and search
-                                for the folder which matches your project ID.{" "}
-                                <br />
-                                <br /> You cannot submit data unless data has
-                                been entered, project information has been
-                                entered, and results have been viewed.
+                                &nbsp;to access publicly available legume CHOICE
+                                projects. To find data from your own project, go
+                                to "IndividualProjects" and search for the
+                                folder which matches your project ID. <br />
+                                <br /> Data can only be submitted under the
+                                following conditions:
+                                <ul>
+                                    <li>
+                                        Project information, legume-information,
+                                        data-entry, and results have all been
+                                        checked (see progress on top bar)
+                                    </li>
+                                    <li>
+                                        The data has been collected as part of a
+                                        legitimate data collection effort (not
+                                        app exploration)
+                                    </li>
+                                    <li>
+                                        You agree to share your data for
+                                        research.
+                                    </li>
+                                </ul>
                             </Card.Text>
                             <Form>
                                 <FormGroup>
+                                    <FormLabel>Test or genuine data</FormLabel>
                                     <FormControl
                                         as="select"
-                                        onChange={() =>
+                                        value={this.state.realOrTestProject}
+                                        onChange={(event) =>
                                             this.setState({
-                                                submitDataImmediately: !this
-                                                    .state
-                                                    .submitDataImmediately,
+                                                realOrTestProject:
+                                                    event.target.value,
                                             })
                                         }
                                     >
-                                        <option>test</option>
-                                        <option>genuine</option>
+                                        <option>Test</option>
+                                        <option>Genuine</option>
                                     </FormControl>
                                 </FormGroup>
                                 <FormGroup>
-                                    <FormCheck
-                                        type="checkbox"
-                                        label="Make data public immediately"
-                                        onChange={() =>
-                                            this.setState({
-                                                submitDataImmediately: !this
-                                                    .state
-                                                    .submitDataImmediately,
-                                            })
+                                    <FormLabel>Data sharing</FormLabel>
+                                    <FormControl
+                                        as="select"
+                                        value={this.state.dataAvailability}
+                                        onChange={(event) =>
+                                            this.setState(
+                                                {
+                                                    dataAvailability:
+                                                        event.target.value,
+                                                },
+                                                () => {
+                                                    this.makeDataPublic();
+                                                }
+                                            )
                                         }
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <FormCheck
-                                        type="checkbox"
-                                        label="Make data public in one year"
-                                        onChange={() =>
-                                            this.setState({
-                                                submitDataOneYear: !this.state
-                                                    .submitDataOneYear,
-                                            })
-                                        }
-                                    />
+                                    >
+                                        <option>Private</option>
+                                        <option>Share immediately</option>
+                                        <option>Share after one year</option>
+                                    </FormControl>
                                 </FormGroup>
                             </Form>
                             {this.checkAllFieldsComplete() ? (

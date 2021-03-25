@@ -19,9 +19,10 @@ class Sidebar extends React.Component {
 
         this.state = {
             sideBarOpen: false,
-            project: "Not Yet Specified",
-            dataEntryComplete: false,
+            project: "?",
             projectInformationComplete: false,
+            legumesComplete: false,
+            dataEntryComplete: false,
             resultsComplete: false,
         };
     }
@@ -31,7 +32,7 @@ class Sidebar extends React.Component {
     componentDidUpdate() {}
 
     initialiseContext() {
-        let newProject = "Not Yet Specified";
+        let newProject = "?";
         console.log(this.context);
         if (this.context.currentProject === undefined) {
             this.context.currentProject = {};
@@ -46,6 +47,12 @@ class Sidebar extends React.Component {
         if (this.context.currentProject.projectInfo !== undefined) {
             projectInfoState = true;
         }
+
+        let legumeState = false;
+        if (this.context.currentProject.legumeData !== undefined) {
+            legumeState = true;
+        }
+
         let dataEntryState = false;
         if (
             this.context.currentProject.contextScores !== undefined &&
@@ -65,6 +72,7 @@ class Sidebar extends React.Component {
             dataEntryComplete: dataEntryState,
             projectInformationComplete: projectInfoState,
             resultsComplete: resultsState,
+            legumesComplete: legumeState,
         });
     }
 
@@ -82,29 +90,26 @@ class Sidebar extends React.Component {
         return (
             <div className="top-bar-items">
                 <p className="top-bar-text">Project: {this.state.project}</p>
-                <p className="top-bar-text">
-                    Data Entry:{" "}
-                    {this.state.dataEntryComplete ? (
-                        <BsCheck size={40} />
-                    ) : (
-                        <AiOutlineClose size={40} />
-                    )}
-                </p>
+
                 <p className="top-bar-text">
                     Project Information:{" "}
                     {this.state.projectInformationComplete ? (
                         <BsCheck size={40} />
                     ) : (
-                        <AiOutlineClose size={40} />
+                        "?"
                     )}
                 </p>
                 <p className="top-bar-text">
+                    Legume Information:{" "}
+                    {this.state.legumesComplete ? <BsCheck size={40} /> : "?"}
+                </p>
+                <p className="top-bar-text">
+                    Data Entry:{" "}
+                    {this.state.dataEntryComplete ? <BsCheck size={40} /> : "?"}
+                </p>
+                <p className="top-bar-text">
                     Results:{" "}
-                    {this.state.resultsComplete ? (
-                        <BsCheck size={40} />
-                    ) : (
-                        <AiOutlineClose size={40} />
-                    )}
+                    {this.state.resultsComplete ? <BsCheck size={40} /> : "?"}
                 </p>
             </div>
         );
@@ -140,8 +145,8 @@ class Sidebar extends React.Component {
                         </a>
                     </div>
 
-                    <div className="link-container">
-                        <ul>
+                    <div>
+                        <ul className="sidebar-list">
                             {SidebarData.map((item, index) => {
                                 return (
                                     <Link
@@ -150,7 +155,7 @@ class Sidebar extends React.Component {
                                         to={item.path}
                                         onClick={this.toggleSidebar}
                                     >
-                                        <div className="sidebar-list-item">
+                                        <div>
                                             <li
                                                 className="sidebar-list-item"
                                                 key={index + "-list-item"}
