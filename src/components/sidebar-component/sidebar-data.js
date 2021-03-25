@@ -15,7 +15,7 @@ import Results from "../results-component/results-component";
 import ViewContext from "../view-context-component/view-context-component";
 import ProjectInformation from "../project-information-component/project-information-component";
 import ManageData from "../submit-data-component/submit-data-component";
-//import Legumes from "../legumes-component/legumes-component";
+import LegumesComponent from "../legumes-component/legumes-component";
 
 // Set the icon size for the imported icons
 const iconSize = 30;
@@ -41,6 +41,15 @@ const SidebarData = [
         cName: sidebarlinkcName,
     },
     {
+        title: "Legumes",
+        routeKey: "legume-route",
+        component: <LegumesComponent />,
+        path: "/legumes",
+
+        icon: <FaLeaf size={iconSize} />,
+        cName: sidebarlinkcName,
+    },
+    {
         title: "Data Entry",
         routeKey: "data-entry-route",
         component: <DataEntry />,
@@ -60,22 +69,6 @@ const SidebarData = [
         cName: sidebarlinkcName,
     },
 
-    // {
-    //     title: "Admin",
-    //     routeKey: "admin-route",
-    //     component: <Admin />,
-    //     path: "/admin",
-    //     icon: <RiUserSettingsLine size={iconSize} />,
-    //     cName: sidebarlinkcName,
-    // },
-    // {
-    //     title: "Login",
-    //     routeKey: "login-route",
-    //     component: <Login />,
-    //     path: "/login",
-    //     icon: <VscAccount size={iconSize} />,
-    //     cName: sidebarlinkcName,
-    // },
     {
         title: "Manage Data",
         routeKey: "manage-data-route",
@@ -91,14 +84,6 @@ const SidebarData = [
     //     component: <ViewContext />,
     //     path: "/app-data",
     //     icon: <FaDatabase size={iconSize} />,
-    //     cName: sidebarlinkcName,
-    // },
-    // {
-    //     title: "Specify Location",
-    //     routeKey: "location",
-    //     component: <MapPolygon />,
-    //     path: "/location",
-    //     icon: <FiMapPin size={iconSize} />,
     //     cName: sidebarlinkcName,
     // },
 ];

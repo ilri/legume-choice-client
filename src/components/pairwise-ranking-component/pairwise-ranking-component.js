@@ -313,7 +313,7 @@ class PairwiseRanking extends Component {
 
     render() {
         return (
-            <div className="data-entry-container">
+            <div className="card-container">
                 <div className="card-container">
                     <Card>
                         <Card.Header className="bg-dark text-white">

@@ -6,7 +6,15 @@ import axios from "axios";
 // import { TiTick } from "react-icons/ti";
 // import { ImCross } from "react-icons/im";
 
-import { Button, FormFile, Card } from "react-bootstrap";
+import {
+    Button,
+    FormFile,
+    Form,
+    FormGroup,
+    FormCheck,
+    FormControl,
+    Card,
+} from "react-bootstrap";
 
 import AppContext from "../../AppContext";
 
@@ -23,6 +31,9 @@ class ManageData extends Component {
 
         this.state = {
             secretKey: projectSecret,
+            submitDataImmediately: false,
+            submitDataOneYear: false,
+            realOrTestProject: "test",
         };
 
         this.fileOnload = this.fileOnload.bind(this);
@@ -50,6 +61,7 @@ class ManageData extends Component {
         //console.log(navigator.onLine);
     }
     componentDidUpdate() {
+        console.log(this.state);
         const newContext = _.cloneDeep(this.state);
         this.context.currentProject.projectSecret = newContext;
     }
@@ -243,6 +255,48 @@ class ManageData extends Component {
                                 been entered, project information has been
                                 entered, and results have been viewed.
                             </Card.Text>
+                            <Form>
+                                <FormGroup>
+                                    <FormControl
+                                        as="select"
+                                        onChange={() =>
+                                            this.setState({
+                                                submitDataImmediately: !this
+                                                    .state
+                                                    .submitDataImmediately,
+                                            })
+                                        }
+                                    >
+                                        <option>test</option>
+                                        <option>genuine</option>
+                                    </FormControl>
+                                </FormGroup>
+                                <FormGroup>
+                                    <FormCheck
+                                        type="checkbox"
+                                        label="Make data public immediately"
+                                        onChange={() =>
+                                            this.setState({
+                                                submitDataImmediately: !this
+                                                    .state
+                                                    .submitDataImmediately,
+                                            })
+                                        }
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <FormCheck
+                                        type="checkbox"
+                                        label="Make data public in one year"
+                                        onChange={() =>
+                                            this.setState({
+                                                submitDataOneYear: !this.state
+                                                    .submitDataOneYear,
+                                            })
+                                        }
+                                    />
+                                </FormGroup>
+                            </Form>
                             {this.checkAllFieldsComplete() ? (
                                 <Button
                                     className="bg-light text-dark"

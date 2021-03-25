@@ -27,23 +27,18 @@ class DataEntry extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-
-
-
     }
 
-    renderComponents = () => { };
+    renderComponents = () => {};
     render() {
         return (
             <div>
-                {/* <AppContext.Provider value={AppContext}> */}
                 <div className="data-entry-container">
                     {this.state.components.map((component) => {
                         return component;
                     })}
                     ;
                 </div>
-                {/* </AppContext.Provider> */}
             </div>
         );
     }

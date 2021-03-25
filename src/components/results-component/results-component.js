@@ -10,7 +10,7 @@ import AppContext from "../../AppContext";
 
 import { Form, FormControl, FormLabel, FormGroup } from "react-bootstrap";
 
-import { legumesData } from "../legumes-component/legume-data";
+//import { legumesData } from "../legumes-component/legume-data";
 
 class Results extends Component {
     //static contextType = AppContext;
@@ -33,7 +33,9 @@ class Results extends Component {
     initialiseResults = () => {
         // Adding empty results to each legume
         //const newLegumes = _.cloneDeep(legumesData.allLegumes.slice(0, 10));
-        const newLegumes = _.cloneDeep(legumesData.allLegumes);
+        const newLegumes = _.cloneDeep(
+            this.context.currentProject.legumeData.allLegumes
+        );
         newLegumes.map((newLegume) => {
             newLegume.results = _.cloneDeep(this.state.emptyScoresForLegume);
         });
@@ -434,7 +436,9 @@ class Results extends Component {
             this.context.currentProject.agroEcoData !== undefined &&
             this.context.currentProject.contextScores !== undefined &&
             this.context.currentProject.pairWiseScores !== undefined &&
-            this.context.currentProject.participatoryMatrixScores !== undefined
+            this.context.currentProject.participatoryMatrixScores !==
+                undefined &&
+            this.context.currentProject.legumeData !== undefined
         ) {
             this.setState(
                 {
@@ -920,7 +924,12 @@ class Results extends Component {
 
     renderBody = () => {
         if (this.state.formFilled === false) {
-            return <h1>No data entered yet. Please fill in data-entry form</h1>;
+            return (
+                <h1>
+                    Either no data or legume information entered yet. Please
+                    fill in data-entry form, or go to legumes page.
+                </h1>
+            );
         }
         if (this.state.formFilled === true) {
             return (
