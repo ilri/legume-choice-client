@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/legume-choice-client/static/css/main.490651c4.chunk.css",
-    "main.js": "/legume-choice-client/static/js/main.0fdbf35c.chunk.js",
-    "main.js.map": "/legume-choice-client/static/js/main.0fdbf35c.chunk.js.map",
+    "main.js": "/legume-choice-client/static/js/main.6f31a3dd.chunk.js",
+    "main.js.map": "/legume-choice-client/static/js/main.6f31a3dd.chunk.js.map",
     "runtime-main.js": "/legume-choice-client/static/js/runtime-main.3846ee3b.js",
     "runtime-main.js.map": "/legume-choice-client/static/js/runtime-main.3846ee3b.js.map",
     "static/css/2.1f3721ed.chunk.css": "/legume-choice-client/static/css/2.1f3721ed.chunk.css",
@@ -23,6 +23,6 @@
     "static/css/2.1f3721ed.chunk.css",
     "static/js/2.f9f0d186.chunk.js",
     "static/css/main.490651c4.chunk.css",
-    "static/js/main.0fdbf35c.chunk.js"
+    "static/js/main.6f31a3dd.chunk.js"
   ]
 }
