@@ -142,25 +142,6 @@ class ManageData extends Component {
             });
     };
 
-    // retrieveProjects = () => {
-    //     axios({
-    //         method: "get",
-    //         url: "https://l-gorman.com/api/projects/get-projects/",
-    //         headers: {
-    //             accept: "application/json",
-    //         },
-    //     })
-    //         .then((response) => {
-    //             this.setState({
-    //                 previousProjects: response.data,
-    //             });
-    //             console.log(response);
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         });
-    // };
-
     downLoadData = () => {
         let dataToDownload = _.cloneDeep(this.context.currentProject);
 
@@ -196,6 +177,12 @@ class ManageData extends Component {
         const jsonFile = JSON.parse(event.target.result);
         this.context.currentProject = {};
         this.context.currentProject = _.cloneDeep(jsonFile);
+
+        const newState = _.cloneDeep(this.context.currentProject.projectSecret);
+
+        this.setState(newState, () => {
+            this.makeDataPublic();
+        });
 
         console.log(this.context);
         // this.setState(
