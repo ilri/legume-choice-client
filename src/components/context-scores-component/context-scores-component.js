@@ -1,31 +1,29 @@
 import React from "react";
+
+// Context scores data is based off of data-entry data
 import { ContextScoreData } from "./context-scores-data";
 import { Card } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
+import _ from "lodash";
 
 import RadarChart from "react-svg-radar-chart";
 import "react-svg-radar-chart/build/css/index.css";
-
-import _ from "lodash";
 
 import "./context-scores-component.css";
 import "../data-entry-component/data-entry-component.css";
 import AppContext from "../../AppContext";
 
 class ContextScore extends React.Component {
-    //static contextType = AppContext;
-
     constructor(props) {
         super(props);
 
         this.state = _.cloneDeep(ContextScoreData);
     }
 
+    // Checking for previously existing context, and update state with that previous information
     componentDidMount() {
-        //console.log("Component did mount!");
-
         if (this.context.currentProject === undefined) {
             this.context.currentProject = {};
         }
@@ -35,29 +33,20 @@ class ContextScore extends React.Component {
                 this.context.currentProject.contextScores
             );
             this.setState(newState);
-            // console.log("Set state with old context");
         }
         if (this.context.currentProject.contextScores === undefined) {
             const newContext = _.cloneDeep(this.state);
             this.context.currentProject.contextScores = newContext;
-            // console.log("Set context with new state");
         }
     }
 
+    // Update context with new state
     componentDidUpdate() {
         let newContext = _.cloneDeep(this.state);
         this.context.currentProject.contextScores = newContext;
-
-        // console.log("context!!!!!!!!!!!!");
-        // console.log(this.context.currentProject);
-
-        // console.log(this.context.currentProject.contextScores);
-        // console.log("State!!!!!!!!!!!!");
-        // console.log(this.state);
-
-        //console.log(this.state);
     }
 
+    //Taken from the react-svg-radar-chart documentation and adapted
     renderRadarChart = () => {
         const avergeScores = {};
         const scoreLabels = {};
@@ -136,6 +125,10 @@ class ContextScore extends React.Component {
         );
     };
 
+    // Handling a change in an individual input.
+    // Props includes the information on the individual input (person, typology, attribute)
+    // to ensure the correct score is updated.
+    // Following this, the average score is updated based on the new input
     handleChange = (event, props) => {
         props.score = parseInt(event.target.value); // Ensuring that the entered value is an integer
         let scoresArray = this.state.scores;
@@ -158,17 +151,12 @@ class ContextScore extends React.Component {
             {
                 scores: scoresArray,
             },
+            // Update averages after new score
             () => this.averageAttributes()
         );
-
-        //scoresArray = this.changeIndividualScores(scoresArray, props);
-
-        //scoresArray = this.changeAverages(scoresArray);
     };
 
-    // Change individual scores in an array through filtering
-    changeIndividualScores = (arr, props) => {};
-
+    // updating all the averages
     averageAttributes = () => {
         const arr = _.cloneDeep(this.state.scores);
 
@@ -185,10 +173,6 @@ class ContextScore extends React.Component {
                     console.log("total: " + total);
                     numberofscores += 1;
                     console.log("number of scores: " + numberofscores);
-
-                    // let average = this.averageAttribute(arr, attribute);
-                    // console.log(average);
-                    // arr[scoreIndex].score = average;
                 }
             });
             const average = total / numberofscores;
@@ -223,10 +207,8 @@ class ContextScore extends React.Component {
             scores: arr,
         });
     };
-    // Update Averages after we see a score change
+    // Update Averages for specific element
     averageAttribute = (arr, attributetoAverage) => {
-        //axisToAverage.forEach((element, index) => {});
-        //const scores = [];
         let scores = 0;
         let scoresLength = 0;
         arr.forEach((element, index) => {
@@ -240,15 +222,11 @@ class ContextScore extends React.Component {
             }
         });
 
-        // const total = scores.reduce(
-        //     (accumulator, currentValue) => accumulator + currentValue,
-        //     0
-        // );
-        //const average = total / scores.length;
         const average = scores / scoresLength;
         return average;
     };
 
+    // Rendering the row average for the table
     renderRowAverage = (props) => {
         return this.state.scores.map((score) => {
             if (
@@ -263,16 +241,6 @@ class ContextScore extends React.Component {
     // Ensuring that the correct values are preselected in the table
     renderDefaultValue = (props) => {
         {
-            // const valueToReturn = this.state.scores.filter((element, index) => {
-            //     if (
-            //         element.scoreType === "individual" &&
-            //         element.attribute === props.attribute &&
-            //         element.participant === props.participant &&
-            //         element.typology === props.typology
-            //     ) {
-            //         return true;
-            //     }
-            // });
             let valueToReturn = "";
             this.state.scores.forEach((score) => {
                 if (
@@ -287,19 +255,12 @@ class ContextScore extends React.Component {
             });
 
             return valueToReturn;
-            // console.log(props);
-            // console.log(scores);
-            //console.log(this.state.scores);
-            //return 999;
-            //return valueToReturn[0].score;
         }
     };
 
     // A function for generating a row in the input table
     contextRow = (props) => {
         const rowAttribute = props.attribute;
-        //console.log("---------------Row--------------------");
-
         return (
             <tr>
                 {/* Mapping across the different attributes to return a form to enter score (0-4).
