@@ -15,6 +15,7 @@ import AppContext from "../../AppContext";
 
 import { MapContainer, Marker, Popup, TileLayer, Polygon } from "react-leaflet";
 
+// Defining an initial center to focus the map
 let center = {
     lat: 5.26,
     lng: 22.7,
@@ -22,6 +23,7 @@ let center = {
 
 let markerpositions = [];
 
+// Setting an initial location for all of the marker points.
 if (AppContext.currentProject === undefined) {
     AppContext.currentProject = {};
 }
@@ -46,10 +48,13 @@ if (AppContext.currentProject.location === undefined) {
     ];
 }
 
+// Checking if previous location can be found in context. If so, setting the initial arker positions to the location defined in state
 if (AppContext.currentProject.location !== undefined) {
     markerpositions = AppContext.currentProject.location;
 }
 
+// This is based on the example "draggable marker" found on the react-leaflet documentation: https://react-leaflet.js.org/docs/example-draggable-marker/
+// This produces a single draggable marker, with a state that can be updated on dragging.
 function DraggableMarker(props) {
     const markerRef = useRef(null);
 
@@ -85,6 +90,8 @@ function DraggableMarker(props) {
     );
 }
 
+//Props includes the positions of all of the markers. The polygon shape is determined by the positions
+// of each of these markers
 function DraggablePolygon(props) {
     return (
         <Polygon
@@ -102,12 +109,15 @@ function MapPolygon(location) {
     const AppContextMap = useContext(AppContext);
 
     console.log(AppContextMap.currentProject);
+
+    // This effect runs only once, when the component loads
     useEffect(() => {
         if (AppContextMap.currentProject.location !== undefined) {
             changeMarkerPositions(AppContextMap.currentProject.location);
         }
     }, []);
 
+    // This effect runs any time state changes in the application
     useEffect(() => {
         AppContextMap.currentProject.location = markerPositions;
         // console.log(markerPositions);
@@ -115,12 +125,14 @@ function MapPolygon(location) {
 
     return (
         <div className="leaflet-container">
+            {/*The example map container given by react-leaflet */}
             <MapContainer center={mapCenter} zoom={3} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
 
+                {/* Redering the polygon, followed by each of the four markers */}
                 <DraggablePolygon positions={markerPositions} />
 
                 <DraggableMarker
