@@ -24,7 +24,7 @@ const sidebarlinkcName = "sidebar-nav-link";
 
 const SidebarData = [
     {
-        title: "Information",
+        title: "1. Information",
         routeKey: "information-route",
         component: <Home />,
         path: "/info",
@@ -32,7 +32,7 @@ const SidebarData = [
         cName: sidebarlinkcName,
     },
     {
-        title: "Project Information",
+        title: "2. Project Information",
         routeKey: "project-info-route",
         component: <ProjectInformation />,
         path: "/project-info",
@@ -41,7 +41,7 @@ const SidebarData = [
         cName: sidebarlinkcName,
     },
     {
-        title: "Legumes",
+        title: "3. Legumes",
         routeKey: "legume-route",
         component: <LegumesComponent />,
         path: "/legumes",
@@ -50,7 +50,7 @@ const SidebarData = [
         cName: sidebarlinkcName,
     },
     {
-        title: "Data Entry",
+        title: "4. Data Entry",
         routeKey: "data-entry-route",
         component: <DataEntry />,
         path: "/data-entry",
@@ -60,7 +60,7 @@ const SidebarData = [
     },
 
     {
-        title: "Results",
+        title: "5. Results",
         routeKey: "results-route",
         component: <Results />,
         path: "/results",
@@ -70,7 +70,7 @@ const SidebarData = [
     },
 
     {
-        title: "Manage Data",
+        title: "6. Manage Data",
         routeKey: "manage-data-route",
         component: <ManageData />,
         path: "/manage-data",

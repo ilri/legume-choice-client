@@ -95,10 +95,7 @@ class ManageData extends Component {
 
         let agreeToSubmit = false;
 
-        if (
-            this.state.dataAvailability !== "Private" &&
-            this.state.realOrTestProject === "Genuine"
-        ) {
+        if (this.state.dataAvailability !== "Private") {
             agreeToSubmit = true;
         }
 
@@ -135,7 +132,7 @@ class ManageData extends Component {
             },
         })
             .then((response) => {
-                console.log(response);
+                alert(response.data);
             })
             .catch(function (error) {
                 console.log(error);
@@ -273,11 +270,6 @@ class ManageData extends Component {
                                         Project information, legume-information,
                                         data-entry, and results have all been
                                         checked (see progress on top bar)
-                                    </li>
-                                    <li>
-                                        The data has been collected as part of a
-                                        legitimate data collection effort (not
-                                        app exploration)
                                     </li>
                                     <li>
                                         You agree to make your data publicly
