@@ -28,10 +28,14 @@ countryList.forEach((country) => {
     countryNames.push(country.name);
 });
 
+// This project ID is loaded when the component is first called
 const projectID = uuidv4();
-class ProjectInformation extends Component {
-    //static contextType = AppContext;
 
+/* This is the main component for all of the metadata. There are two primary sub-components.
+1. The meta-data form, a basic form component to enter user information and project information.
+2. The mapping component. Most of which was adapted from the draggable marker example in the react-leaflet documentation. */
+
+class ProjectInformation extends Component {
     constructor(props) {
         super(props);
 
@@ -40,7 +44,7 @@ class ProjectInformation extends Component {
                 firstname: "",
                 surname: "",
                 email: "",
-                institution: ""
+                institution: "",
             },
             projectName: "",
             projectID: projectID,
@@ -56,7 +60,12 @@ class ProjectInformation extends Component {
     }
 
     componentDidMount() {
+        // Ensuring the window starts at the top (It was starting at the map componenent originally)
         window.scrollTo(0, 0);
+
+        /* Checking whether previous context exists. If the context exists then
+        replace the current state with the context*/
+
         if (this.context.currentProject === undefined) {
             this.context.currentProject = {};
         }
@@ -70,13 +79,10 @@ class ProjectInformation extends Component {
             );
             this.setState(newState);
         }
-
-        // console.log(this.state.countryNames);
     }
 
-
     componentDidUpdate() {
-        //console.log(this.state);
+        // Updating context based on new state
         const newContext = _.cloneDeep(this.state);
         this.context.currentProject.projectInfo = newContext;
     }
@@ -84,6 +90,7 @@ class ProjectInformation extends Component {
     render() {
         return (
             <div className="project-info-container">
+                {/* USER FORM */}
                 <div className="card-container">
                     <Card>
                         <Card.Header className="bg-dark text-white">
@@ -105,8 +112,8 @@ class ProjectInformation extends Component {
                                         user: {
                                             ...prevState.user,
                                             firstname: event.target.value,
-                                        }
-                                    }
+                                        },
+                                    };
                                 })
                             }
                         />
@@ -123,8 +130,8 @@ class ProjectInformation extends Component {
                                         user: {
                                             ...prevState.user,
                                             surname: event.target.value,
-                                        }
-                                    }
+                                        },
+                                    };
                                 })
                             }
                         />
@@ -141,12 +148,14 @@ class ProjectInformation extends Component {
                                         user: {
                                             ...prevState.user,
                                             institution: event.target.value,
-                                        }
-                                    }
+                                        },
+                                    };
                                 })
                             }
                         />
-                        <FormText>The organisation responsible for data collection</FormText>
+                        <FormText>
+                            The organisation responsible for data collection
+                        </FormText>
                     </FormGroup>
                     <FormGroup className="short-form-entry">
                         <FormLabel>Email</FormLabel>
@@ -160,16 +169,14 @@ class ProjectInformation extends Component {
                                         user: {
                                             ...prevState.user,
                                             email: event.target.value,
-                                        }
-                                    }
+                                        },
+                                    };
                                 })
                             }
                         />
                     </FormGroup>
                 </Form>
-
-
-
+                {/* PROJECT INFORMATION FORM */}
                 <div className="card-container">
                     <Card>
                         <Card.Header className="bg-dark text-white">
@@ -302,6 +309,7 @@ class ProjectInformation extends Component {
                         ></FormControl>
                     </FormGroup>
                 </Form>
+                {/* lOCATION INFORMATION  */}
 
                 <div className="card-container">
                     <Card>
