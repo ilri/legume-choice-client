@@ -280,14 +280,18 @@ class ManageData extends Component {
                                         app exploration)
                                     </li>
                                     <li>
-                                        You agree to share your data for
-                                        research.
+                                        You agree to make your data publicly
+                                        available for research.
                                     </li>
                                 </ul>
                             </Card.Text>
                             <Form>
                                 <FormGroup>
-                                    <FormLabel>Test or genuine data</FormLabel>
+                                    <FormLabel>
+                                        Is this "test" data from app
+                                        exploration, or "genuine" data collected
+                                        from a focus group?
+                                    </FormLabel>
                                     <FormControl
                                         as="select"
                                         value={this.state.realOrTestProject}
@@ -303,7 +307,16 @@ class ManageData extends Component {
                                     </FormControl>
                                 </FormGroup>
                                 <FormGroup>
-                                    <FormLabel>Data sharing</FormLabel>
+                                    <FormLabel>
+                                        Would you like to keep this data
+                                        private, make the data publicly
+                                        available immediately, or make it
+                                        publicly available after 1 year? For
+                                        data which is made publicly available,
+                                        no sensitive information is shared
+                                        (except with legumeCHOICE
+                                        administrators).
+                                    </FormLabel>
                                     <FormControl
                                         as="select"
                                         value={this.state.dataAvailability}
