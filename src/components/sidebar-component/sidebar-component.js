@@ -3,20 +3,23 @@ import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { BsCheck } from "react-icons/bs";
-import { TiTick, TiTimes } from "react-icons/ti";
 import "./sidebar-component.css";
 import SidebarData from "./sidebar-data";
 
 import _ from "lodash";
 import AppContext from "../../AppContext";
 
+/*
+This sidebar renders depending on the contents of sidebar-data. The top-bar renders 
+depending on the app context (which is shared through out all of the components).
+In order for the top-bar to update, the menu button has to be pressed
+*/
+
 class Sidebar extends React.Component {
-    //static contextType = AppContext;
     constructor(props) {
         super(props);
 
         // Setting the initial state to closed
-
         this.state = {
             sideBarOpen: false,
             project: "?",
@@ -27,10 +30,8 @@ class Sidebar extends React.Component {
         };
     }
 
-    componentDidMount() {}
-
-    componentDidUpdate() {}
-
+    /* This updates the top-bar variables based on the context. It checks to see if each of the individual
+    context items are defined*/
     initialiseContext() {
         let newProject = "?";
         console.log(this.context);
@@ -86,6 +87,7 @@ class Sidebar extends React.Component {
         );
     };
 
+    // All of the information for the top-bar
     returnTopBarInformation = () => {
         return (
             <div className="top-bar-items">

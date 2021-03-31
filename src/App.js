@@ -1,5 +1,10 @@
 import React from "react";
 
+/* This is the main component for loading the application. It can be split into two primary components 
+1. We have the sidebar component, (found in the components folder). This includes the sidebar, and the topbar. It stays 
+fixed on the page.
+2. We have the page component. This is a space which is preserved for loading each of the individual pages as they are loaded.*/
+
 import {
     //BrowserRouter as Router,
     HashRouter as Router,
@@ -19,29 +24,16 @@ import "./App.css";
 import AppContext from "./AppContext";
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-
-        //this.state = AppContext;
-    }
-
-    componentDidMount() {
-        //this.setState({ currentProject: {} });
-    }
-
     render() {
-        {
-            /*basename={process.env.PUBLIC_URL + "/"}*/
-        }
         return (
             <Router>
                 <div>
+                    {/* Context provider specifies which components should have access to the context */}
                     <AppContext.Provider value={{}}>
                         <Sidebar />
                         <div className="outer-page-container">
                             <div className="inner-page-container">
                                 <Switch>
-                                    {/* Context provider specifies which components should have access to the context */}
                                     {SidebarData.map((item) => {
                                         // Return Each of the components and their specified routes
                                         return (
