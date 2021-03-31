@@ -182,20 +182,6 @@ class ManageData extends Component {
         });
 
         console.log(this.context);
-        // this.setState(
-        //     { currentProject: jsonFile.currentProject },
-        //     //() => (this.context.currentProject = jsonFile.currentProject)
-        //     () => {
-        //         this.setState(
-        //             {
-        //                 currentProject: jsonFile.cur,
-        //             },
-        //             () => {
-        //                 this.setContext();
-        //             }
-        //         );
-        //     }
-        // );
     };
 
     fileUploadButton = (event) => {
@@ -205,6 +191,45 @@ class ManageData extends Component {
 
         reader.onload = this.fileOnload;
         reader.readAsText(event.target.files[0]);
+    };
+
+    GetCorrectURL = () => {
+        // All the cases of potential undefined
+        if (this.context === undefined) {
+            return "https://l-gorman.com/LegumeCHOICE";
+        }
+
+        if (this.context.currentProject === undefined) {
+            return "https://l-gorman.com/LegumeCHOICE";
+        }
+
+        if (this.context.currentProject.projectInfo === undefined) {
+            return "https://l-gorman.com/LegumeCHOICE";
+        }
+        if (this.context.currentProject.projectInfo.projectName === undefined) {
+            return "https://l-gorman.com/LegumeCHOICE";
+        }
+
+        if (this.context.currentProject.projectInfo.projectName !== undefined) {
+            const projectName = this.context.currentProject.projectInfo
+                .projectName;
+            console.log("correct thing");
+
+            const testOrGenuine = this.state.realOrTestProject;
+
+            if (testOrGenuine == "Genuine") {
+                return (
+                    "https://l-gorman.com/LegumeCHOICE/IndividualProjects/" +
+                    projectName
+                );
+            }
+            if (testOrGenuine == "Test") {
+                return (
+                    "https://l-gorman.com/LegumeCHOICE/TestProjects/IndividualProjects/" +
+                    projectName
+                );
+            }
+        }
     };
 
     render() {
@@ -260,9 +285,17 @@ class ManageData extends Component {
                                     link
                                 </a>
                                 &nbsp;to access publicly available legume CHOICE
-                                projects. To find data from your own project, go
-                                to "IndividualProjects" and search for the
-                                folder which matches your project ID. <br />
+                                projects. To find data from your own project,
+                                Follow this&nbsp;
+                                <a
+                                    href={this.GetCorrectURL()}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    link.
+                                </a>
+                                &nbsp; Please not this link will only work once
+                                your data is publicly available.
                                 <br /> Data can only be submitted under the
                                 following conditions:
                                 <ul>
