@@ -239,24 +239,19 @@ class ManageData extends Component {
                 <div className="cards-container">
                     <Card className="card-style ">
                         <Card.Header className="bg-dark text-white">
-                            Save Project Progress
+                            Manage Project Data (Offline)
                         </Card.Header>
                         <Card.Body>
                             <Card.Text>
+                                <h3>Save Project</h3>
                                 This application allows you to save your
                                 progress as a JSON file. At any point, you can
                                 upload this file into the application to
                                 continue collecting/editing your data
-                            </Card.Text>
-                            {this.downLoadData()}
-                        </Card.Body>
-                    </Card>
-                    <Card className="card-style">
-                        <Card.Header className="bg-dark text-white">
-                            Load Project
-                        </Card.Header>
-                        <Card.Body>
-                            <Card.Text>
+                                {this.downLoadData()}
+                                <br />
+                                <br />
+                                <h3>Load Project</h3>
                                 Here you can load in data from a previously
                                 saved project. This data must be stored as a
                                 JSON file.
