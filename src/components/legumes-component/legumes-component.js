@@ -247,7 +247,7 @@ class LegumesComponent extends Component {
                     </FormControl>
                 </FormGroup>
                 <FormGroup className="short-form-entry">
-                    <FormLabel>Legume Type</FormLabel>
+                    <FormLabel>Source of Information</FormLabel>
                     <FormControl
                         as="select"
                         value={this.state.newLegume.source}

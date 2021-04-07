@@ -271,31 +271,12 @@ class ManageData extends Component {
 
                     <Card className="card-style">
                         <Card.Header className="bg-dark text-white">
-                            Submit Data
+                            Submit Data (Internet required)
                         </Card.Header>
                         <Card.Body>
                             <Card.Text>
                                 Submit your data in order for it to be processed
-                                into csv format. Follow this&nbsp;
-                                <a
-                                    href="https://l-gorman.com/LegumeCHOICE/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    link
-                                </a>
-                                &nbsp;to access publicly available legume CHOICE
-                                projects. To find data from your own project,
-                                Follow this&nbsp;
-                                <a
-                                    href={this.GetCorrectURL()}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    link.
-                                </a>
-                                &nbsp; Please not this link will only work once
-                                your data is publicly available.
+                                into csv format.
                                 <br /> Data can only be submitted under the
                                 following conditions:
                                 <ul>
@@ -309,6 +290,8 @@ class ManageData extends Component {
                                         available for research.
                                     </li>
                                 </ul>
+                                When your data is public, you will be able to
+                                download it in CSV format.
                             </Card.Text>
                             <Form>
                                 <FormGroup>
@@ -336,11 +319,9 @@ class ManageData extends Component {
                                         Would you like to keep this data
                                         private, make the data publicly
                                         available immediately, or make it
-                                        publicly available after 1 year? For
-                                        data which is made publicly available,
-                                        no sensitive information is shared
-                                        (except with legumeCHOICE
-                                        administrators).
+                                        publicly available after 1 year? To view
+                                        what data is shared, we recommend that
+                                        you share some test data first.
                                     </FormLabel>
                                     <FormControl
                                         as="select"
@@ -382,6 +363,190 @@ class ManageData extends Component {
                                 </Button>
                             )}
                         </Card.Body>
+                    </Card>
+
+                    <Card className="card-style">
+                        <Card.Header className="bg-dark text-white">
+                            View Data (Internet required)
+                        </Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                <h3>Public Data</h3>
+                                Follow this&nbsp;
+                                <a
+                                    href="https://l-gorman.com/LegumeCHOICE/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    link
+                                </a>
+                                &nbsp;to access all publicly available legume
+                                CHOICE projects. Follow these links to download
+                                results merged from all publicly available
+                                legumeCHOICE projects:
+                                <ul>
+                                    <li>
+                                        <a
+                                            href={
+                                                "https://l-gorman.com/LegumeCHOICE/AggregatedProjects" +
+                                                "/ContextData.csv"
+                                            }
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Context Data
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={
+                                                "https://l-gorman.com/LegumeCHOICE/AggregatedProjects" +
+                                                "/LegumeResults.csv"
+                                            }
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Legume Results
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={
+                                                "https://l-gorman.com/LegumeCHOICE/AggregatedProjects" +
+                                                "/PairwiseSelections.csv"
+                                            }
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Pairwise Selections
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={
+                                                "https://l-gorman.com/LegumeCHOICE/AggregatedProjects" +
+                                                "/PairwiseSummaryScores.csv"
+                                            }
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Pairwise Summary Scores
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={
+                                                "https://l-gorman.com/LegumeCHOICE/AggregatedProjects" +
+                                                "/ParticipatoryMatrixScores.csv"
+                                            }
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Participatory Matrix Scores
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={
+                                                "https://l-gorman.com/LegumeCHOICE/AggregatedProjects" +
+                                                "/agroEcoData.csv"
+                                            }
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Agroecological Data
+                                        </a>
+                                    </li>
+                                </ul>
+                                <h3>Project Data</h3>
+                                To find data from your own project, data follow
+                                this&nbsp;
+                                <a
+                                    href={this.GetCorrectURL()}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    link.
+                                </a>
+                                &nbsp; Please note this link will only work once
+                                your data is publicly available. Follow these
+                                links to download your results directly:
+                                <ul>
+                                    <li>
+                                        <a
+                                            href={
+                                                this.GetCorrectURL() +
+                                                "/ContextData.csv"
+                                            }
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Context Data
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={
+                                                this.GetCorrectURL() +
+                                                "/LegumeResults.csv"
+                                            }
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Legume Results
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={
+                                                this.GetCorrectURL() +
+                                                "/PairwiseSelections.csv"
+                                            }
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Pairwise Selections
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={
+                                                this.GetCorrectURL() +
+                                                "/PairwiseSummaryScores.csv"
+                                            }
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Pairwise Summary Scores
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={
+                                                this.GetCorrectURL() +
+                                                "/ParticipatoryMatrixScores.csv"
+                                            }
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Participatory Matrix Scores
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={
+                                                this.GetCorrectURL() +
+                                                "/agroEcoData.csv"
+                                            }
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Agroecological Data
+                                        </a>
+                                    </li>
+                                </ul>
+                            </Card.Text>
+                        </Card.Body>{" "}
                     </Card>
                 </div>
             </div>
