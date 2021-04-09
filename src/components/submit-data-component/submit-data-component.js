@@ -23,6 +23,8 @@ import "./submit-data-component.css";
 
 import { v4 as uuidv4 } from "uuid";
 
+const apiBaseURL = "https://l-gorman.com";
+
 const projectSecret = uuidv4();
 class ManageData extends Component {
     //static contextType = AppContext;
@@ -42,7 +44,7 @@ class ManageData extends Component {
 
     componentDidMount() {
         //this.initialiseState();
-
+        console.log(process.env.API_URL);
         if (this.context.currentProject === undefined) {
             this.context.currentProject = {};
         }
@@ -124,7 +126,7 @@ class ManageData extends Component {
         axios({
             method: "post",
             //url: "http://localhost:5000/api/projects/submit-data/",
-            url: "https://l-gorman.com/api/projects/submit-data/",
+            url: apiBaseURL + "/api/projects/submit-data/",
             data: dataToSubmit,
             headers: {
                 accept: "application/json",
@@ -196,40 +198,369 @@ class ManageData extends Component {
     GetCorrectURL = () => {
         // All the cases of potential undefined
         if (this.context === undefined) {
-            return "https://l-gorman.com/LegumeCHOICE";
+            return apiBaseURL + "/LegumeCHOICE";
         }
 
         if (this.context.currentProject === undefined) {
-            return "https://l-gorman.com/LegumeCHOICE";
+            return apiBaseURL + "/LegumeCHOICE";
         }
 
         if (this.context.currentProject.projectInfo === undefined) {
-            return "https://l-gorman.com/LegumeCHOICE";
+            return apiBaseURL + "/LegumeCHOICE";
         }
         if (this.context.currentProject.projectInfo.projectName === undefined) {
-            return "https://l-gorman.com/LegumeCHOICE";
+            return apiBaseURL + "/LegumeCHOICE";
         }
 
         if (this.context.currentProject.projectInfo.projectName !== undefined) {
             const projectName = this.context.currentProject.projectInfo
                 .projectName;
-            console.log("correct thing");
 
             const testOrGenuine = this.state.realOrTestProject;
 
             if (testOrGenuine == "Genuine") {
                 return (
-                    "https://l-gorman.com/LegumeCHOICE/IndividualProjects/" +
+                    apiBaseURL +
+                    "/LegumeCHOICE/IndividualProjects/" +
                     projectName
                 );
             }
             if (testOrGenuine == "Test") {
                 return (
-                    "https://l-gorman.com/LegumeCHOICE/TestProjects/IndividualProjects/" +
+                    apiBaseURL +
+                    "/LegumeCHOICE/TestProjects/IndividualProjects/" +
                     projectName
                 );
             }
         }
+    };
+
+    ManageLocalDataCard = () => {
+        return (
+            <Card className="card-style ">
+                <Card.Header className="bg-dark text-white">
+                    Manage Project Data (Offline)
+                </Card.Header>
+                <Card.Body>
+                    <Card.Text>
+                        <h3>Save Project</h3>
+                        This application allows you to save your progress as a
+                        JSON file. At any point, you can upload this file into
+                        the application to continue collecting/editing your data
+                        {this.downLoadData()}
+                        <br />
+                        <br />
+                        <h3>Load Project</h3>
+                        Here you can load in data from a previously saved
+                        project. This data must be stored as a JSON file.
+                    </Card.Text>
+                    <footer>
+                        <div className="upload-button">{this.uploadData()}</div>
+                    </footer>
+                </Card.Body>
+            </Card>
+        );
+    };
+
+    SubmitDataCard = () => {
+        return (
+            <Card className="card-style">
+                <Card.Header className="bg-dark text-white">
+                    Submit Data (Internet required)
+                </Card.Header>
+                <Card.Body>
+                    <Card.Text>
+                        Submit your data in order for it to be processed into
+                        csv format.
+                        <br /> Data can only be submitted under the following
+                        conditions:
+                        <ul>
+                            <li>
+                                Project information, legume-information,
+                                data-entry, and results have all been checked
+                                (see progress on top bar)
+                            </li>
+                            <li>
+                                You agree to make your data publicly available
+                                for research.
+                            </li>
+                        </ul>
+                        When your data is public, you will be able to download
+                        it in CSV format.
+                    </Card.Text>
+                    <Form>
+                        <FormGroup>
+                            <FormLabel>
+                                Is this "test" data from app exploration, or
+                                "genuine" data collected from a focus group?
+                            </FormLabel>
+                            <FormControl
+                                as="select"
+                                value={this.state.realOrTestProject}
+                                onChange={(event) =>
+                                    this.setState({
+                                        realOrTestProject: event.target.value,
+                                    })
+                                }
+                            >
+                                <option>Test</option>
+                                <option>Genuine</option>
+                            </FormControl>
+                        </FormGroup>
+                        <FormGroup>
+                            <FormLabel>
+                                Would you like to keep this data private, make
+                                the data publicly available immediately, or make
+                                it publicly available after 1 year? To view what
+                                data is shared, we recommend that you share some
+                                test data first.
+                            </FormLabel>
+                            <FormControl
+                                as="select"
+                                value={this.state.dataAvailability}
+                                onChange={(event) =>
+                                    this.setState(
+                                        {
+                                            dataAvailability:
+                                                event.target.value,
+                                        },
+                                        () => {
+                                            this.makeDataPublic();
+                                        }
+                                    )
+                                }
+                            >
+                                <option>Private</option>
+                                <option>Share immediately</option>
+                                <option>Share after one year</option>
+                            </FormControl>
+                        </FormGroup>
+                    </Form>
+                    {this.checkAllFieldsComplete() ? (
+                        <Button
+                            className="bg-light text-dark"
+                            variant="outline-dark "
+                            onClick={this.submitData}
+                        >
+                            Submit
+                        </Button>
+                    ) : (
+                        <Button
+                            className="bg-light text-dark"
+                            variant="outline-dark "
+                            onClick={this.submitData}
+                            disabled={true}
+                        >
+                            Project not yet complete
+                        </Button>
+                    )}
+                </Card.Body>
+            </Card>
+        );
+    };
+
+    ViewDataCard = () => {
+        return (
+            <Card className="card-style">
+                <Card.Header className="bg-dark text-white">
+                    View Data (Internet required)
+                </Card.Header>
+                <Card.Body>
+                    <Card.Text>
+                        <h3>Public Data</h3>
+                        Follow this&nbsp;
+                        <a
+                            href={apiBaseURL + "/LegumeCHOICE/"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            link
+                        </a>
+                        &nbsp;to access all publicly available legume CHOICE
+                        projects. Follow these links to download results merged
+                        from all publicly available legumeCHOICE projects:
+                        <ul>
+                            <li>
+                                <a
+                                    href={
+                                        apiBaseURL +
+                                        "/LegumeCHOICE/AggregatedProjects" +
+                                        "/ContextData.csv"
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Context Data
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href={
+                                        apiBaseURL +
+                                        "/LegumeCHOICE/AggregatedProjects" +
+                                        "/LegumeResults.csv"
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Legume Results
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href={
+                                        apiBaseURL +
+                                        "/LegumeCHOICE/AggregatedProjects" +
+                                        "/PairwiseSelections.csv"
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Pairwise Selections
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href={
+                                        apiBaseURL +
+                                        "/LegumeCHOICE/AggregatedProjects" +
+                                        "/PairwiseSummaryScores.csv"
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Pairwise Summary Scores
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href={
+                                        apiBaseURL +
+                                        "/LegumeCHOICE/AggregatedProjects" +
+                                        "/ParticipatoryMatrixScores.csv"
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Participatory Matrix Scores
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href={
+                                        apiBaseURL +
+                                        "/LegumeCHOICE/AggregatedProjects" +
+                                        "/agroEcoData.csv"
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Agroecological Data
+                                </a>
+                            </li>
+                        </ul>
+                        <h3>Project Data</h3>
+                        To find data from your own project, data follow
+                        this&nbsp;
+                        <a
+                            href={this.GetCorrectURL()}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            link.
+                        </a>
+                        &nbsp; Please note this link will only work once your
+                        data is publicly available. Follow these links to
+                        download your results directly:
+                        <ul>
+                            <li>
+                                <a
+                                    href={
+                                        this.GetCorrectURL() +
+                                        "/ContextData.csv"
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Context Data
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href={
+                                        this.GetCorrectURL() +
+                                        "/LegumeResults.csv"
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Legume Results
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href={
+                                        this.GetCorrectURL() +
+                                        "/PairwiseSelections.csv"
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Pairwise Selections
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href={
+                                        this.GetCorrectURL() +
+                                        "/PairwiseSummaryScores.csv"
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Pairwise Summary Scores
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href={
+                                        this.GetCorrectURL() +
+                                        "/ParticipatoryMatrixScores.csv"
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Participatory Matrix Scores
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href={
+                                        this.GetCorrectURL() +
+                                        "/agroEcoData.csv"
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Agroecological Data
+                                </a>
+                            </li>
+                        </ul>
+                        <h3>Administrator Data</h3>
+                        If you are a legumeCHOICE Administrator, follow the
+                        following&nbsp;
+                        <a
+                            href={apiBaseURL + "/AdminLegumeCHOICE"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            link
+                        </a>
+                        &nbsp;and login.
+                    </Card.Text>
+                </Card.Body>{" "}
+            </Card>
+        );
     };
 
     render() {
@@ -237,312 +568,9 @@ class ManageData extends Component {
             <div>
                 <h1>Manage Data</h1>
                 <div className="cards-container">
-                    <Card className="card-style ">
-                        <Card.Header className="bg-dark text-white">
-                            Manage Project Data (Offline)
-                        </Card.Header>
-                        <Card.Body>
-                            <Card.Text>
-                                <h3>Save Project</h3>
-                                This application allows you to save your
-                                progress as a JSON file. At any point, you can
-                                upload this file into the application to
-                                continue collecting/editing your data
-                                {this.downLoadData()}
-                                <br />
-                                <br />
-                                <h3>Load Project</h3>
-                                Here you can load in data from a previously
-                                saved project. This data must be stored as a
-                                JSON file.
-                            </Card.Text>
-                            <footer>
-                                <div className="upload-button">
-                                    {this.uploadData()}
-                                </div>
-                            </footer>
-                        </Card.Body>
-                    </Card>
-
-                    <Card className="card-style">
-                        <Card.Header className="bg-dark text-white">
-                            Submit Data (Internet required)
-                        </Card.Header>
-                        <Card.Body>
-                            <Card.Text>
-                                Submit your data in order for it to be processed
-                                into csv format.
-                                <br /> Data can only be submitted under the
-                                following conditions:
-                                <ul>
-                                    <li>
-                                        Project information, legume-information,
-                                        data-entry, and results have all been
-                                        checked (see progress on top bar)
-                                    </li>
-                                    <li>
-                                        You agree to make your data publicly
-                                        available for research.
-                                    </li>
-                                </ul>
-                                When your data is public, you will be able to
-                                download it in CSV format.
-                            </Card.Text>
-                            <Form>
-                                <FormGroup>
-                                    <FormLabel>
-                                        Is this "test" data from app
-                                        exploration, or "genuine" data collected
-                                        from a focus group?
-                                    </FormLabel>
-                                    <FormControl
-                                        as="select"
-                                        value={this.state.realOrTestProject}
-                                        onChange={(event) =>
-                                            this.setState({
-                                                realOrTestProject:
-                                                    event.target.value,
-                                            })
-                                        }
-                                    >
-                                        <option>Test</option>
-                                        <option>Genuine</option>
-                                    </FormControl>
-                                </FormGroup>
-                                <FormGroup>
-                                    <FormLabel>
-                                        Would you like to keep this data
-                                        private, make the data publicly
-                                        available immediately, or make it
-                                        publicly available after 1 year? To view
-                                        what data is shared, we recommend that
-                                        you share some test data first.
-                                    </FormLabel>
-                                    <FormControl
-                                        as="select"
-                                        value={this.state.dataAvailability}
-                                        onChange={(event) =>
-                                            this.setState(
-                                                {
-                                                    dataAvailability:
-                                                        event.target.value,
-                                                },
-                                                () => {
-                                                    this.makeDataPublic();
-                                                }
-                                            )
-                                        }
-                                    >
-                                        <option>Private</option>
-                                        <option>Share immediately</option>
-                                        <option>Share after one year</option>
-                                    </FormControl>
-                                </FormGroup>
-                            </Form>
-                            {this.checkAllFieldsComplete() ? (
-                                <Button
-                                    className="bg-light text-dark"
-                                    variant="outline-dark "
-                                    onClick={this.submitData}
-                                >
-                                    Submit
-                                </Button>
-                            ) : (
-                                <Button
-                                    className="bg-light text-dark"
-                                    variant="outline-dark "
-                                    onClick={this.submitData}
-                                    disabled={true}
-                                >
-                                    Project not yet complete
-                                </Button>
-                            )}
-                        </Card.Body>
-                    </Card>
-
-                    <Card className="card-style">
-                        <Card.Header className="bg-dark text-white">
-                            View Data (Internet required)
-                        </Card.Header>
-                        <Card.Body>
-                            <Card.Text>
-                                <h3>Public Data</h3>
-                                Follow this&nbsp;
-                                <a
-                                    href="https://l-gorman.com/LegumeCHOICE/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    link
-                                </a>
-                                &nbsp;to access all publicly available legume
-                                CHOICE projects. Follow these links to download
-                                results merged from all publicly available
-                                legumeCHOICE projects:
-                                <ul>
-                                    <li>
-                                        <a
-                                            href={
-                                                "https://l-gorman.com/LegumeCHOICE/AggregatedProjects" +
-                                                "/ContextData.csv"
-                                            }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Context Data
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href={
-                                                "https://l-gorman.com/LegumeCHOICE/AggregatedProjects" +
-                                                "/LegumeResults.csv"
-                                            }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Legume Results
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href={
-                                                "https://l-gorman.com/LegumeCHOICE/AggregatedProjects" +
-                                                "/PairwiseSelections.csv"
-                                            }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Pairwise Selections
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href={
-                                                "https://l-gorman.com/LegumeCHOICE/AggregatedProjects" +
-                                                "/PairwiseSummaryScores.csv"
-                                            }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Pairwise Summary Scores
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href={
-                                                "https://l-gorman.com/LegumeCHOICE/AggregatedProjects" +
-                                                "/ParticipatoryMatrixScores.csv"
-                                            }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Participatory Matrix Scores
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href={
-                                                "https://l-gorman.com/LegumeCHOICE/AggregatedProjects" +
-                                                "/agroEcoData.csv"
-                                            }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Agroecological Data
-                                        </a>
-                                    </li>
-                                </ul>
-                                <h3>Project Data</h3>
-                                To find data from your own project, data follow
-                                this&nbsp;
-                                <a
-                                    href={this.GetCorrectURL()}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    link.
-                                </a>
-                                &nbsp; Please note this link will only work once
-                                your data is publicly available. Follow these
-                                links to download your results directly:
-                                <ul>
-                                    <li>
-                                        <a
-                                            href={
-                                                this.GetCorrectURL() +
-                                                "/ContextData.csv"
-                                            }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Context Data
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href={
-                                                this.GetCorrectURL() +
-                                                "/LegumeResults.csv"
-                                            }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Legume Results
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href={
-                                                this.GetCorrectURL() +
-                                                "/PairwiseSelections.csv"
-                                            }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Pairwise Selections
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href={
-                                                this.GetCorrectURL() +
-                                                "/PairwiseSummaryScores.csv"
-                                            }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Pairwise Summary Scores
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href={
-                                                this.GetCorrectURL() +
-                                                "/ParticipatoryMatrixScores.csv"
-                                            }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Participatory Matrix Scores
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href={
-                                                this.GetCorrectURL() +
-                                                "/agroEcoData.csv"
-                                            }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Agroecological Data
-                                        </a>
-                                    </li>
-                                </ul>
-                            </Card.Text>
-                        </Card.Body>{" "}
-                    </Card>
+                    {this.ManageLocalDataCard()}
+                    {this.SubmitDataCard()}
+                    {this.ViewDataCard()}
                 </div>
             </div>
         );
