@@ -14,7 +14,7 @@ Legume CHOICE consists of a list of legume options including grain legumes, fora
 
 ## Getting Started
 
-To get started exploring the tool, press the icon in the top-left hand corner of the screen. To understand more about the tool and how it works, please read this [documentation](https://legume-choice-docs.readthedocs.io/en/latest/). To learn how to conduct a legumeCHOICE focus group, please read the guide which can be downloaded at the bottom.
+To get started exploring the tool, press the icon in the top-left hand corner of the screen. To understand more about the tool and how it works, please read this [documentation](https://docs.legumechoice.ilri.org). To learn how to conduct a legumeCHOICE focus group, please read the guide which can be downloaded at the bottom.
 
 ### Disclaimer
 
