@@ -1,7 +1,7 @@
 {
     "name": "legume-choice-client",
     "version": "0.1.0",
-    "homepage": "http://l-gorman.github.io/legume-choice-client",
+    "homepage": "http://legumechoice.ilri.org",
     "private": true,
     "dependencies": {
         "@material-ui/core": "^4.11.3",
