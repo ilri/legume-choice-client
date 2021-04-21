@@ -23,7 +23,7 @@ import "./submit-data-component.css";
 
 import { v4 as uuidv4 } from "uuid";
 
-const apiBaseURL = "https://l-gorman.com";
+const apiBaseURL = "https://api.legumechoice.ilri.org";
 
 const projectSecret = uuidv4();
 class ManageData extends Component {
