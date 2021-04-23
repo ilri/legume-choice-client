@@ -16,6 +16,6 @@ Legume CHOICE consists of a list of legume options including grain legumes, fora
 
 To get started exploring the tool, press the icon in the top-left hand corner of the screen. To understand more about the tool and how it works, please read this [documentation](https://docs.legumechoice.ilri.org). To learn how to conduct a legumeCHOICE focus group, please read the guide which can be downloaded at the bottom.
 
-### Disclaimer
+### Disclaimer and Acknowledgements
 
-Legume CHOICE is a prototype research tool developed as part of the BMZ funded Legume CHOICE project (2013 – 2017). It is still a work in progress and we welcome feedback and suggestions for improvement
+Legume CHOICE is a prototype research tool developed as part of the BMZ funded Legume CHOICE project (2013 – 2017). The tool has been further developed under the Legume SELECT project funded by the UK Biotechnology and Biological Sciences Research Council under the Global Challenges Research Fund. Development of the latest version of the tool was funded by the CGIAR Livestock CRP. It is still a work in progress and we welcome feedback and suggestions for improvement.
