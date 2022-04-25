@@ -1,5 +1,12 @@
 # LegumeCHOICE Front-End
 
+<p align="center">
+  <img width="600" alt="Screenshot of LegumeCHOICE frontend" src="screenshot.png">
+</p>
+
+See: https://legumechoice.ilri.org
+
+## Description
 A React-based JavaScript application for the LegumeCHOICE front-end. This application submits data to the [LegumeCHOICE API](https://github.com/ilri/legume-choice-api) and the data is processed automitically using these [data-processing scripts](https://github.com/ilri/legume-choice-data-processing). For a full description of the whole LegumeCHOICE tool, and for more details on this component, please see the [full documentation](https://legume-choice-docs.readthedocs.io/).
 
 ## License
